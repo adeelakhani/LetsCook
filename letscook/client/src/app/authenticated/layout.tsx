@@ -1,7 +1,11 @@
 import Link from 'next/link'
 
 const links = [
-  {name : "Login", href : "/login"}
+  {name : "Create", href : "/authenticated/create"},
+  {name : "Find Challenge", href : "/authenticated/find-challenge"},
+  {name : "Challenge Requests", href : "/authenticated/challenge-requests"},
+  {name : "Leaderboard", href : "/authenticated/leaderboard"},
+  {name : "Profile", href : "/authenticated/profile"}
 ]
 
 export default function Layout({ children }: { children: React.ReactNode}) {
