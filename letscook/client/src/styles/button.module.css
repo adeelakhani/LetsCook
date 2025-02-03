@@ -1,7 +1,7 @@
-.main {
-    color: darkcyan;    
+.button {
+    transition: transform 0.3s ease-in-out;
 }
 
-.main:hover {
-    color: cyan;
+.button:hover {
+    transform: rotateY(360deg);
 }
