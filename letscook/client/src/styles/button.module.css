@@ -1,0 +1,7 @@
+.main {
+    color: darkcyan;    
+}
+
+.main:hover {
+    color: cyan;
+}
