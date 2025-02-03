@@ -14,7 +14,7 @@ export default function Landing() {
             transition={{ duration: 1 }}
         >
         
-            <Button className={styles.main} variant="outline">Button</Button>
+            <Button>Button</Button>
 
         </motion.div>
     )
