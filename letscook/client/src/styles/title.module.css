@@ -1,0 +1,7 @@
+.title {
+    transition: transform 0.3s ease-in-out;
+}
+
+.title:hover {
+    transform: rotateY(360deg);
+}
