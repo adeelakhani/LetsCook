@@ -6,6 +6,7 @@ import { CardBody, CardContainer, CardItem } from "../components/ui/3d-card"
 import { TypewriterEffectSmooth } from "../components/ui/typewriter-effect"
 import { InfiniteMovingCards } from "../components/ui/infinite-moving-cards"
 import { Button } from "../components/ui/moving-border"
+import { WobbleCard } from "../components/ui/wobble-card";
 import Image from "next/image"
 import "../styles/globals.css"
 import buttonStyles from "../styles/button.module.css"
@@ -67,8 +68,8 @@ export default function Landing() {
           name: "Herman Melville",
           title: "Moby-Dick",
         },
-      ];
-
+      ]
+      
     return (
         <div className="min-w-screen min-h-screen min-w-screen pt-8">   
 
@@ -87,12 +88,27 @@ export default function Landing() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, delay: 4 }}
                 >
+
+                    {/* <WobbleCard
+                        containerClassName="h-fit w-fit bg-cyan-900"
+                        className=""
+                    >
+                        <p className="font-bold text-[1em] text-white dark:text-white border-neutral-200 dark:border-slate-800">Begin!</p>
+                        {/* <Button
+                                borderRadius="1.75rem"
+                                className="scale-75 font-bold text-[1em] bg-cyan-900 dark:bg-slate-900 text-white dark:text-white border-neutral-200 dark:border-slate-800"
+                            >
+                                Begin!
+                        </Button>
+                    </WobbleCard> */}
+
                     <Button
-                            borderRadius="1.75rem"
-                            className="scale-75 font-bold text-[1em] bg-cyan-900 dark:bg-slate-900 text-white dark:text-white border-neutral-200 dark:border-slate-800"
-                        >
-                            Begin!
+                        borderRadius="1.75rem"
+                        className="scale-75 font-bold text-[1em] bg-cyan-900 dark:bg-slate-900 text-white dark:text-white border-neutral-200 dark:border-slate-800"
+                    >
+                        Begin!
                     </Button>
+
                 </motion.div>
 
 
@@ -105,9 +121,6 @@ export default function Landing() {
                     speed="slow"
                 />
             </div>
-
-
-
         </div>
     )
 }
