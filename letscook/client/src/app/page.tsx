@@ -94,7 +94,7 @@ export default function Landing() {
                     LetsCook!
                 </motion.div>
 
-                <motion.div className="flex flex-col justify-center items-center"
+                <motion.div className="flex flex-col justify-center items-center pb-[1em]"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, delay: 4 }}
