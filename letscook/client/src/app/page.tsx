@@ -86,8 +86,8 @@ export default function Landing() {
                     }}
 
                     whileTap={{
-                        rotateY: 10,
-                        rotateX: 10,
+                        rotateY: 20,
+                        rotateX: 20,
                         transition: { duration: 0.2, delay: 0}
                     }}
                 >
