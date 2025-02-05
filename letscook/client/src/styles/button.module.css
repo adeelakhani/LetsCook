@@ -3,5 +3,6 @@
 }
 
 .button:hover {
-    transform: rotateY(360deg);
+    transform: scale(110%);
+    background-color: rgb(33, 53, 71);
 }
