@@ -72,21 +72,29 @@ export default function Landing() {
     return (
         <div className="min-w-screen min-h-screen min-w-screen pt-8">   
 
-            <div className="flex flex-col justify-center items-center">
+            <div className="flex flex-col justify-center items-center h-fit gap-2">
                 <TypewriterEffectSmooth words={title} className="mb-[-0.5em]"/>
-                <motion.div className="mb-[0.5em] w-fit ease-in-out text-base sm:text-xl md:text-5xl xl:text-7xl font-bold bg-gradient-to-r from-[#0a496a] to-[#00b4d8] bg-clip-text text-transparent"
+                <motion.div className="w-fit ease-in-out text-base sm:text-xl md:text-5xl xl:text-7xl font-bold bg-gradient-to-r from-[#0a496a] to-[#00b4d8] bg-clip-text text-transparent"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, delay: 3.5 }}
                 >
                     LetsCook!
                 </motion.div>
-                <Button
-                        borderRadius="1.75rem"
-                        className="scale-75 font-bold text-[1em] bg-cyan-900 dark:bg-slate-900 text-white dark:text-white border-neutral-200 dark:border-slate-800"
-                    >
-                        Begin!
-                </Button>
+
+                <motion.div className="flex flex-col justify-center items-center"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1, delay: 4 }}
+                >
+                    <Button
+                            borderRadius="1.75rem"
+                            className="scale-75 font-bold text-[1em] bg-cyan-900 dark:bg-slate-900 text-white dark:text-white border-neutral-200 dark:border-slate-800"
+                        >
+                            Begin!
+                    </Button>
+                </motion.div>
+
 
             </div>
 
