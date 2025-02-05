@@ -76,9 +76,20 @@ export default function Landing() {
             <div className="flex flex-col justify-center items-center gap-2">
                 <TypewriterEffectSmooth words={title} className="mb-[-0.5em]"/>
                 <motion.div className="w-fit ease-in-out text-base sm:text-xl md:text-5xl xl:text-7xl font-bold bg-gradient-to-r from-[#0a496a] to-[#00b4d8] bg-clip-text text-transparent"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, delay: 3.5 }}
+                    initial={{ scale: 1, opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0, transition: { duration: 1, delay: 3.5 }}}
+
+                    whileHover={{
+                        scale: 1.1,
+
+                        transition: { duration: 0.2, delay: 0 }
+                    }}
+
+                    whileTap={{
+                        rotateY: 10,
+                        rotateX: 10,
+                        transition: { duration: 0.2, delay: 0}
+                    }}
                 >
                     LetsCook!
                 </motion.div>
