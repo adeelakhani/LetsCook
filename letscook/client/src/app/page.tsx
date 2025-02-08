@@ -1,6 +1,7 @@
 "use client"
 import React from "react"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import { motion } from "framer-motion"
 import { CardBody, CardContainer, CardItem } from "../components/ui/3d-card"
 import { TypewriterEffectSmooth } from "../components/ui/typewriter-effect"
@@ -15,123 +16,61 @@ import titleStyles from "../styles/title.module.css"
 // Acertinity UI
 // ShadCN UI
 
-export default function Landing() {
-    const title = [
-        {
-          text: "The",
-        },
-        {
-          text: "journey",
-        },
-        {
-          text: "to",
-        },
-        {
-          text: "cooking",
-        },
-        {
-          text: "mastery",
-        },
-        {
-          text: "begins...",
-          className: "text-[#0a496a] dark:text-[#0a496a]",
-        }
-      ]   
-      
-      const testimonials = [
-        {
-          quote:
-            "It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair.",
-          name: "Charles Dickens",
-          title: "A Tale of Two Cities",
-        },
-        {
-          quote:
-            "To be, or not to be, that is the question: Whether 'tis nobler in the mind to suffer The slings and arrows of outrageous fortune, Or to take Arms against a Sea of troubles, And by opposing end them: to die, to sleep.",
-          name: "William Shakespeare",
-          title: "Hamlet",
-        },
-        {
-          quote: "All that we see or seem is but a dream within a dream.",
-          name: "Edgar Allan Poe",
-          title: "A Dream Within a Dream",
-        },
-        {
-          quote:
-            "It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife.",
-          name: "Jane Austen",
-          title: "Pride and Prejudice",
-        },
-        {
-          quote:
-            "Call me Ishmael. Some years ago—never mind how long precisely—having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world.",
-          name: "Herman Melville",
-          title: "Moby-Dick",
-        },
-      ]
-      
+export default function Landing() {      
     return (
-        <div className="min-w-screen min-h-screen pt-8">   
-
-            <div className="flex flex-col justify-center items-center gap-2">
-                <TypewriterEffectSmooth words={title} className="mb-[-0.5em]"/>
-                <motion.div className="w-fit ease-in-out text-base sm:text-xl md:text-5xl xl:text-7xl font-bold bg-gradient-to-r from-[#0a496a] to-[#00b4d8] bg-clip-text text-transparent"
-                    initial={{ scale: 1, opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0, transition: { duration: 1, delay: 3.5 }}}
-
-                    whileHover={{
-                        scale: 1.1,
-
-                        transition: { duration: 0.2, delay: 0 }
-                    }}
-
-                    whileTap={{
-                        rotateY: 20,
-                        rotateX: 20,
-                        transition: { duration: 0.2, delay: 0}
-                    }}
-                >
-                    LetsCook!
-                </motion.div>
-
-                <motion.div className="flex flex-col justify-center items-center pt-[1em] pb-[1em]"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, delay: 4 }}
-                >
-
-                    {/* <WobbleCard
-                        containerClassName="h-fit w-fit bg-cyan-900"
-                        className=""
-                    >
-                        <p className="font-bold text-[1em] text-white dark:text-white border-neutral-200 dark:border-slate-800">Begin!</p>
-                        {/* <Button
-                                borderRadius="1.75rem"
-                                className="scale-75 font-bold text-[1em] bg-cyan-900 dark:bg-slate-900 text-white dark:text-white border-neutral-200 dark:border-slate-800"
-                            >
-                                Begin!
-                        </Button>
-                    </WobbleCard> */}
-
-                    <Button
-                        className={`${buttonStyles.button} font-bold text-[1em] bg-cyan-900 dark:bg-slate-900 text-white dark:text-white border-neutral-200 dark:border-slate-800`}
-                        variant="default"
-                    >
-                        Begin!
-                    </Button>
-
-                </motion.div>
-
-
-            </div>
-
-            <div className="h-[40rem] rounded-md flex flex-col antialiased bg-white dark:bg-black dark:bg-grid-white/[0.05] items-center justify-center relative overflow-hidden">
-                <InfiniteMovingCards
-                    items={testimonials}
-                    direction="right"
-                    speed="slow"
-                />
-            </div>
+      <div className="min-w-screen min-h-screen bg">   
+        {/* Top Horizontal Row */}
+        <div className="flex pl-3 pt-2 pb-2">
+          <Image
+            src="/LetsCook2.png"
+            width={50}
+            height={50}
+            alt="LetsCook"
+          />
+          <h1 className="text-[2em] ml-3 font-bold">LetsCook</h1>
+          <Button className="flex-right ml-auto mt-1 mr-5 font-bold bg-orange-700">Login</Button>
         </div>
+        <hr/>
+
+        {/* Title */}
+        <div className="flex-col content-center justify-items-center pt-[8em] pb-[8em]">
+          <Badge className="scale-[2] bg-orange-700">Want to cook?</Badge>
+          <h1 className="text-[8em]">LetsCook</h1>
+          <Button className="scale-[1.5] mt-[2em] font-bold bg-orange-600">Start Cooking ➝</Button>
+        </div>
+
+        {/* Benefits */}
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mx-auto w-full bg-blue-800">
+          <WobbleCard containerClassName="col-span-1 max-h-[20em] bg-black">
+            <h2 className="max-w-80 text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
+              No shirt, no shoes, no weapons.
+            </h2>
+            <p className="mt-4 max-w-[26rem] text-left  text-base/6 text-neutral-200">
+              If someone yells “stop!”, goes limp, or taps out, the fight is over.
+            </p>
+          </WobbleCard>
+
+          <WobbleCard containerClassName="col-span-1 max-h-[20em]">
+            <h2 className="max-w-80 text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
+              No shirt, no shoes, no weapons.
+            </h2>
+            <p className="mt-4 max-w-[26rem] text-left  text-base/6 text-neutral-200">
+              If someone yells “stop!”, goes limp, or taps out, the fight is over.
+            </p>
+          </WobbleCard>
+
+          <WobbleCard containerClassName="col-span-1 max-h-[20em]">
+              <h2 className="max-w-sm md:max-w-lg  text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
+                Signup for blazing-fast cutting-edge state of the art Gippity AI
+                wrapper today!
+              </h2>
+              <p className="mt-4 max-w-[26rem] text-left  text-base/6 text-neutral-200">
+poo              </p>
+          </WobbleCard>
+        </div>
+
+
+      </div>
     )
 }
