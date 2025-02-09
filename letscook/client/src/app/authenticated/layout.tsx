@@ -1,4 +1,6 @@
+"use client"
 import Link from 'next/link'
+import Image from "next/image"
 
 const links = [
   {name : "Create", href : "/authenticated/create"},
@@ -12,7 +14,17 @@ export default function Layout({ children }: { children: React.ReactNode}) {
   return (
     <html>
       <body>
-        {links.map( (link) => {
+        {/* Top Horizontal Row */}
+        <div className="flex pl-3 pt-2 pb-2">
+          <Image
+            src="/LetsCook.png"
+            width={50}
+            height={50}
+            alt="LetsCook"
+          />
+          <h1 className="text-[2em] ml-3 font-bold">LetsCook</h1>
+
+          {links.map( (link) => {
           return (
             <Link
               key={link.name}
@@ -23,6 +35,10 @@ export default function Layout({ children }: { children: React.ReactNode}) {
             </Link>
           )
         })}
+        </div>
+        <hr/>
+
+
         {children}
       </body>
     </html>
