@@ -75,7 +75,7 @@ export default function Landing() {
 
         {/* Brief Statistics */}
         <div>
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-10 max-w-6xl mx-auto w-full pt-5 pb-5 pl-10 pr-10">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-1 lg:gap-10 max-w-xl lg:max-w-6xl mx-auto w-full pt-5 pb-5 pl-10 pr-10">
             <WobbleCard containerClassName="col-span-1 max-h-[22em] text-black bg-white content-center">
                 <div className="flex justify-center">
                   <Image
@@ -85,10 +85,10 @@ export default function Landing() {
                     alt="Chef Hat"
                   />
                 </div>
-                <h2 className="mt-7 mb-1 max-w-80 text-orange-600 text-balance text-base md:text-xl lg:text-3xl font-extrabold tracking-[-0.015em] text-center">
+                <h2 className="mx-auto mt-7 mb-1 max-w-80 text-orange-600 text-balance text-base md:text-xl lg:text-3xl font-extrabold tracking-[-0.015em] text-center">
                   96,000
                 </h2>
-                <h2 className="max-w-80 text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-center">
+                <h2 className="mx-auto max-w-80 text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-center">
                   Chefs
                 </h2>
               </WobbleCard>
@@ -101,10 +101,10 @@ export default function Landing() {
                     alt="Cook Book"
                   />
                 </div>
-                <h2 className="mt-7 mb-1 max-w-80 text-orange-600 text-balance text-base md:text-xl lg:text-3xl font-extrabold tracking-[-0.015em] text-center">
+                <h2 className="mx-auto mt-7 mb-1 max-w-80 text-orange-600 text-balance text-base md:text-xl lg:text-3xl font-extrabold tracking-[-0.015em] text-center">
                   145,000
                 </h2>
-                <h2 className="max-w-80 text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-center">
+                <h2 className="mx-auto max-w-80 text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-center">
                   Recipes
                 </h2>
               </WobbleCard>
@@ -117,10 +117,10 @@ export default function Landing() {
                     alt="Chart"
                   />
                 </div>
-                <h2 className="mt-7 pl-0 mb-1 max-w-80 text-orange-600 text-balance text-base md:text-xl lg:text-3xl font-extrabold tracking-[-0.015em] text-center">
+                <h2 className="mx-auto mt-7 pl-0 mb-1 max-w-80 text-orange-600 text-balance text-base md:text-xl lg:text-3xl font-extrabold tracking-[-0.015em] text-center">
                   345,001
                 </h2>
-                <h2 className="text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-center">
+                <h2 className="mx-auto text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-center">
                   Meals
                 </h2>
               </WobbleCard>
@@ -133,16 +133,24 @@ export default function Landing() {
                     alt="Trophy"
                   />
                 </div>
-                <h2 className="mt-7 mb-1 max-w-80 text-orange-600 text-balance text-base md:text-xl lg:text-3xl font-extrabold tracking-[-0.015em] text-center">
+                <h2 className="mx-auto mt-7 mb-1 max-w-80 text-orange-600 text-balance text-base md:text-xl lg:text-3xl font-extrabold tracking-[-0.015em] text-center">
                   100%
                 </h2>
-                <h2 className="max-w-80 text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-center">
+                <h2 className="mx-auto max-w-80 text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-center">
                   Success
                 </h2>
               </WobbleCard>
           </div>
         </div>
 
+        {/* Quote */}
+        <div className="flex-col content-center justify-items-center pt-[6em] pb-[6em] px-10 bg-gray-100">
+          <h1 className="text-[2em]">"The difference between humans and animals? We can cook. Tell a dog to make dinner—he’ll  look at you thinking you’re the one who needs a lesson.
+            So get to the kitchen and start cooking, why don't you?" <br/><span className="text-[0.75em] text-gray-700">— Haris Khawja, Co-Founder</span>
+          </h1>
+
+          <Button className="scale-[1.5] mt-[3em] font-bold bg-orange-600">Count me in! 🤝</Button>
+        </div>
 
 
       </div>
