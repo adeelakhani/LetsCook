@@ -1,19 +1,19 @@
 "use client"
 import Link from 'next/link'
 import Image from "next/image"
+import { Button } from "@/components/ui/button"
 
 const links = [
-  {name : "Create", href : "/authenticated/create"},
-  {name : "Find Challenge", href : "/authenticated/find-challenge"},
-  {name : "Challenge Requests", href : "/authenticated/challenge-requests"},
+  {name : "Cook", href : "/authenticated/cook"},
+  {name : "Challenge", href : "/authenticated/challenge"},
+  {name : "Submissions", href : "/authenticated/submissions"},
   {name : "Leaderboard", href : "/authenticated/leaderboard"},
   {name : "Profile", href : "/authenticated/profile"}
 ]
 
 export default function Layout({ children }: { children: React.ReactNode}) {
   return (
-    <html>
-      <body>
+      <div>
         {/* Top Horizontal Row */}
         <div className="flex pl-3 pt-2 pb-2">
           <Image
@@ -24,23 +24,22 @@ export default function Layout({ children }: { children: React.ReactNode}) {
           />
           <h1 className="text-[2em] ml-3 font-bold">LetsCook</h1>
 
-          {links.map( (link) => {
-          return (
-            <Link
-              key={link.name}
-              href={link.href}
-            >
-              <p>{link.name}</p>
+          <div className="ml-auto mt-1">
+            {links.map( (link) => {
+              return (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                >
+                  <Button variant="ghost" className="mr-5 text-[1em] hover:bg-orange-500 hover:text-white">{link.name}</Button>
 
-            </Link>
-          )
-        })}
+                </Link>
+              )
+            })}
+          </div>
         </div>
         <hr/>
-
-
-        {children}
-      </body>
-    </html>
+        <main>{children}</main>
+      </div>
   )
 }
