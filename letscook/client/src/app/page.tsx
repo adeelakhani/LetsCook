@@ -67,7 +67,7 @@ export default function Landing() {
                 Compete 👑
               </h2>
               <p className="mt-4 max-w-[26rem] text-left text-base lg:text-xl text-black">
-                Compete against the world to gather the most amount of points, and become a <br/><span className="font-bold underline text-orange-800">Chef Master!</span>
+                Compete against the world to gather the most amount of points, and become a <br/><span className="font-bold underline text-orange-800">Master Chef!</span>
               </p>
             </WobbleCard>
           </div>
