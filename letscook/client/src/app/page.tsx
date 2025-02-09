@@ -22,7 +22,7 @@ export default function Landing() {
         {/* Top Horizontal Row */}
         <div className="flex pl-3 pt-2 pb-2">
           <Image
-            src="/LetsCook2.png"
+            src="/LetsCook.png"
             width={50}
             height={50}
             alt="LetsCook"

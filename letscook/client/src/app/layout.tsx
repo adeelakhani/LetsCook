@@ -16,7 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode}) {
         <div className="bg-orange-700 text-center flex-col pt-8 pb-6">
           <span className="flex justify-center">
             <Image
-              src="/LetsCook2.png"
+              src="/LetsCook.png"
               width={50}
               height={50}
               alt="LetsCook"
