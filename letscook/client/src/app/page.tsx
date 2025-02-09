@@ -92,6 +92,7 @@ export default function Landing() {
                   Chefs
                 </h2>
               </WobbleCard>
+
               <WobbleCard containerClassName="col-span-1 max-h-[22em] text-black bg-white content-center">
                 <div className="flex justify-center">
                   <Image
@@ -108,6 +109,7 @@ export default function Landing() {
                   Recipes
                 </h2>
               </WobbleCard>
+
               <WobbleCard containerClassName="col-span-1 max-h-[22em] text-black bg-white content-center">
                 <div className="flex justify-center">
                   <Image
@@ -124,6 +126,7 @@ export default function Landing() {
                   Meals
                 </h2>
               </WobbleCard>
+              
               <WobbleCard containerClassName="col-span-1 max-h-[22em] text-black bg-white content-center">
                 <div className="flex justify-center">
                   <Image
@@ -148,11 +151,8 @@ export default function Landing() {
           <h1 className="text-[2em]">"The difference between humans and animals? We can cook. Tell a dog to make dinner—he’ll  look at you thinking you’re the one who needs a lesson.
             So get to the kitchen and start cooking, why don't you?" <br/><span className="text-[0.75em] text-gray-700">— Haris Khawja, Co-Founder</span>
           </h1>
-
           <Button className="scale-[1.5] mt-[3em] font-bold bg-orange-600">Count me in! 🤝</Button>
         </div>
-
-
       </div>
     )
 }
