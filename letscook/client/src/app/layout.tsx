@@ -13,9 +13,9 @@ export default function RootLayout({ children }: { children: React.ReactNode}) {
 
         {/* Footer */}
         <div className="bg-orange-700 text-center flex-col pt-5 pb-5">
-          <p className="mt-5">© {(new Date).getFullYear()} LetsCook Inc. All rights reserved.</p>
-          <p className="mt-5">Made by Adeel Akhani & Haris Khawja</p>
-          <p className="mt-5">Made with Next.js</p>
+          <p className="mt-5 text-white">© {(new Date).getFullYear()} LetsCook Inc. All rights reserved.</p>
+          <p className="mt-5 text-white">Made by Adeel Akhani & Haris Khawja</p>
+          <p className="mt-5 text-white">Made with Next.js</p>
         </div>
       </body>
     </html>

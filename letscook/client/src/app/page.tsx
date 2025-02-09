@@ -33,42 +33,116 @@ export default function Landing() {
         <hr/>
 
         {/* Title */}
-        <div className="flex-col content-center justify-items-center pt-[8em] pb-[8em]">
+        <div className="flex-col content-center justify-items-center pt-[8em] pb-[9em]">
           <Badge className="scale-[2] bg-orange-700">Want to cook?</Badge>
           <h1 className="text-[8em]">LetsCook</h1>
-          <Button className="scale-[1.5] mt-[2em] font-bold bg-orange-600">Start Cooking ➝</Button>
+          <Button className="scale-[1.5] mt-[3em] font-bold bg-orange-600">Start Cooking ➝</Button>
         </div>
 
         {/* Benefits */}
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mx-auto w-full bg-blue-800">
-          <WobbleCard containerClassName="col-span-1 max-h-[20em] bg-black">
-            <h2 className="max-w-80 text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
-              No shirt, no shoes, no weapons.
-            </h2>
-            <p className="mt-4 max-w-[26rem] text-left  text-base/6 text-neutral-200">
-              If someone yells “stop!”, goes limp, or taps out, the fight is over.
-            </p>
-          </WobbleCard>
-
-          <WobbleCard containerClassName="col-span-1 max-h-[20em]">
-            <h2 className="max-w-80 text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
-              No shirt, no shoes, no weapons.
-            </h2>
-            <p className="mt-4 max-w-[26rem] text-left  text-base/6 text-neutral-200">
-              If someone yells “stop!”, goes limp, or taps out, the fight is over.
-            </p>
-          </WobbleCard>
-
-          <WobbleCard containerClassName="col-span-1 max-h-[20em]">
-              <h2 className="max-w-sm md:max-w-lg  text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
-                Signup for blazing-fast cutting-edge state of the art Gippity AI
-                wrapper today!
+        <div className="bg-gray-100">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 max-w-6xl mx-auto w-full pt-20 pb-20 pl-10 pr-10">
+            <WobbleCard containerClassName="col-span-1 max-h-[22em] bg-gray-50 text-black border border-orange-800">
+              <h2 className="max-w-80 text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em]">
+                Cook 🍳
               </h2>
-              <p className="mt-4 max-w-[26rem] text-left  text-base/6 text-neutral-200">
-poo              </p>
-          </WobbleCard>
+              <p className="mt-4 max-w-[26rem] text-left text-base lg:text-xl text-black">
+                Find a posted recipe on the taskboard and cook it up! Submit pictures of your masterpiece to earn
+                points.
+              </p>
+            </WobbleCard>
+
+            <WobbleCard containerClassName="col-span-1 max-h-[22em] bg-gray-50 text-black border border-orange-800">
+              <h2 className="max-w-80 text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em]">
+                Challenge ⚔️
+              </h2>
+              <p className="mt-4 max-w-[26rem] text-left text-base lg:text-xl text-black">
+                Challenge the community with your own recipe! Post the steps on the taskboard and earn points for 
+                completed submissions.
+              </p>
+            </WobbleCard>
+
+            <WobbleCard containerClassName="col-span-1 max-h-[22em] bg-gray-50 text-black border border-orange-800">
+              <h2 className="max-w-80 text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em]">
+                Compete 👑
+              </h2>
+              <p className="mt-4 max-w-[26rem] text-left text-base lg:text-xl text-black">
+                Compete against the world to gather the most amount of points, and become a <br/><span className="font-bold underline text-orange-800">Chef Master!</span>
+              </p>
+            </WobbleCard>
+          </div>
         </div>
+
+        {/* Brief Statistics */}
+        <div>
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-10 max-w-6xl mx-auto w-full pt-5 pb-5 pl-10 pr-10">
+            <WobbleCard containerClassName="col-span-1 max-h-[22em] text-black bg-white content-center">
+                <div className="flex justify-center">
+                  <Image
+                    src="/ChefHat.png"
+                    width={75}
+                    height={75}
+                    alt="Chef Hat"
+                  />
+                </div>
+                <h2 className="mt-7 mb-1 max-w-80 text-orange-600 text-balance text-base md:text-xl lg:text-3xl font-extrabold tracking-[-0.015em] text-center">
+                  96,000
+                </h2>
+                <h2 className="max-w-80 text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-center">
+                  Chefs
+                </h2>
+              </WobbleCard>
+              <WobbleCard containerClassName="col-span-1 max-h-[22em] text-black bg-white content-center">
+                <div className="flex justify-center">
+                  <Image
+                    src="/CookBook.png"
+                    width={75}
+                    height={75}
+                    alt="Cook Book"
+                  />
+                </div>
+                <h2 className="mt-7 mb-1 max-w-80 text-orange-600 text-balance text-base md:text-xl lg:text-3xl font-extrabold tracking-[-0.015em] text-center">
+                  145,000
+                </h2>
+                <h2 className="max-w-80 text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-center">
+                  Recipes
+                </h2>
+              </WobbleCard>
+              <WobbleCard containerClassName="col-span-1 max-h-[22em] text-black bg-white content-center">
+                <div className="flex justify-center">
+                  <Image
+                    src="/Chart.png"
+                    width={75}
+                    height={75}
+                    alt="Chart"
+                  />
+                </div>
+                <h2 className="mt-7 pl-0 mb-1 max-w-80 text-orange-600 text-balance text-base md:text-xl lg:text-3xl font-extrabold tracking-[-0.015em] text-center">
+                  345,001
+                </h2>
+                <h2 className="text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-center">
+                  Meals
+                </h2>
+              </WobbleCard>
+              <WobbleCard containerClassName="col-span-1 max-h-[22em] text-black bg-white content-center">
+                <div className="flex justify-center">
+                  <Image
+                    src="/Trophy.png"
+                    width={75}
+                    height={75}
+                    alt="Trophy"
+                  />
+                </div>
+                <h2 className="mt-7 mb-1 max-w-80 text-orange-600 text-balance text-base md:text-xl lg:text-3xl font-extrabold tracking-[-0.015em] text-center">
+                  100%
+                </h2>
+                <h2 className="max-w-80 text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-center">
+                  Success
+                </h2>
+              </WobbleCard>
+          </div>
+        </div>
+
 
 
       </div>
