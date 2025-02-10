@@ -8,6 +8,15 @@ import { Line, LineChart, CartesianGrid, XAxis, YAxis } from "recharts"
 import { ChartConfig, ChartContainer } from "@/components/ui/chart"
 import { ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { ChartLegend, ChartLegendContent } from "@/components/ui/chart"
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+  } from "@/components/ui/table"
 import Image from "next/image"
 import "@/styles/globals.css"
 import buttonStyles from "@/styles/button.module.css"
@@ -26,14 +35,20 @@ export default function Profile() {
 
     const chartConfig = {
         meals: {
-          label: "Meals",
+          label: "Meals Cooked",
           color: "#ea580c",
         },
         recipes: {
-          label: "Recipes",
+          label: "Recipes Created",
           color: "#7f1d1d",
         },
-      } satisfies ChartConfig      
+      } satisfies ChartConfig
+
+    const submissions = [
+        { author: "Haris Khawja", recipe: "Hakka Chow Mein", difficulty: "Medium", points: 3 },
+        { author: "Sir Williams", recipe: "Clam Chowder", difficulty: "Hard", points: 5 },
+        { author: "ishowspeed", recipe: "Chicken Nuggets", difficulty: "Easy", points: 1 },
+    ]
 
     return (
         <div className="min-w-screen min-h-screen">
@@ -100,7 +115,7 @@ export default function Profile() {
                                 Meals Cooked: 11<br/>
                                 Created Recipes: 5
                             </p>
-                            <Button variant="default" className="ml-auto mt-auto w-[8em] bg-orange-800">Log Out</Button>
+                            <Button variant="default" className="ml-auto mt-auto w-[8em] bg-orange-800 font-bold">Log Out</Button>
 
                         </CardItem>
                     </CardBody>
@@ -138,6 +153,49 @@ export default function Profile() {
                         </LineChart>
                     </ChartContainer>
                 </CardContainer>
+            </div>
+
+            {/* Past Submissions */}
+            <div className="py-5 bg-gray-100 flex-col justify-center content-center items-center mx-auto text-black">
+                <h1 className="text-3xl font-bold mb-5 justify-center content-center text-center items-center mx-auto">Past Submissions</h1>
+                <div className="w-[75%] mx-auto">
+                    <Table>
+                        <TableHeader className="text-xl bg-orange-800">
+                            <TableRow>
+                                <TableHead className="text-white font-bold">Author</TableHead>
+                                <TableHead className="text-white font-bold">Recipe</TableHead>
+                                <TableHead className="text-white font-bold">Difficulty</TableHead>
+                                <TableHead className="text-white text-right font-bold">Points</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody className="bg-white">
+
+                            {submissions.map( (submission) => {
+                                return (
+                                    <TableRow className="hover:bg-gray-300">
+                                        <TableCell className="font-medium text-base">{submission.author}</TableCell>
+                                        <TableCell className="text-base">{submission.recipe}</TableCell>
+                                        <TableCell>
+                                            {submission.difficulty == "Easy" && <Badge className="font-bold text-sm bg-cyan-700">Easy</Badge>}
+                                            {submission.difficulty == "Medium" && <Badge className="font-bold text-sm bg-yellow-700">Medium</Badge>}
+                                            {submission.difficulty == "Hard" && <Badge className="font-bold text-sm bg-red-700">Hard</Badge>}
+                                        </TableCell>
+                                        <TableCell className="text-right text-base">{submission.points}</TableCell>   
+                                    </TableRow>
+                                )
+                            })}
+                            {/* <TableRow className="hover:bg-gray-300">
+                                <TableCell className="font-medium text-base">Haris Khawja</TableCell>
+                                <TableCell className="text-base">Chow Mein</TableCell>
+                                <TableCell>
+                                    <Badge className="font-bold text-sm bg-red-700">Hard</Badge>
+                                </TableCell>
+                                <TableCell className="text-right text-base">5</TableCell>
+                            </TableRow> */}
+                        </TableBody>
+                    </Table>
+                </div>
+
             </div>
 
         </div>
