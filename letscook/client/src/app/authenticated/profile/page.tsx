@@ -62,7 +62,7 @@ export default function Profile() {
                             width={150}
                             height={150}
                             alt="LetsCook" 
-                            className="grayscale absolute inset-0 z-0 rounded-lg opacity-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 "
+                            className="absolute inset-0 z-0 rounded-lg opacity-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 "
                         />
                         
                         <CardItem
