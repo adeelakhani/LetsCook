@@ -1,0 +1,8 @@
+.title {
+    opacity: 1;
+    transition: opacity 0.3s ease; /* Adds smooth transition to opacity */
+}
+
+.title:hover {
+    opacity: 0;
+}
