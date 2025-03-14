@@ -1,13 +1,6 @@
 "use client"
 import React from "react"
-import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { motion } from "framer-motion"
-import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card"
-import { Line, LineChart, CartesianGrid, XAxis, YAxis } from "recharts"
-import { ChartConfig, ChartContainer } from "@/components/ui/chart"
-import { ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-import { ChartLegend, ChartLegendContent } from "@/components/ui/chart"
 import {
     Table,
     TableBody,
@@ -17,10 +10,13 @@ import {
     TableHeader,
     TableRow,
   } from "@/components/ui/table"
-import Image from "next/image"
 import "@/styles/globals.css"
 
-type Row = [string, string, string, number]
+type Row = {
+    author: string, 
+    recipe: string, 
+    difficulty: string
+}
 
 type DynamicTable = {
     elements: Row[]
@@ -39,7 +35,6 @@ export default function DynamicTable({ elements }: DynamicTable) {
                     </TableRow>
                 </TableHeader>
                 <TableBody className="bg-white">
-
                     {elements.map( (element: any, index: number) => {
                         return (
                             <TableRow key={index} className="hover:bg-gray-300">
@@ -50,7 +45,11 @@ export default function DynamicTable({ elements }: DynamicTable) {
                                     {element.difficulty == "Medium" && <Badge className="font-bold text-sm bg-yellow-700">Medium</Badge>}
                                     {element.difficulty == "Hard" && <Badge className="font-bold text-sm bg-red-700">Hard</Badge>}
                                 </TableCell>
-                                <TableCell className="text-right text-base">{element.points}</TableCell>   
+                                <TableCell className="text-right text-base">
+                                    {element.difficulty === "Easy" ? 2 : 
+                                    element.difficulty === "Medium" ? 5 : 
+                                    element.difficulty === "Hard" ? 10 : null}
+                                </TableCell>   
                             </TableRow>
                         )
                     })}
