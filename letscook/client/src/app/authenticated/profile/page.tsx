@@ -19,8 +19,6 @@ import {
   } from "@/components/ui/table"
 import Image from "next/image"
 import "@/styles/globals.css"
-import buttonStyles from "@/styles/button.module.css"
-import titleStyles from "@/styles/title.module.css"
 
 
 export default function Profile() {
@@ -54,7 +52,7 @@ export default function Profile() {
         <div className="min-w-screen min-h-screen">
             
             {/* Profile Card */}
-            <div className="lg:flex lg:gap-10 flex-col-1 justify-center mx-auto content-center items-center">
+            <div className="lg:flex lg:gap-10 flex-col-1 justify-center mx-auto content-center items-center bg-white">
                 <CardContainer className="inter-var">
                     <CardBody className="bg-gray-100 relative group/card w-auto sm:w-[30rem] h-auto rounded-xl p-6 border border-orange-700">
                         <Image 
@@ -158,7 +156,7 @@ export default function Profile() {
             {/* Past Submissions */}
             <div className="py-5 bg-gray-100 flex-col justify-center content-center items-center mx-auto text-black">
                 <h1 className="text-3xl font-bold mb-5 justify-center content-center text-center items-center mx-auto">Past Submissions</h1>
-                <div className="w-[75%] mx-auto">
+                <div className="w-[75%] mx-auto pb-3">
                     <Table>
                         <TableHeader className="text-xl bg-orange-800">
                             <TableRow>
@@ -170,9 +168,9 @@ export default function Profile() {
                         </TableHeader>
                         <TableBody className="bg-white">
 
-                            {submissions.map( (submission) => {
+                            {submissions.map( (submission, index) => {
                                 return (
-                                    <TableRow className="hover:bg-gray-300">
+                                    <TableRow key={index} className="hover:bg-gray-300">
                                         <TableCell className="font-medium text-base">{submission.author}</TableCell>
                                         <TableCell className="text-base">{submission.recipe}</TableCell>
                                         <TableCell>
@@ -184,14 +182,6 @@ export default function Profile() {
                                     </TableRow>
                                 )
                             })}
-                            {/* <TableRow className="hover:bg-gray-300">
-                                <TableCell className="font-medium text-base">Haris Khawja</TableCell>
-                                <TableCell className="text-base">Chow Mein</TableCell>
-                                <TableCell>
-                                    <Badge className="font-bold text-sm bg-red-700">Hard</Badge>
-                                </TableCell>
-                                <TableCell className="text-right text-base">5</TableCell>
-                            </TableRow> */}
                         </TableBody>
                     </Table>
                 </div>

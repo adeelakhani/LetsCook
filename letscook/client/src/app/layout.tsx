@@ -13,7 +13,7 @@ export default function RootLayout({ children }: { children: React.ReactNode}) {
         {children}
 
         {/* Footer */}
-        <div className="bg-orange-700 text-center flex-col pt-8 pb-6">
+        <div className="bg-orange-700 text-center flex-col pt-6 pb-4">
           <span className="flex justify-center">
             <Image
               src="/LetsCook.png"
@@ -23,9 +23,9 @@ export default function RootLayout({ children }: { children: React.ReactNode}) {
             />
             <h1 className="font-bold text-[2em] text-white ml-3">LetsCook</h1>
           </span>
-          <p className="mt-5 text-white">© {(new Date).getFullYear()} LetsCook Inc. All rights reserved.</p>
-          <p className="mt-5 text-white">Made by Adeel Akhani & Haris Khawja</p>
-          <p className="mt-5 text-white">Made with Next.js</p>
+          <p className="mt-3 text-white">Made by Adeel Akhani & Haris Khawja</p>
+          <p className="mt-1 text-white">Made with Next.js</p>
+          <p className="mt-2 text-white text-[12px]">© {(new Date).getFullYear()} LetsCook Inc. All rights reserved.</p>
         </div>
       </body>
     </html>
