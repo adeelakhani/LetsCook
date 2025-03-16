@@ -22,8 +22,8 @@ import Image from "next/image"
 import "@/styles/globals.css"
 import DynamicTable from "@/components/ui/dynamicTable"
 
-
 export default function Profile() {
+    
     const chartData = [
         { month: "January", meals: 186, recipes: 80 },
         { month: "February", meals: 305, recipes: 200 },
