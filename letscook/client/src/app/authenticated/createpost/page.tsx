@@ -1,17 +1,17 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
+// import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 export default function RecipeSubmissionPage() {
-  const [uploadedFiles, setUploadedFiles] = useState([]);
-  const [imagePreviews, setImagePreviews] = useState([]);
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+  const [imagePreviews, setImagePreviews] = useState<{ name: string; url: string }[]>([]);
   const maxImages = 10;
 
-  const handleImageUpload = (e) => {
-    const files = Array.from(e.target.files);
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []) as File[];
 
     if (uploadedFiles.length + files.length > maxImages) {
       alert(`You can only upload up to ${maxImages} images.`);
@@ -23,15 +23,19 @@ export default function RecipeSubmissionPage() {
 
   // Generate image previews whenever uploaded files change
   useEffect(() => {
-    const newPreviews = [];
+    interface ImagePreview {
+        name: string;
+        url: string;
+    }
+    const newPreviews: ImagePreview[] = [];
 
     uploadedFiles.forEach((file) => {
       const reader = new FileReader();
 
-      reader.onload = (e) => {
+      reader.onload = (e: ProgressEvent<FileReader>) => {
         newPreviews.push({
           name: file.name,
-          url: e.target.result,
+          url: e.target?.result as string,
         });
 
         if (newPreviews.length === uploadedFiles.length) {
@@ -42,22 +46,22 @@ export default function RecipeSubmissionPage() {
       reader.readAsDataURL(file);
     });
 
-    // If no files, clear previews
     if (uploadedFiles.length === 0) {
       setImagePreviews([]);
     }
   }, [uploadedFiles]);
 
-  const removeImage = (index) => {
+
+
+const removeImage = (index: number): void => {
     setUploadedFiles(uploadedFiles.filter((_, i) => i !== index));
-    // Previews will be updated by the useEffect
-  };
+};
 
   return (
     <div className="min-w-screen min-h-screen bg-white">
       <div className="flex-col content-center justify-items-center pt-12 pb-8 text-center">
-        <Badge className="scale-[1.5] bg-orange-700">Submit a Recipe</Badge>
-        <h1 className="text-5xl mt-3">New Challenge</h1>
+        <Badge className="scale-[2.5] bg-orange-700">Post a Recipe</Badge>
+        {/* <h2 className="text-5xl mt-3">Post your recipe for others to see</h2> */}
       </div>
 
       <div className="max-w-4xl mx-auto px-6 pb-16">
@@ -90,10 +94,11 @@ export default function RecipeSubmissionPage() {
               <select
                 id="difficulty"
                 name="difficulty"
+                defaultValue=""
                 className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-600 bg-white"
                 required
               >
-                <option value="" disabled>
+                <option value="" disabled hidden>
                   Select difficulty level
                 </option>
                 <option value="easy">Easy</option>

@@ -8,6 +8,7 @@ import { Line, LineChart, CartesianGrid, XAxis, YAxis } from "recharts"
 import { ChartConfig, ChartContainer } from "@/components/ui/chart"
 import { ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { ChartLegend, ChartLegendContent } from "@/components/ui/chart"
+import signOutFromGoogle  from "@/utils/supabase/signOutFromGoogle"
 import {
     Table,
     TableBody,
@@ -20,6 +21,7 @@ import {
 import Image from "next/image"
 import "@/styles/globals.css"
 import DynamicTable from "@/components/ui/dynamicTable"
+
 
 export default function Profile() {
     const chartData = [
@@ -113,7 +115,7 @@ export default function Profile() {
                                 Meals Cooked: 11<br/>
                                 Created Recipes: 5
                             </p>
-                            <Button variant="default" className="ml-auto mt-auto w-[8em] bg-orange-800 font-bold">Log Out</Button>
+                            <Button onClick={signOutFromGoogle} variant="default" className="ml-auto mt-auto w-[8em] bg-orange-800 font-bold">Sign Out</Button>
 
                         </CardItem>
                     </CardBody>

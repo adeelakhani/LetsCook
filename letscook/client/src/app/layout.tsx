@@ -1,9 +1,14 @@
-import Link from 'next/link'
+// import Link from 'next/link'
+"use client"
+
 import Image from "next/image"
 import "@fontsource/inter"; // Defaults to 400 (Regular)
 import "../styles/globals.css"
 
+
 export default function RootLayout({ children }: { children: React.ReactNode}) {
+  
+  
   return (
     <html>
       <head>

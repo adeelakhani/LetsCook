@@ -13,6 +13,8 @@ import "../styles/globals.css"
 import buttonStyles from "../styles/button.module.css"
 import titleStyles from "../styles/title.module.css"
 
+import {redirect} from "next/navigation"
+
 // Acertinity UI
 // ShadCN UI
 
@@ -28,7 +30,11 @@ export default function Landing() {
             alt="LetsCook"
           />
           <h1 className="text-[2em] ml-3 font-bold">LetsCook</h1>
-          <Button className="flex-right ml-auto mt-1 mr-5 font-bold bg-orange-700">Login</Button>
+          <Button onClick={
+            () => {
+              redirect("/login");
+            }
+          } className="flex-right ml-auto mt-1 mr-5 font-bold bg-orange-700">Sign in</Button>
         </div>
         <hr/>
 
