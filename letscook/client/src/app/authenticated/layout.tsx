@@ -20,16 +20,13 @@ export default async function Layout({
 }: {
   children: React.ReactNode;
 }) {
-  const supabase = await createClientForServer();
-  // const session = await supabase.auth.getSession();
-  // if(!session.data || !session.data.user ){
-  //   redirect("/login");
-  // }
-  const { data: { user }}=await supabase.auth.getUser();
-  if(!user){
-    redirect("/login");
+  const supabase = await createClientForServer()
+
+  const { data, error } = await supabase.auth.getUser()
+  if (error || !data?.user) {
+    redirect('/login')
   }
-  
+
 
   return (
     <div>
