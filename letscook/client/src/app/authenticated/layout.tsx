@@ -26,9 +26,10 @@ export default async function Layout({
   if (error || !data?.user) {
     redirect('/login')
   }
-  else{
-    console.log(data.user);
-  }
+  // else{
+  //   console.log(data.user);
+  // }
+
 
 
   return (
