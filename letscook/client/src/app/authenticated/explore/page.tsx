@@ -23,8 +23,8 @@ export default async function Explore() {
         <div className="flex justify-between items-center max-w-5xl mx-auto mb-8">
           <h2 className="text-3xl font-bold">Beginner Recipes</h2>
           <div className="flex gap-3">
-            <Button variant="outline" className="border-orange-600 text-orange-600">Filter</Button>
-            <Button variant="outline" className="border-orange-600 text-orange-600">Difficulty</Button>
+            {/* <Button variant="outline" className="border-orange-600 text-orange-600">Filter</Button>
+            <Button variant="outline" className="border-orange-600 text-orange-600">Difficulty</Button> */}
           </div>
         </div>
         
