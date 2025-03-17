@@ -1,4 +1,4 @@
-"use client"
+"use server"
 import React from "react"
 import DynamicTable from "@/components/ui/dynamicTable" 
 
@@ -34,7 +34,7 @@ const recipes = [
     { author: "Jeff Bezos", recipe: "Amazonian Steak", difficulty: "Hard" }
 ]
 
-export default function FindChallenge() {
+export default async function FindChallenge() {
     return (
         <div className="py-5 bg-gray-100 flex-col justify-center content-center items-center mx-auto text-black">
                     <h1 className="text-3xl font-bold mb-5 justify-center content-center text-center items-center mx-auto">Find a Challenge!</h1>
