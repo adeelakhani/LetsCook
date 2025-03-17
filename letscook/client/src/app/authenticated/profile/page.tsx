@@ -1,7 +1,7 @@
 "use server";
 import React from "react";
-import { createClientForServer } from "@/utils/supabase/supabaseClient";
-import { redirect } from "next/navigation";
+import { createClientForServer } from '@/utils/supabase/supabaseClient'
+import { redirect } from 'next/navigation'
 
 import "@/styles/globals.css";
 import DynamicTable from "@/components/ui/dynamicTable";
@@ -24,12 +24,12 @@ const chartData = [
 ];
 
 export default async function Profile() {
-  const supabase = await createClientForServer();
-  const { data, error } = await supabase.auth.getUser();
-  if (error || !data?.user) {
-    redirect("/login");
-  }
+  const supabase = await createClientForServer()
 
+  const { data, error } = await supabase.auth.getUser()
+  if (error || !data?.user) {
+    redirect('/login')
+  }
   const user = {
     username: data.user.user_metadata.full_name,
     email: data.user.user_metadata.email,
@@ -39,6 +39,7 @@ export default async function Profile() {
     rank: 245,
     profile_pic: data.user.user_metadata.avatar_url,
   };
+
   return (
     <div className="min-w-screen min-h-screen">
       {/* Profile Card */}

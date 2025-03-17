@@ -31,7 +31,6 @@ export default async function Layout({
   }
 
 
-
   return (
     <div>
       {/* Top Horizontal Row */}
