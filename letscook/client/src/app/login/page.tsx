@@ -1,11 +1,11 @@
-"use client";
+"use server";
 import React from "react";
 import signInWithGoogle from '@/utils/supabase/sign_in_function';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 
-export default function Login() {
+export default async function Login() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4">
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 border border-orange-200">
