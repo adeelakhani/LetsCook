@@ -51,10 +51,7 @@ export default function DynamicTable({ elements }: DynamicTable) {
                                     ${hoveredIndex === index ? 'bg-orange-50 shadow-lg scale-[1.01] z-10' : 'hover:bg-gray-100 hover:shadow-md'}
                                 `}
                                 onClick={() => {
-                                    // Add your click handler here, e.g.:
-                                    console.log(`Clicked on ${element.recipe}`);
-                                    // Or navigate to challenge page:
-                                    // router.push(`/challenges/${element.id}`);
+                                    console.log("Clicked");
                                 }}
                                 onMouseEnter={() => setHoveredIndex(index)}
                                 onMouseLeave={() => setHoveredIndex(null)}
