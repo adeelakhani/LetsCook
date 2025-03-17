@@ -1,12 +1,9 @@
-// "use server"
 "use server";
 import React from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import Link from 'next/link'
 
-// import Image from "next/image"
-// import {createClient} from '@/utils/supabase/supabaseClient'
 export default async function Explore() {
   
   return (
