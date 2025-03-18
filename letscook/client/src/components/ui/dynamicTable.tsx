@@ -13,6 +13,9 @@ import {
   } from "@/components/ui/table"
 import "@/styles/globals.css"
 
+import { useRouter } from "next/navigation";
+
+
 type Row = {
     author: string, 
     recipe: string, 
@@ -25,6 +28,7 @@ type DynamicTable = {
 
 export default function DynamicTable({ elements }: DynamicTable) {
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+    const router = useRouter();
 
     return (
         <div className="w-[75%] mx-auto pb-3">
@@ -52,6 +56,7 @@ export default function DynamicTable({ elements }: DynamicTable) {
                                 `}
                                 onClick={() => {
                                     console.log("Clicked");
+                                    router.push("/authenticated/submit");
                                 }}
                                 onMouseEnter={() => setHoveredIndex(index)}
                                 onMouseLeave={() => setHoveredIndex(null)}
