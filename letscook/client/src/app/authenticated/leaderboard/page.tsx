@@ -19,9 +19,7 @@ export default async function Leaderboard() {
     return (
         <div className="py-5 bg-gray-100 flex-col justify-center content-center items-center mx-auto text-black">
             <h1 className="text-3xl font-bold mb-5 justify-center content-center text-center items-center mx-auto">The Master Chefs 👑</h1>
-            {/* <DynamicTable elements={leaderboard} /> */}
             <LeaderboardTable elements={leaderboard} />
-
         </div>
     )
 }
