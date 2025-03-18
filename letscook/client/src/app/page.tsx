@@ -47,7 +47,7 @@ export default function Landing() {
             () => {
               redirect("/login");
             }
-          } className="scale-[1.5] mt-[3em] font-bold bg-orange-600">Start Cooking</Button>
+          } className="scale-[1.5] mt-[3em] font-bold bg-orange-600">Start Cooking ➝</Button>
         </div>
 
         {/* Benefits */}

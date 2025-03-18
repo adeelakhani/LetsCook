@@ -31,7 +31,7 @@ export default function DynamicTable({ elements }: DynamicTable) {
             <div className="text-center mb-2 text-gray-600 text-sm">
                 Click on any challenge to view details
             </div>
-            <Table>
+            <Table className="overflow-hidden">
                 <TableHeader className="text-xl bg-orange-800">
                     <TableRow>
                         <TableHead className="text-white font-bold">Author</TableHead>
@@ -60,11 +60,11 @@ export default function DynamicTable({ elements }: DynamicTable) {
                                 <TableCell className="text-base">
                                     <div className="flex items-center">
                                         {element.recipe}
-                                        {hoveredIndex === index && (
+                                        {/* {hoveredIndex === index && (
                                             <span className="ml-2 text-xs text-orange-600 font-medium">
                                                 VIEW
                                             </span>
-                                        )}
+                                        )} */}
                                     </div>
                                 </TableCell>
                                 <TableCell>
