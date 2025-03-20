@@ -6,6 +6,7 @@ import "@/styles/globals.css";
 import DynamicTable from "@/components/ui/dynamicTable";
 import ProfileChart from "@/components/ui/profileChart";
 import ProfileCard from "@/components/ui/profileCard";
+import axios from 'axios';
 
 const submissions = [
   { author: "Haris Khawja", recipe: "Hakka Chow Mein", difficulty: "Medium" },
@@ -36,23 +37,24 @@ export default async function Profile() {
   if (!session) {
     redirect("/login");
   }
+  const token = session.access_token;
   const this_user_id = data.user.id;
+  const userData = await axios.get(`http://localhost:3001/api/userPrivate/${this_user_id}`, {
+    headers: {
+      'Authorization': `Bearer ${token}`, 
+      'Content-Type': 'application/json',
+    },
+  });
 
-  const { data: userData, error: profilesError } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("id", this_user_id);
-  if (profilesError) console.error(profilesError);
-  if(!userData || userData.length == 0) console.error("No user data found");
 
   const user = {
-    username: userData && userData[0]?.username ? userData[0].username : "Login to see",
-    email: userData && userData[0]?.email ? userData[0].email : "Login to see", 
+    username: userData.data[0].username,
+    email: userData.data[0].email, 
     points: 42,
     meals_cooked: 15,
     created_recipes: 2,
     rank: 245,
-    profile_pic: data.user.user_metadata.avatar_url,
+    profile_pic: userData.data[0].image_url,
   };
 
   return (

@@ -131,13 +131,6 @@ export default async function Explore() {
           Join thousands of cooking enthusiasts challenging themselves daily!
         </p>
         <div className="flex gap-4 justify-center">
-        {/* <Link
-                  key={link.name}
-                  href={link.href}
-                >
-                  <Button variant="ghost" className="mr-5 text-[1em] hover:bg-orange-500 hover:text-white">{link.name}</Button>
-
-                </Link> */}
           <Link href="/authenticated/challenge" key="Browse Challenges">
             <Button variant="ghost" className="mr-5 text-[1em]  bg-orange-500 text-white hover:bg-orange-400 hover:text-white">Browse Challenges</Button>
           </Link>
