@@ -1,8 +1,7 @@
 "use server";
 import React from "react";
-import { createClientForServer } from '@/utils/supabase/supabaseClient'
-import { redirect } from 'next/navigation'
-
+import { createClientForServer } from "@/utils/supabase/supabaseClient";
+import { redirect } from "next/navigation";
 import "@/styles/globals.css";
 import DynamicTable from "@/components/ui/dynamicTable";
 import ProfileChart from "@/components/ui/profileChart";
@@ -24,15 +23,31 @@ const chartData = [
 ];
 
 export default async function Profile() {
-  const supabase = await createClientForServer()
+  const supabase = await createClientForServer();
 
-  const { data, error } = await supabase.auth.getUser()
+  const { data, error } = await supabase.auth.getUser();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
   if (error || !data?.user) {
-    redirect('/login')
+    redirect("/login");
   }
+  if (!session) {
+    redirect("/login");
+  }
+  const this_user_id = data.user.id;
+
+  const { data: userData, error: profilesError } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", this_user_id);
+  if (profilesError) console.error(profilesError);
+  if(!userData || userData.length == 0) console.error("No user data found");
+
   const user = {
-    username: data.user.user_metadata.full_name,
-    email: data.user.user_metadata.email,
+    username: userData && userData[0]?.username ? userData[0].username : "Login to see",
+    email: userData && userData[0]?.email ? userData[0].email : "Login to see", 
     points: 42,
     meals_cooked: 15,
     created_recipes: 2,
