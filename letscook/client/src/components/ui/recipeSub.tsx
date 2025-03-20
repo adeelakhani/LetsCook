@@ -131,7 +131,6 @@ export default function RecipeSub() {
               <select
                 id="difficulty"
                 name="difficulty"
-                defaultValue=""
                 className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-600 bg-white"
                 value={difficulty}
                 onChange={(e) => setDifficulty(e.target.value)}
