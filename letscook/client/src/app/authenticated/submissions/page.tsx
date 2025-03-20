@@ -3,7 +3,7 @@
 import DynamicTable from "@/components/ui/dynamicTable"
 
 const recipes = [
-    { author: "Adeel Akhani", recipe: "sandwitch", difficulty: "Easy" },
+    { author: "Adeel Akhani", recipe: "sandwich", difficulty: "Easy" },
     { author: "Xerxes Radon", recipe: "spinach", difficulty: "Easy" },
     { author: "Haris Khawja", recipe: "Hakka Chow Mein", difficulty: "Medium" },
     { author: "Sir Williams", recipe: "Clam Chowder", difficulty: "Hard" },

@@ -9,6 +9,41 @@ import { useState, useEffect } from "react";
 export default function RecipeSub() {
     const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
     const [imagePreviews, setImagePreviews] = useState<{ name: string; url: string }[]>([]);
+  //   const submissionData = {
+  //     author: "Haris Khawja",
+  //     recipe: "Hakka Chow Mein",
+  //     difficulty: "Hard",
+  //     creation_date: new Date(2025, 2, 18),
+  //     description: str
+  // }
+    const [formData, setFormData] = useState(
+      {
+        author: "",
+        recipe: "",
+        difficulty: "",
+        creation_date: (new Date()).toDateString(),
+        description: ``
+      }
+    );
+  
+    const handleChange = (e) => {
+      setFormData({
+        ...formData,
+        [e.target.name]: e.target.value
+      });
+    };
+
+    const handleSubmit = (e) => {
+      e.preventDefault(); // Prevent page reload
+
+      console.log(formData);
+    
+      // Submit to supabase
+      // formData
+
+      setFormData({author: "", recipe: "", difficulty: "", creation_date: (new Date()).toDateString(), description: ``});
+    };
+
     const maxImages = 10;
   
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,7 +102,7 @@ export default function RecipeSub() {
   
         <div className="max-w-4xl mx-auto px-6 pb-16">
           <div className="bg-gray-50 border border-orange-800 rounded-lg p-8">
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="mb-6">
                 <label
                   htmlFor="dishName"
@@ -77,11 +112,13 @@ export default function RecipeSub() {
                 </label>
                 <input
                   type="text"
-                  id="dishName"
-                  name="dishName"
+                  id="recipe"
+                  name="recipe"
                   placeholder="Enter your dish name"
                   className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-600"
                   required
+                  value={formData.recipe}
+                  onChange={handleChange}
                 />
               </div>
   
@@ -98,6 +135,8 @@ export default function RecipeSub() {
                   defaultValue=""
                   className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-600 bg-white"
                   required
+                  value={formData.difficulty}
+                  onChange={handleChange}
                 >
                   <option value="" disabled hidden>
                     Select difficulty level
@@ -121,6 +160,8 @@ export default function RecipeSub() {
                   placeholder="Share your recipe's story, ingredients, and step-by-step instructions..."
                   className="w-full px-4 py-3 border border-gray-300 rounded-md h-64 focus:outline-none focus:ring-2 focus:ring-orange-600"
                   required
+                  value={formData.description}
+                  onChange={handleChange}
                 ></textarea>
               </div>
   
