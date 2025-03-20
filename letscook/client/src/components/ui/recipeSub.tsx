@@ -22,7 +22,8 @@ export default function RecipeSub() {
         recipe: "",
         difficulty: "",
         creation_date: (new Date()).toDateString(),
-        description: ``
+        description: ``,
+        images: []
       }
     );
   
@@ -41,7 +42,7 @@ export default function RecipeSub() {
       // Submit to supabase
       // formData
 
-      setFormData({author: "", recipe: "", difficulty: "", creation_date: (new Date()).toDateString(), description: ``});
+      setFormData({author: "", recipe: "", difficulty: "", creation_date: (new Date()).toDateString(), description: ``, images: []});
     };
 
     const maxImages = 10;
