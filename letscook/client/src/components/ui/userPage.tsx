@@ -4,14 +4,33 @@ import { usePathname, notFound } from "next/navigation";
 import DynamicTable from "@/components/ui/challengeTable";
 import UserCard from "@/components/ui/userCard";
 import ProfileChart from "@/components/ui/profileChart";
+import axios from 'axios';
+import { useRouter } from "next/navigation"
 
 export default function UserPageRender() {
+    const router = useRouter();
     const pathName = usePathname();
     const username = pathName.split('/').slice(-1)[0]
-    
-    if (false) {
+    let points, meals_cooked, created_recipes, rank, image_url;
+    axios.get(`http://localhost:3001/api/userProfile/${username}`)
+      .then(userData => {
+        if(!userData.data){
+          router.push("/404");
+        }
+
+        points = userData.data.points;
+        meals_cooked = userData.data.meals_cooked;  
+        created_recipes = userData.data.created_recipes;  
+        rank = userData.data.rank;  
+        image_url = userData.data.image_url;  
+
+      })
+      .catch(error => {
+        console.error(error)
         notFound();
-    }
+      });
+
+     
 
     const chartData = [
         { month: "January", meals: 0, recipes: 80 },
@@ -23,12 +42,12 @@ export default function UserPageRender() {
     ];
 
     const user = {
-        username: username,
-        points: 0,
-        meals_cooked: 0,
-        created_recipes: 0,
-        rank: 1,
-        profile_pic: "/ilikepics",
+        username: username || "NOT FOUND",
+        points: points || 0,
+        meals_cooked: meals_cooked || 0,
+        created_recipes: created_recipes || 0,
+        rank: rank || 0,
+        profile_pic: image_url || "/NOTFOUND",
     };
 
     const submissions = [
