@@ -56,7 +56,7 @@ export default function DynamicTable({ elements, description }: DynamicTable) {
                                 `}
                                 onClick={() => {
                                     console.log("Clicked");
-                                    router.push("/authenticated/submit");
+                                    router.push(`/authenticated/${element.recipe.replaceAll(" ", "-")}`);
                                 }}
                                 onMouseEnter={() => setHoveredIndex(index)}
                                 onMouseLeave={() => setHoveredIndex(null)}

@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link"
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-
+import { usePathname, notFound } from "next/navigation";
 import { useState, useEffect } from "react";
 import { ExecOptionsWithStringEncoding } from "child_process";
 
@@ -16,14 +16,68 @@ type RecipeData = {
     description: string
 }
 
-type SubmissionData = {
-    elements: RecipeData
-}
+const str = `Hakka Chow Mein is a stir-fried noodle dish popular in Indian-Chinese cuisine. It features wok-tossed noodles with vegetables, soy-based sauces, and sometimes protein like chicken, shrimp, or tofu. The dish is known for its bold umami flavors, slightly smoky aroma from high-heat cooking, and crispy yet chewy texture.
 
-export default function SubmitSub({ elements } : SubmissionData) {
+Ingredients: 
+- 200g Hakka noodles (or thin wheat noodles)
+- 2 tbsp oil (vegetable or sesame)
+- 1 cup mixed vegetables (carrot, cabbage, bell peppers, beans)
+- 1/2 cup protein (chicken, shrimp, tofu – optional)
+- 3 cloves garlic (minced)
+- 1-inch ginger (grated)
+- 2 spring onions (chopped, white and green parts separated)
+- 1 tbsp soy sauce
+- 1 tbsp dark soy sauce (for color)
+- 1 tsp vinegar (white or rice vinegar)
+- 1/2 tsp chili sauce (adjust to taste)
+- 1/2 tsp black pepper
+- 1/2 tsp salt
+- 1/2 tsp sugar (optional, balances flavors)
+
+Recipe:
+1. Boil the Noodles
+   - Bring a pot of water to a rolling boil.  
+   - Add Hakka noodles and cook according to package instructions (usually 3-4 minutes).  
+   - Drain and rinse under cold water to prevent sticking. Toss with a little oil and set aside.
+
+2. Prepare the Stir-Fry Base
+   - Heat oil in a large wok or pan over high heat.  
+   - Add minced garlic, grated ginger, and white parts of spring onions. Stir-fry for 30 seconds until fragrant.
+
+3. Cook the Vegetables & Protein
+   - Add chopped vegetables and stir-fry for 2-3 minutes on high heat until slightly tender but still crisp.  
+   - If using protein, add it now and cook until done (chicken should turn golden, shrimp should be pink, tofu should be lightly browned).
+
+4. Add Noodles & Sauces
+   - Add the cooked noodles to the wok.  
+   - Pour in soy sauce, dark soy sauce, vinegar, chili sauce, salt, sugar, and black pepper.  
+   - Toss everything well using tongs or chopsticks to coat the noodles evenly. Stir-fry for another 2 minutes.
+
+5. Final Touch & Serve
+   - Sprinkle the green parts of spring onions on top.  
+   - Give one last toss and remove from heat.  
+   - Serve hot with extra chili sauce or vinegar on the side.`;
+
+
+export default function SubmitSub() {
     const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
     const [imagePreviews, setImagePreviews] = useState<{ name: string; url: string }[]>([]);
     const maxImages = 10;
+
+    const pathName = usePathname();
+    const recipe = pathName.split('/').slice(-1)[0].replaceAll("-", " ")
+
+    const submissionData : RecipeData = {
+      author: "Haris-Khawja",
+      recipe: recipe,
+      difficulty: "Medium",
+      creation_date: new Date(2025, 2, 18),
+      description: str
+  }
+    
+    if (false) {
+        notFound();
+    }
   
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
       const files = Array.from(e.target.files || []) as File[];
@@ -83,14 +137,14 @@ export default function SubmitSub({ elements } : SubmissionData) {
             <form>
               <div className="mb-6">
                 <span className="flex mb-2">
-                    <h1 className="block text-xl font-semibold">{elements.recipe}</h1>
-                    {elements.difficulty == "Easy" && <Badge className="font-bold text-sm bg-cyan-700 ml-2 h-7">Easy</Badge>}
-                    {elements.difficulty == "Medium" && <Badge className="font-bold text-sm bg-yellow-700 ml-2 h-7">Medium</Badge>}
-                    {elements.difficulty == "Hard" && <Badge className="font-bold text-sm bg-red-700 ml-2 h-7">Hard</Badge>}
+                    <h1 className="block text-xl font-semibold">{submissionData.recipe}</h1>
+                    {submissionData.difficulty == "Easy" && <Badge className="font-bold text-sm bg-cyan-700 ml-2 h-7">Easy</Badge>}
+                    {submissionData.difficulty == "Medium" && <Badge className="font-bold text-sm bg-yellow-700 ml-2 h-7">Medium</Badge>}
+                    {submissionData.difficulty == "Hard" && <Badge className="font-bold text-sm bg-red-700 ml-2 h-7">Hard</Badge>}
                 </span>
-                <h1 className="block text-sm mb-2">Made by <Link href={`/users/${elements.author}`}><span className="text-blue-700 hover:underline">{elements.author}</span></Link>, {elements.creation_date.toDateString()}</h1>
+                <h1 className="block text-sm mb-2">Made by <Link href={`/users/${submissionData.author}`}><span className="text-blue-700 hover:underline">{submissionData.author}</span></Link>, {submissionData.creation_date.toDateString()}</h1>
                 <pre style={{whiteSpace: "pre-wrap", wordWrap: "break-word" }} className="w-full px-4 py-3 border border-gray-300 rounded-md h-fit focus:outline-none focus:ring-2 focus:ring-orange-600">
-                    {elements.description}
+                    {submissionData.description}
                 </pre>
               </div>
     
