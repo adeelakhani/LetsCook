@@ -1,5 +1,6 @@
 "use client"
 import React, { useState } from "react"
+import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge"
 import { ChevronRight } from "lucide-react"
 import {
@@ -28,6 +29,7 @@ type LeaderboardTable = {
 
 export default function LeaderboardTable({ elements }: LeaderboardTable) {
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+    const router = useRouter()
 
     return (
         <div className="w-[75%] mx-auto pb-3">
@@ -55,7 +57,7 @@ export default function LeaderboardTable({ elements }: LeaderboardTable) {
                                     ${hoveredIndex === index ? 'bg-orange-50 shadow-lg scale-[1.01] z-10' : 'hover:bg-gray-100 hover:shadow-md'}
                                 `}
                                 onClick={() => {
-                                    console.log("Clicked");
+                                    router.push('/users/' + element.user);
                                 }}
                                 onMouseEnter={() => setHoveredIndex(index)}
                                 onMouseLeave={() => setHoveredIndex(null)}
