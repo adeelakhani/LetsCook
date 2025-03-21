@@ -1,4 +1,3 @@
-// import Link from 'next/link'
 "use client"
 import Image from "next/image"
 import "@fontsource/inter"; // Defaults to 400 (Regular)
@@ -23,7 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode}) {
               <h1 className="text-[2em] ml-3 font-bold">LetsCook</h1>
               <Button onClick={
                   () => {
-                  redirect("/login");
+                  redirect("/authenticated/explore");
                   }
               } className="flex-right ml-auto mt-1 mr-5 font-bold bg-orange-700">Explore</Button>
         </div>

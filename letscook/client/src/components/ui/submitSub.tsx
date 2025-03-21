@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image";
+import Link from "next/link"
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
@@ -75,7 +76,6 @@ export default function SubmitSub({ elements } : SubmissionData) {
       <div className="min-w-screen min-h-screen bg-white">
         <div className="flex-col content-center justify-items-center pt-12 pb-8 text-center">
           <Badge className="scale-[2.5] bg-orange-700">Submit to Recipe</Badge>
-          {/* <h2 className="text-5xl mt-3">Post your recipe for others to see</h2> */}
         </div>
   
         <div className="max-w-6xl mx-auto px-6 pb-16">
@@ -88,7 +88,7 @@ export default function SubmitSub({ elements } : SubmissionData) {
                     {elements.difficulty == "Medium" && <Badge className="font-bold text-sm bg-yellow-700 ml-2 h-7">Medium</Badge>}
                     {elements.difficulty == "Hard" && <Badge className="font-bold text-sm bg-red-700 ml-2 h-7">Hard</Badge>}
                 </span>
-                <h1 className="block text-sm mb-2">Made by {elements.author}, {elements.creation_date.toDateString()}</h1>
+                <h1 className="block text-sm mb-2">Made by <Link href={`/users/${elements.author}`}><span className="text-blue-700 hover:underline">{elements.author}</span></Link>, {elements.creation_date.toDateString()}</h1>
                 <pre style={{whiteSpace: "pre-wrap", wordWrap: "break-word" }} className="w-full px-4 py-3 border border-gray-300 rounded-md h-fit focus:outline-none focus:ring-2 focus:ring-orange-600">
                     {elements.description}
                 </pre>

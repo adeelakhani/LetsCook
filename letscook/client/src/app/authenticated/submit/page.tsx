@@ -45,9 +45,9 @@ Recipe:
    - Serve hot with extra chili sauce or vinegar on the side.`;
 
 const submissionData = {
-    author: "Haris Khawja",
+    author: "Haris-Khawja",
     recipe: "Hakka Chow Mein",
-    difficulty: "Hard",
+    difficulty: "Medium",
     creation_date: new Date(2025, 2, 18),
     description: str
 }
