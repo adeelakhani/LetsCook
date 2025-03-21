@@ -58,7 +58,7 @@ export default function ProfileCard({ user } : ProfileCardProps) {
                         translateZ="50"
                         className="text-xl text-black dark:text-white"
                         >
-                            {user.email}
+                            {user.email.length > 30 ? user.email.slice(0, 25) + "..." : user.email}
                         </CardItem>
                     </div>
 
@@ -70,7 +70,7 @@ export default function ProfileCard({ user } : ProfileCardProps) {
                             alt="Chef Hat"
                             className="opacity-30"
                         />
-                        <h1 className="text-center text-red-700 font-extrabold text-2xl">#245</h1>
+                        <h1 className="text-center text-red-700 font-extrabold text-2xl">#{user.rank}</h1>
                     </div>
 
                 </CardItem>

@@ -25,7 +25,6 @@ const chartData = [
 
 export default async function Profile() {
   const supabase = await createClientForServer();
-
   const { data, error } = await supabase.auth.getUser();
   const {
     data: { session },
@@ -46,8 +45,6 @@ export default async function Profile() {
       'Content-Type': 'application/json',
     },
   });
-
-
 
   const user = {
     username: userData.data[0].username,
