@@ -38,6 +38,13 @@ export default function Landing() {
         </div>
         <hr/>
 
+        <Button onClick={
+                  () => {
+                  redirect("/login");
+                  }
+              } className="flex-right ml-auto mt-1 mr-5 font-bold bg-orange-700">Explore</Button>
+
+
         {/* Title */}
         <div className="flex-col content-center justify-items-center pt-[8em] pb-[9em]">
           <Badge className="scale-[2] bg-orange-700">Want to cook?</Badge>

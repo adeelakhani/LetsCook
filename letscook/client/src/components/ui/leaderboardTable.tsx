@@ -20,7 +20,6 @@ type Row = {
     points: number,
     meals_cooked: number, 
     created_recipes: number
-
 }
 
 type LeaderboardTable = {
