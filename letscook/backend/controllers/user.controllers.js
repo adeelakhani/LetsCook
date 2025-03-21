@@ -24,13 +24,13 @@ export const getClient = async (token) => {
 };
 
 export const userProfile = async (req, res) => {
-  const userId = req.params.id;
+  const username = req.params.username;
   const { data, error } = await supabaseNoAuth
     .from("viewableprofiles")
     .select("*")
-    .eq("id", userId);
+    .eq("username", username);
   if (error) return res.status(400).json({ error: error.message });
-  res.json(data);
+  res.json(data[0]);
 };
 
 export const userPrivate = async (req, res) => {
