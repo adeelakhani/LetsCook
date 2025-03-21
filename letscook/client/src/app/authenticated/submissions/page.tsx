@@ -1,44 +1,44 @@
 "use server"
 
-import DynamicTable from "@/components/ui/dynamicTable"
+import SubmissionsTable from "@/components/ui/submissionsTable"
 
-const recipes = [
-    { author: "Adeel Akhani", recipe: "sandwich", difficulty: "Easy" },
-    { author: "Xerxes Radon", recipe: "spinach", difficulty: "Easy" },
-    { author: "Haris Khawja", recipe: "Hakka Chow Mein", difficulty: "Medium" },
-    { author: "Sir Williams", recipe: "Clam Chowder", difficulty: "Hard" },
-    { author: "ishowspeed", recipe: "Chicken Nuggets", difficulty: "Easy" },
-    { author: "Abdullah Ali Liaqat", recipe: "Butter Chicken", difficulty: "Easy" },
-    { author: "Kanye West", recipe: "Crispy Fried Chicken", difficulty: "Medium" },
-    { author: "Gordon Ramsay", recipe: "Beef Wellington", difficulty: "Hard" },
-    { author: "Jamie Oliver", recipe: "Pasta Carbonara", difficulty: "Medium" },
-    { author: "Bobby Flay", recipe: "Grilled Steak", difficulty: "Easy" },
-    { author: "Nigella Lawson", recipe: "Chocolate Cake", difficulty: "Medium" },
-    { author: "Guy Fieri", recipe: "Mac & Cheese Burger", difficulty: "Hard" },
-    { author: "Anthony Bourdain", recipe: "Pho Bo", difficulty: "Hard" },
-    { author: "David Chang", recipe: "Ramen", difficulty: "Medium" },
-    { author: "Martha Stewart", recipe: "Apple Pie", difficulty: "Medium" },
-    { author: "Snoop Dogg", recipe: "Gin and Juice Chicken", difficulty: "Medium" },
-    { author: "Dwayne 'The Rock' Johnson", recipe: "Cheat Meal Pancakes", difficulty: "Easy" },
-    { author: "Remy the Rat", recipe: "Ratatouille", difficulty: "Hard" },
-    { author: "Tasty Chef", recipe: "Garlic Butter Shrimp", difficulty: "Easy" },
-    { author: "Selena Gomez", recipe: "Taco Night Special", difficulty: "Easy" },
-    { author: "Elon Musk", recipe: "SpaceX Martian Protein Bar", difficulty: "Medium" },
-    { author: "MrBeast", recipe: "Beast Burger", difficulty: "Medium" },
-    { author: "Kevin Hart", recipe: "Spicy Wings", difficulty: "Easy" },
-    { author: "Cristiano Ronaldo", recipe: "Portuguese Bacalhau", difficulty: "Hard" },
-    { author: "Lionel Messi", recipe: "Argentinian Asado", difficulty: "Medium" },
-    { author: "Taylor Swift", recipe: "Pumpkin Spice Latte", difficulty: "Easy" },
-    { author: "Lebron James", recipe: "Superfood Smoothie", difficulty: "Easy" },
-    { author: "Mark Zuckerberg", recipe: "Metaverse BBQ Ribs", difficulty: "Medium" },
-    { author: "Jeff Bezos", recipe: "Amazonian Steak", difficulty: "Hard" }
+const submissions = [
+    { user: "Adeel Akhani", recipe: "sandwich", submission_time: new Date() },
+    { user: "Xerxes Radon", recipe: "spinach", submission_time: new Date() },
+    { user: "Haris Khawja", recipe: "Hakka Chow Mein", submission_time: new Date() },
+    { user: "Sir Williams", recipe: "Clam Chowder", submission_time: new Date() },
+    { user: "ishowspeed", recipe: "Chicken Nuggets", submission_time: new Date() },
+    { user: "Abdullah Ali Liaqat", recipe: "Butter Chicken", submission_time: new Date() },
+    { user: "Kanye West", recipe: "Crispy Fried Chicken", submission_time: new Date() },
+    { user: "Gordon Ramsay", recipe: "Beef Wellington", submission_time: new Date() },
+    { user: "Jamie Oliver", recipe: "Pasta Carbonara", submission_time: new Date() },
+    { user: "Bobby Flay", recipe: "Grilled Steak", submission_time: new Date() },
+    { user: "Nigella Lawson", recipe: "Chocolate Cake", submission_time: new Date() },
+    { user: "Guy Fieri", recipe: "Mac & Cheese Burger", submission_time: new Date() },
+    { user: "Anthony Bourdain", recipe: "Pho Bo", submission_time: new Date() },
+    { user: "David Chang", recipe: "Ramen", submission_time: new Date() },
+    { user: "Martha Stewart", recipe: "Apple Pie", submission_time: new Date() },
+    { user: "Snoop Dogg", recipe: "Gin and Juice Chicken", submission_time: new Date() },
+    { user: "Dwayne 'The Rock' Johnson", recipe: "Cheat Meal Pancakes", submission_time: new Date() },
+    { user: "Remy the Rat", recipe: "Ratatouille", submission_time: new Date() },
+    { user: "Tasty Chef", recipe: "Garlic Butter Shrimp", submission_time: new Date() },
+    { user: "Selena Gomez", recipe: "Taco Night Special", submission_time: new Date() },
+    { user: "Elon Musk", recipe: "SpaceX Martian Protein Bar", submission_time: new Date() },
+    { user: "MrBeast", recipe: "Beast Burger", submission_time: new Date() },
+    { user: "Kevin Hart", recipe: "Spicy Wings", submission_time: new Date() },
+    { user: "Cristiano Ronaldo", recipe: "Portuguese Bacalhau", submission_time: new Date() },
+    { user: "Lionel Messi", recipe: "Argentinian Asado", submission_time: new Date() },
+    { user: "Taylor Swift", recipe: "Pumpkin Spice Latte", submission_time: new Date() },
+    { user: "Lebron James", recipe: "Superfood Smoothie", submission_time: new Date() },
+    { user: "Mark Zuckerberg", recipe: "Metaverse BBQ Ribs", submission_time: new Date() },
+    { user: "Jeff Bezos", recipe: "Amazonian Steak", submission_time: new Date() }
 ]
 
 export default async function Submissions() {
     return (
         <div className="py-5 bg-gray-100 flex-col justify-center content-center items-center mx-auto text-black">
             <h1 className="text-3xl font-bold mb-5 justify-center content-center text-center items-center mx-auto">View Submissions to Your Recipes!</h1>
-            <DynamicTable elements={recipes} description="Click on any submission to view details"/>
+            <SubmissionsTable elements={submissions} description="Click on any submission to view details"/>
         </div>
     )
 }

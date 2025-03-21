@@ -1,6 +1,6 @@
 "use server"
 import React from "react"
-import DynamicTable from "@/components/ui/dynamicTable" 
+import ChallengeTable from "@/components/ui/challengeTable" 
 
 const recipes = [
     { author: "Adeel Akhani", recipe: "sandwitch", difficulty: "Easy" },
@@ -38,7 +38,7 @@ export default async function Challenge() {
     return (
         <div className="py-5 bg-gray-100 flex-col justify-center content-center items-center mx-auto text-black">
             <h1 className="text-3xl font-bold mb-5 justify-center content-center text-center items-center mx-auto">Find a Challenge!</h1>
-            <DynamicTable elements={recipes} description="Click on any challenge to view details"/>
+            <ChallengeTable elements={recipes} description="Click on any challenge to view details"/>
         </div>
     )
 }

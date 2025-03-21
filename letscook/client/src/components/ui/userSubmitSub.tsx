@@ -9,10 +9,10 @@ import { useState, useEffect } from "react";
 import { ExecOptionsWithStringEncoding } from "child_process";
 
 type RecipeData = {
-    author: string,
+    user: string,
     recipe: string,
     difficulty: string,
-    creation_date: Date,
+    submission_date: Date,
     description: string
 }
 
@@ -64,15 +64,14 @@ export default function SubmitSub() {
     const [imagePreviews, setImagePreviews] = useState<{ name: string; url: string }[]>([]);
     const maxImages = 10;
 
-
-    const pathName = usePathname();
-    const recipe = pathName.split('/').slice(-1)[0].replaceAll("-", " ")
+    const recipe = (usePathname().split('/').slice(-1)[0]).split('_')[0]
+    const user = (usePathname().split('/').slice(-1)[0]).split('_')[1]
 
     const submissionData : RecipeData = {
-      author: "Haris-Khawja",
+      user: user,
       recipe: recipe,
       difficulty: "Medium",
-      creation_date: new Date(2025, 2, 18),
+      submission_date: new Date(2025, 2, 18),
       description: str
     }
     
@@ -143,56 +142,14 @@ export default function SubmitSub() {
                     {submissionData.difficulty == "Medium" && <Badge className="font-bold text-sm bg-yellow-700 ml-2 h-7">Medium</Badge>}
                     {submissionData.difficulty == "Hard" && <Badge className="font-bold text-sm bg-red-700 ml-2 h-7">Hard</Badge>}
                 </span>
-                <h1 className="block text-sm mb-2">Made by <Link href={`/users/${submissionData.author}`}><span className="text-blue-700 hover:underline">{submissionData.author}</span></Link>, {submissionData.creation_date.toDateString()}</h1>
+                <h1 className="block text-sm mb-2">Made by <Link href={`/users/${submissionData.user}`}><span className="text-blue-700 hover:underline">{submissionData.user}</span></Link>, {submissionData.submission_date.toDateString()}</h1>
                 <pre style={{whiteSpace: "pre-wrap", wordWrap: "break-word" }} className="w-full px-4 py-3 border border-gray-300 rounded-md h-fit focus:outline-none focus:ring-2 focus:ring-orange-600">
                     {submissionData.description}
                 </pre>
               </div>
     
             <div className="mb-6">
-                <label className="block text-xl font-semibold mb-2">
-                  Upload Images to Submit! (up to 10)
-                </label>
-  
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-orange-600 hover:bg-orange-50 transition-colors cursor-pointer">
-                  <input
-                    type="file"
-                    id="imageUpload"
-                    accept="image/*"
-                    multiple
-                    className="hidden"
-                    onChange={handleImageUpload}
-                  />
-                  <label htmlFor="imageUpload" className="cursor-pointer">
-                    <div className="flex flex-col items-center">
-                      <svg
-                        className="h-12 w-12 text-gray-400"
-                        stroke="currentColor"
-                        fill="none"
-                        viewBox="0 0 48 48"
-                        aria-hidden="true"
-                      >
-                        <path
-                          d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                      <p className="mt-2 text-base text-gray-700">
-                        Drag and drop your images here, or{" "}
-                        <span className="text-orange-600 font-medium">
-                          click to select files
-                        </span>
-                      </p>
-                      <p className="mt-1 text-sm text-gray-500">
-                        PNG, JPG, GIF up to 10MB each (maximum 10 images)
-                      </p>
-                    </div>
-                  </label>
-                </div>
-  
-                <div className="mt-4">
+                  <div className="mt-4">
                   <p className="text-lg font-medium mb-2">
                     {imagePreviews.length > 0
                       ? `Selected Images (${imagePreviews.length}/${maxImages})`

@@ -21,12 +21,12 @@ type Row = {
     difficulty: string
 }
 
-type DynamicTable = {
+type ChallengeTable = {
     elements: Row[],
     description: string
 }
 
-export default function DynamicTable({ elements, description }: DynamicTable) {
+export default function ChallengeTable({ elements, description }: ChallengeTable) {
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
     const router = useRouter();
 
@@ -55,8 +55,7 @@ export default function DynamicTable({ elements, description }: DynamicTable) {
                                     ${hoveredIndex === index ? 'bg-orange-50 shadow-lg scale-[1.01] z-10' : 'hover:bg-gray-100 hover:shadow-md'}
                                 `}
                                 onClick={() => {
-                                    console.log("Clicked");
-                                    router.push(`/authenticated/${element.recipe.replaceAll(" ", "-")}`);
+                                    router.push(`/authenticated/submit/${element.recipe.replaceAll(" ", "-")}`);
                                 }}
                                 onMouseEnter={() => setHoveredIndex(index)}
                                 onMouseLeave={() => setHoveredIndex(null)}

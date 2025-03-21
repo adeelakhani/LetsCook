@@ -1,7 +1,7 @@
 "use client"
 import React from "react"
 import { usePathname, notFound } from "next/navigation";
-import DynamicTable from "@/components/ui/dynamicTable";
+import DynamicTable from "@/components/ui/challengeTable";
 import UserCard from "@/components/ui/userCard";
 import ProfileChart from "@/components/ui/profileChart";
 

@@ -3,7 +3,7 @@ import React from "react";
 import { createClientForServer } from "@/utils/supabase/supabaseClient";
 import { redirect } from "next/navigation";
 import "@/styles/globals.css";
-import DynamicTable from "@/components/ui/dynamicTable";
+import DynamicTable from "@/components/ui/challengeTable";
 import ProfileChart from "@/components/ui/profileChart";
 import ProfileCard from "@/components/ui/profileCard";
 import axios from 'axios';
