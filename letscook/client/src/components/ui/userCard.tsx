@@ -10,7 +10,6 @@ import signOutFromGoogle  from "@/utils/supabase/signOutFromGoogle"
 
 type Person = {
     username: string, 
-    email: string, 
     points: number,
     meals_cooked: number,
     created_recipes: number,
@@ -18,11 +17,11 @@ type Person = {
     profile_pic: string,
 }
 
-type ProfileCardProps = {
+type UserCardProps = {
     user: Person
 }
 
-export default function ProfileCard({ user } : ProfileCardProps) {
+export default function UserCard({ user } : UserCardProps) {
     return (
         <CardContainer className="inter-var">
             <CardBody className="bg-gray-100 relative group/card w-auto sm:w-[30rem] h-auto rounded-xl p-6 border border-orange-700">
@@ -53,15 +52,8 @@ export default function ProfileCard({ user } : ProfileCardProps) {
                         >
                             {user.username}
                         </CardItem>
-
-                        <CardItem
-                        translateZ="50"
-                        className="text-xl text-black dark:text-white"
-                        >
-                            {user.email.length > 30 ? user.email.slice(0, 25) + "..." : user.email}
-                        </CardItem>
                     </div>
-                    {/* mx-auto ml-10 border border-red */}
+
                     <div className="flex-col ml-auto">
                         <Image
                             src="/ChefHat.png"
@@ -72,7 +64,6 @@ export default function ProfileCard({ user } : ProfileCardProps) {
                         />
                         <h1 className="text-center text-red-700 font-extrabold text-2xl">#{user.rank}</h1>
                     </div>
-
                 </CardItem>
                 
                 <CardItem
@@ -84,7 +75,6 @@ export default function ProfileCard({ user } : ProfileCardProps) {
                         Meals Cooked: {user.meals_cooked}<br/>
                         Created Recipes: {user.created_recipes}
                     </p>
-                    <Button onClick={signOutFromGoogle} variant="default" className="ml-auto mt-auto w-[8em] bg-orange-800 font-bold">Sign Out</Button>
 
                 </CardItem>
             </CardBody>

@@ -71,7 +71,7 @@ export default async function Profile() {
         <h1 className="text-3xl font-bold mb-5 justify-center content-center text-center items-center mx-auto">
           Past Submissions
         </h1>
-        <DynamicTable elements={submissions} />
+        <DynamicTable elements={submissions} description="Click on any challenge to view details"/>
       </div>
     </div>
   );

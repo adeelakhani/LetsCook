@@ -15,7 +15,6 @@ import "@/styles/globals.css"
 
 import { useRouter } from "next/navigation";
 
-
 type Row = {
     author: string, 
     recipe: string, 

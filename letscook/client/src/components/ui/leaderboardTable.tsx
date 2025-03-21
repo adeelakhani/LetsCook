@@ -57,7 +57,7 @@ export default function LeaderboardTable({ elements }: LeaderboardTable) {
                                     ${hoveredIndex === index ? 'bg-orange-50 shadow-lg scale-[1.01] z-10' : 'hover:bg-gray-100 hover:shadow-md'}
                                 `}
                                 onClick={() => {
-                                    router.push('/users/' + element.user);
+                                    router.push(`/users/${element.user}`)
                                 }}
                                 onMouseEnter={() => setHoveredIndex(index)}
                                 onMouseLeave={() => setHoveredIndex(null)}

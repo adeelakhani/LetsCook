@@ -44,7 +44,6 @@ Recipe:
    - Give one last toss and remove from heat.  
    - Serve hot with extra chili sauce or vinegar on the side.`;
 
-
 const submissionData = {
     author: "Haris Khawja",
     recipe: "Hakka Chow Mein",
