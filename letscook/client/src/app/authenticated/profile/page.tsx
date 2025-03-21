@@ -39,6 +39,7 @@ export default async function Profile() {
   }
   const token = session.access_token;
   const this_user_id = data.user.id;
+  const userStats = await axios.get(`http://localhost:3001/api/getStats/${this_user_id}`);
   const userData = await axios.get(`http://localhost:3001/api/userPrivate/${this_user_id}`, {
     headers: {
       'Authorization': `Bearer ${token}`, 
@@ -47,13 +48,14 @@ export default async function Profile() {
   });
 
 
+
   const user = {
     username: userData.data[0].username,
     email: userData.data[0].email, 
-    points: 42,
-    meals_cooked: 15,
-    created_recipes: 2,
-    rank: 245,
+    points: userStats.data.points,
+    meals_cooked: userStats.data.meals_cooked,
+    created_recipes: userStats.data.created_recipes,
+    rank: userStats.data.rank,
     profile_pic: userData.data[0].image_url,
   };
 
