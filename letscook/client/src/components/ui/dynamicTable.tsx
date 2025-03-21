@@ -23,17 +23,18 @@ type Row = {
 }
 
 type DynamicTable = {
-    elements: Row[]
+    elements: Row[],
+    description: string
 }
 
-export default function DynamicTable({ elements }: DynamicTable) {
+export default function DynamicTable({ elements, description }: DynamicTable) {
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
     const router = useRouter();
 
     return (
         <div className="w-[75%] mx-auto pb-3">
             <div className="text-center mb-2 text-gray-600 text-sm">
-                Click on any challenge to view details
+                {description}
             </div>
             <Table className="overflow-hidden">
                 <TableHeader className="text-xl bg-orange-800">
