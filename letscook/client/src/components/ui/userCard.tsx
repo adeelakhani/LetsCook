@@ -14,7 +14,7 @@ type Person = {
     meals_cooked: number,
     created_recipes: number,
     rank: number,
-    profile_pic: string,
+    image_url: string,
 }
 
 type UserCardProps = {
@@ -38,7 +38,7 @@ export default function UserCard({ user } : UserCardProps) {
                     className="flex w-auto"
                 >
                     <Image
-                        src={user.profile_pic}
+                        src={user.image_url}
                         width={75}
                         height={75}
                         alt="GoogleIcon"
