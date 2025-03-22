@@ -3,7 +3,7 @@ import React from "react"
 import LeaderboardTable from "@/components/ui/leaderboardTable"
 
 const leaderboard = [
-    { rank: 1, user: "Haris-Khawja", points: 256, meals_cooked: 56, created_recipes: 12 },
+    { rank: 1, user: "harisk", points: 256, meals_cooked: 56, created_recipes: 12 },
     { rank: 2, user: "Aisha-Patel", points: 242, meals_cooked: 52, created_recipes: 10 },
     { rank: 3, user: "Liam-Chen", points: 230, meals_cooked: 49, created_recipes: 9 },
     { rank: 4, user: "Sophia-Martinez", points: 215, meals_cooked: 45, created_recipes: 8 },

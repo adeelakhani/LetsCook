@@ -64,7 +64,7 @@ export default function SubmitSub() {
     const [imagePreviews, setImagePreviews] = useState<{ name: string; url: string }[]>([]);
     const maxImages = 10;
 
-    const recipe = (usePathname().split('/').slice(-1)[0]).split('_')[0]
+    const recipe = (usePathname().split('/').slice(-1)[0]).split('_')[0].replaceAll("-", " ")
     const user = (usePathname().split('/').slice(-1)[0]).split('_')[1]
 
     const submissionData : RecipeData = {
@@ -129,7 +129,7 @@ export default function SubmitSub() {
     return (
       <div className="min-w-screen min-h-screen bg-white">
         <div className="flex-col content-center justify-items-center pt-12 pb-8 text-center">
-          <Badge className="scale-[2.5] bg-orange-700">Submit to Recipe</Badge>
+          <Badge className="scale-[2.5] bg-orange-700">Recipe Submission</Badge>
         </div>
   
         <div className="max-w-6xl mx-auto px-6 pb-16">
@@ -142,7 +142,7 @@ export default function SubmitSub() {
                     {submissionData.difficulty == "Medium" && <Badge className="font-bold text-sm bg-yellow-700 ml-2 h-7">Medium</Badge>}
                     {submissionData.difficulty == "Hard" && <Badge className="font-bold text-sm bg-red-700 ml-2 h-7">Hard</Badge>}
                 </span>
-                <h1 className="block text-sm mb-2">Made by <Link href={`/users/${submissionData.user}`}><span className="text-blue-700 hover:underline">{submissionData.user}</span></Link>, {submissionData.submission_date.toDateString()}</h1>
+                <h1 className="block text-sm mb-2">Submitted by <Link href={`/users/${submissionData.user}`}><span className="text-blue-700 hover:underline">{submissionData.user}</span></Link>, {submissionData.submission_date.toDateString()}</h1>
                 <pre style={{whiteSpace: "pre-wrap", wordWrap: "break-word" }} className="w-full px-4 py-3 border border-gray-300 rounded-md h-fit focus:outline-none focus:ring-2 focus:ring-orange-600">
                     {submissionData.description}
                 </pre>
@@ -195,7 +195,7 @@ export default function SubmitSub() {
   
               <div className="text-center mt-8">
                 <Button className="scale-[1.2] font-bold bg-orange-600 hover:bg-orange-700">
-                  Submit Meal ➝
+                  Approve Submission ✅
                 </Button>
               </div>
             </form>

@@ -78,5 +78,5 @@ export default function LeaderboardTable({ elements }: LeaderboardTable) {
                 </span>
             </div>
         </div>
-    )    
+    )
 }
