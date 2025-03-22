@@ -12,6 +12,8 @@ export default function UserPageRender() {
     const router = useRouter();
     const pathName = usePathname();
     const username = pathName.split('/').slice(-1)[0]
+    
+    const [loading, setLoading] = useState(true)
 
     const [user, setUser] = useState({
       username: username,
@@ -27,10 +29,8 @@ export default function UserPageRender() {
         .then( ({ data } : any) => {
           if(!data){
             router.push("/404");
+            return;
           }
-
-          console.log(data)
-          console.log(data.image_url)
 
           setUser({
             username: data.username, 
@@ -41,13 +41,12 @@ export default function UserPageRender() {
             image_url: data.image_url
           })
 
-          console.log(user)
-          console.log("it updated")
-
+          setLoading(false)
         })
         .catch(error => {
-          console.error(error)
-        });
+          console.error("Error fetching user:", error);
+          router.replace("/404");
+      });
 
       }, [username]);
 
@@ -65,6 +64,8 @@ export default function UserPageRender() {
         { author: "Sir Williams", recipe: "Clam Chowder", difficulty: "Hard" },
         { author: "ishowspeed", recipe: "Chicken Nuggets", difficulty: "Easy" },
     ];
+
+    if (loading || !user) return <p>Loading...</p>
 
     return (
     <div className="min-w-screen min-h-screen">
@@ -84,5 +85,5 @@ export default function UserPageRender() {
         <ChallengeTable elements={submissions} description="Click on any challenge to view details"/>
       </div>
     </div>
-    );
+    )
   }
