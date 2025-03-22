@@ -37,7 +37,7 @@ export default function UserPageRender() {
             points: data.points,
             meals_cooked: data.meals_cooked,
             created_recipes: data.created_recipes,
-            rank: 50,
+            rank: data.rank,
             image_url: data.image_url
           })
 
