@@ -30,7 +30,16 @@ export const userProfile = async (req, res) => {
     .select("*")
     .eq("username", username);
   if (error) return res.status(400).json({ error: error.message });
-  res.json(data[0]);
+  const { data: rank, error: rankError } = await supabaseNoAuth.rpc('get_user_rank', { user_id: data[0].id});
+  const userData = {
+    username: username,
+    points: data[0].points,
+    meals_cooked: data[0].meals_cooked,
+    created_recipes: data[0].created_recipes,
+    rank: rank[0].rank,
+    image_url: data[0].image_url
+  };
+  res.json(userData);
 };
 
 export const userPrivate = async (req, res) => {
