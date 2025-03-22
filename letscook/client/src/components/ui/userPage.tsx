@@ -31,7 +31,8 @@ export default function UserPageRender() {
             router.push("/404");
             return;
           }
-
+          
+          console.log(data)
           setUser({
             username: data.username, 
             points: data.points,
