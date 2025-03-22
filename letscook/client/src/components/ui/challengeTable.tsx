@@ -96,12 +96,6 @@ export default function ChallengeTable({ elements, description }: ChallengeTable
                     })}
                 </TableBody>
             </Table>
-            <div className="text-center mt-3 opacity-75">
-                <span className="inline-flex items-center gap-1 bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm">
-                    <span className="h-2 w-2 bg-orange-500 rounded-full animate-pulse"></span>
-                    Challenges update daily
-                </span>
-            </div>
         </div>
     )    
 }

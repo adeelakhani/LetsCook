@@ -3,7 +3,7 @@ import React from "react";
 import { createClientForServer } from "@/utils/supabase/supabaseClient";
 import { redirect } from "next/navigation";
 import "@/styles/globals.css";
-import DynamicTable from "@/components/ui/challengeTable";
+import ChallengeTable from "@/components/ui/challengeTable";
 import ProfileChart from "@/components/ui/profileChart";
 import ProfileCard from "@/components/ui/profileCard";
 import axios from 'axios';
@@ -12,6 +12,12 @@ const submissions = [
   { author: "Haris Khawja", recipe: "Hakka Chow Mein", difficulty: "Medium" },
   { author: "Sir Williams", recipe: "Clam Chowder", difficulty: "Hard" },
   { author: "ishowspeed", recipe: "Chicken Nuggets", difficulty: "Easy" },
+];
+
+const recipes = [
+  { author: "harisk", recipe: "Chicken Biryani", difficulty: "Hard" },
+  { author: "harisk", recipe: "Mashed Potatoes", difficulty: "Easy" },
+  { author: "harisk", recipe: "Methi Aloo", difficulty: "Medium" },
 ];
 
 const chartData = [
@@ -71,7 +77,15 @@ export default async function Profile() {
         <h1 className="text-3xl font-bold mb-5 justify-center content-center text-center items-center mx-auto">
           Past Submissions
         </h1>
-        <DynamicTable elements={submissions} description="Click on any challenge to view details"/>
+        <ChallengeTable elements={submissions} description="Click on any challenge to view details"/>
+      </div>
+
+      {/* Recipes Created */}
+      <div className="py-5 flex-col justify-center content-center items-center mx-auto text-black">
+        <h1 className="text-3xl font-bold mb-5 justify-center content-center text-center items-center mx-auto">
+          Recipes Created
+        </h1>
+        <ChallengeTable elements={recipes} description="Click on any recipe to view details"/>
       </div>
     </div>
   );
