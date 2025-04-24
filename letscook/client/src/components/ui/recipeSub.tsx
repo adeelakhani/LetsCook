@@ -5,7 +5,12 @@ import { Badge } from "@/components/ui/badge";
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-export default function RecipeSub() {
+interface RecipeSubProps {
+  user_id: string;
+  token: string;
+}
+
+export default function RecipeSub({ user_id, token }: RecipeSubProps) {
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [imagePreviews, setImagePreviews] = useState<
     { name: string; url: string }[]
@@ -13,12 +18,12 @@ export default function RecipeSub() {
   const [dishName, setDishName] = useState("");
   const [difficulty, setDifficulty] = useState("");
   const [description, setDescription] = useState("");
-
   const maxImages = 10;
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const formData = new FormData();
     formData.append("dishName", dishName);
     formData.append("difficulty", difficulty);
@@ -26,13 +31,17 @@ export default function RecipeSub() {
     uploadedFiles.forEach((file) => {
       formData.append("images", file);
     });
-    try{
-      const submission = axios.post("localhost:3001/api/addPost", formData, {
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}: `, value);
+    }
+      try{
+      const submission = await axios.post(`http://localhost:3001/api/createpost/${user_id}`, formData, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          'Authorization': `Bearer ${token}`, 
+          'Content-Type': 'multipart/form-data',
         },
       });
-      console.log(submission);
+      console.log(submission)
       alert("Recipe submitted!");
       setDishName("");
       setDifficulty("");
@@ -43,8 +52,6 @@ export default function RecipeSub() {
       console.error(e);
       alert("Submission failed, please try again")
     }
-    
-
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
