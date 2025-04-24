@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import routes from './routes/user.routes.js';
 import cors from "cors";
+import bodyParser from "body-parser";
 
 dotenv.config();
 
@@ -13,7 +14,8 @@ app.use(cors({
    credentials: true,
  }));
  
-app.use(express.json());
+ app.use(bodyParser.json());
+ app.use(bodyParser.urlencoded({ extended: true })); 
 
 app.use("/api",routes);
 app.listen(PORT, () => {
