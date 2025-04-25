@@ -135,9 +135,8 @@ export const createpost = async (req, res) => {
       console.error("Post creation error:", postError);
       return res.status(500).json({ error: "Post creation failed" });
     }
-    const { data } = supabaseAuth.storage
-      .from("postimages")
-      .getPublicUrl(`posts/${userId}/${postID}`);
+    // NEED TO SEE HOW TO GET IMAGES FROM BUCKETS
+    // REFERENCE TEST ENDPOINT
 
     res.status(201).send("Post created successfully");
   } catch (e) {
