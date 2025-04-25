@@ -98,6 +98,7 @@ export const createpost = async (req, res) => {
   try {
     const token = req.headers["authorization"]?.split(" ")[1];
     const userId = req.params.id;
+    const postID = req.params.postId;
 
     const { data: user, error: authError } = await supabaseNoAuth.auth.getUser(
       token
@@ -110,27 +111,16 @@ export const createpost = async (req, res) => {
         .status(403)
         .json({ error: "Access denied: You can only access your own profile" });
     }
-
     const supabaseAuth = await getClient(token);
-    const { dishName, difficulty, description } = req.body;
-    const images = req.files;
-
-    if (!images || images.length === 0) {
-      return res.status(400).json({ error: "At least one image is required" });
-    }
-    if (images.length > 10) {
-      return res.status(400).json({ error: "Maximum of 10 images allowed" });
-    }
     const { data: userData, error: userDataError } = await supabaseAuth
       .from("profiles")
       .select("*")
       .eq("id", userId);
-    // console.log(userId, dishName, difficulty, description);
-    // console.log(userData[0].username);
-    // Insert post
+    const { dishName, difficulty, description } = req.body;
     const { data: postData, error: postError } = await supabaseAuth
       .from("posts")
       .insert({
+        id: postID,
         user_id: userId,
         dish_name: dishName,
         difficulty: difficulty,
@@ -145,58 +135,35 @@ export const createpost = async (req, res) => {
       console.error("Post creation error:", postError);
       return res.status(500).json({ error: "Post creation failed" });
     }
-    const imageUrls = [];
+    const { data } = supabaseAuth.storage
+      .from("postimages")
+      .getPublicUrl(`posts/${userId}/${postID}`);
 
-    for (const file of images) {
-      const fileExt = file.originalname.split(".").pop();
-      const fileName = `${userId}/recipe_${Date.now()}_${Math.random()
-        .toString(36)
-        .substring(7)}.${fileExt}`;
-
-      // Upload to Supabase storage
-      const { data: uploadData, error: uploadError } =
-        await supabaseAuth.storage
-          .from("postimages")
-          .upload(fileName, file.buffer, {
-            cacheControl: "3600",
-            upsert: false,
-            contentType: file.mimetype,
-          });
-
-      if (uploadError) {
-        console.error("Upload error:", uploadError);
-        return res
-          .status(500)
-          .json({ error: `Image upload failed: ${uploadError.message}` });
-      }
-
-      // Get public URL
-      const urlData = supabaseAuth.storage
-        .from("postimages")
-        .getPublicUrl(fileName);
-      const publicUrl = urlData.publicUrl;
-
-      // Insert into post_images table
-      const { data: imageRecord, error: imageError } = await supabaseAuth
-        .from("post_images")
-        .insert({
-          post_id: postData.id,
-          image_url: publicUrl,
-        })
-        .select()
-        .single();
-
-      if (imageError) {
-        console.error("Image record creation error:", imageError);
-        return res.status(500).json({ error: "Image record creation failed" });
-      }
-
-      imageUrls.push(imageRecord);
-    }
-
-    res.json({ post: postData, images: imageUrls });
+    res.status(201).send("Post created successfully");
   } catch (e) {
     console.error("Unexpected error:", e);
     res.status(500).json({ error: "An unexpected error occurred" });
   }
 };
+export const test = async (req, res) => {
+  const userId = req.params.id;
+  const postId = req.params.postId;
+
+  const { data, error } = await supabaseNoAuth.storage
+    .from("postimages")
+    .list(`posts/${userId}/${postId}/`, { limit: 100 });
+
+  if (error) {
+    console.error("Failed to list images:", error);
+    return res.status(500).json({ error: "Could not list images" });
+  }
+
+  const imageUrls = data.map(file =>
+    supabaseNoAuth.storage
+      .from("postimages")
+      .getPublicUrl(`posts/${userId}/${postId}/${file.name}`).data.publicUrl
+  );
+
+  res.status(200).json({ imageUrls });
+};
+
