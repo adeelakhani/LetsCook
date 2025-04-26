@@ -22,7 +22,7 @@ export default function UserPageRender() {
       created_recipes: 0,
       rank: 0,
       image_url: "/LetsCook.png"
-  });
+    });
 
     useEffect(() => {
         axios.get(`http://localhost:3001/api/userProfile/${username}`)

@@ -8,6 +8,8 @@ import ProfileChart from "@/components/ui/profileChart";
 import ProfileCard from "@/components/ui/profileCard";
 import axios from 'axios';
 
+import AuthNav from "@/components/ui/authNav";
+
 const submissions = [
   { author: "Haris Khawja", recipe: "Hakka Chow Mein", difficulty: "Medium" },
   { author: "Sir Williams", recipe: "Clam Chowder", difficulty: "Hard" },
@@ -63,30 +65,33 @@ export default async function Profile() {
   };
 
   return (
-    <div className="min-w-screen min-h-screen">
-      {/* Profile Card */}
-      <div className="lg:flex lg:gap-10 flex-col-1 justify-center mx-auto content-center items-center bg-white">
-        <ProfileCard user={user} />
+    <div>
+      <AuthNav highlight="Profile" />
+      <div className="min-w-screen min-h-screen">
+        {/* Profile Card */}
+        <div className="lg:flex lg:gap-10 flex-col-1 justify-center mx-auto content-center items-center bg-white">
+          <ProfileCard user={user} />
 
-        {/* Submissions Chart */}
-        <ProfileChart elements={chartData} />
-      </div>
+          {/* Submissions Chart */}
+          <ProfileChart elements={chartData} />
+        </div>
 
-      {/* Past Submissions */}
-      <div className="py-5 bg-gray-100 flex-col justify-center content-center items-center mx-auto text-black">
-        <h1 className="text-3xl font-bold mb-5 justify-center content-center text-center items-center mx-auto">
-          Past Submissions
-        </h1>
-        <ChallengeTable elements={submissions} description="Click on any challenge to view details"/>
-      </div>
+        {/* Past Submissions */}
+        <div className="py-5 bg-gray-100 flex-col justify-center content-center items-center mx-auto text-black">
+          <h1 className="text-3xl font-bold mb-5 justify-center content-center text-center items-center mx-auto">
+            Past Submissions
+          </h1>
+          <ChallengeTable elements={submissions} description="Click on any challenge to view details"/>
+        </div>
 
-      {/* Recipes Created */}
-      <div className="py-5 flex-col justify-center content-center items-center mx-auto text-black">
-        <h1 className="text-3xl font-bold mb-5 justify-center content-center text-center items-center mx-auto">
-          Recipes Created
-        </h1>
-        <ChallengeTable elements={recipes} description="Click on any recipe to view details"/>
+        {/* Recipes Created */}
+        <div className="py-5 flex-col justify-center content-center items-center mx-auto text-black">
+          <h1 className="text-3xl font-bold mb-5 justify-center content-center text-center items-center mx-auto">
+            Recipes Created
+          </h1>
+          <ChallengeTable elements={recipes} description="Click on any recipe to view details"/>
+        </div>
       </div>
     </div>
-  );
+  )
 }

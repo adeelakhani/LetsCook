@@ -9,7 +9,7 @@ import {redirect} from "next/navigation"
 const links = [
   { name: "Explore", href: "/authenticated/explore" },
   { name: "Create", href: "/authenticated/createpost" },
-  { name: "Challenge", href: "/authenticated/challenge" },
+  { name: "Challenges", href: "/authenticated/challenges" },
   { name: "Submissions", href: "/authenticated/submissions" },
   { name: "Leaderboard", href: "/authenticated/leaderboard" },
   { name: "Profile", href: "/authenticated/profile" },

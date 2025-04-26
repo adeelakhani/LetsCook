@@ -20,7 +20,7 @@ export default async function Login() {
         </div>
         
         <div className="text-center mb-8">
-          <Badge className="bg-orange-700 mb-4">Welcome Chef!</Badge>
+          <Badge className="bg-orange-700 mb-4 text-md">Welcome Chef!</Badge>
           <h2 className="text-2xl font-bold mb-2">Sign in to start cooking</h2>
           <p className="text-gray-600">Join our community of cooking enthusiasts</p>
         </div>

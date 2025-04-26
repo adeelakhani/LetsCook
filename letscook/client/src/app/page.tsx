@@ -3,163 +3,148 @@ import React from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { WobbleCard } from "../components/ui/wobble-card";
+import { motion } from "framer-motion"
 import Image from "next/image"
+import Link from "next/link"
 import "../styles/globals.css"
 
 import {redirect} from "next/navigation"
+import UnauthNav from "@/components/ui/unauthNav";
 
 // Acertinity UI
 // ShadCN UI
 
-export default function Landing() {      
+export default function Landing() {
     return (
-      <div className="min-w-screen min-h-screen bg">   
-        {/* Top Horizontal Row */}
-        <div className="flex pl-3 pt-2 pb-2">
-          <Image
-            src="/LetsCook.png"
-            width={50}
-            height={50}
-            alt="LetsCook"
-          />
-          <h1 className="text-[2em] ml-3 font-bold">LetsCook</h1>
-          <Button onClick={
-            () => {
-              redirect("/login");
-            }
-          } className="flex-right ml-auto mt-1 mr-5 font-bold bg-orange-700">Sign in</Button>
-        </div>
-        <hr/>
-
+      <div className="min-w-screen min-h-screen animate-fadeIn">  
+        {/* Top Horizontal Navbar */}
+        <UnauthNav highlight="Home"/>
+  
         {/* Title */}
         <div className="flex-col content-center justify-items-center pt-[8em] pb-[9em]">
-          <Badge className="scale-[2] bg-orange-700">Want to cook?</Badge>
-          <h1 className="text-[8em]">LetsCook</h1>
+          <Badge className="scale-[2] bg-orange-600 shadow-md transition-all duration-300 hover:-translate-y-2">Want to cook?</Badge>
+          <h1 className="text-[8em] font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 animate-pulse-slow">LetsCook</h1>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto text-center">
+          Join the community, join the vision; Learn to cook, learn with precision; Become a chef, become a magician ✨ 
+          </p>
 
           <Button onClick={
             () => {
               redirect("/login");
             }
-          } className="scale-[1.5] mt-[3em] font-bold bg-orange-600">Start Cooking ➝</Button>
+          } className="scale-[1.5] mt-[3em] font-bold bg-orange-600 shadow-md transition-all duration-300 hover:-translate-y-2">Start Cooking ➝</Button>
         </div>
 
         {/* Benefits */}
         <div className="bg-gray-100">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 max-w-6xl mx-auto w-full pt-20 pb-20 pl-10 pr-10">
-            <WobbleCard containerClassName="col-span-1 max-h-[22em] bg-gray-50 text-black border border-orange-800">
-              <h2 className="max-w-80 text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em]">
-                Cook 🍳
-              </h2>
-              <p className="mt-4 max-w-[26rem] text-left text-base lg:text-xl text-black">
-                Find a posted recipe on the taskboard and cook it up! Submit pictures of your masterpiece to earn
-                points.
-              </p>
-            </WobbleCard>
+          <div className="pt-20 text-center">
+            <h2 className="text-5xl font-bold text-orange-800">How It Works</h2>
+            <p className="text-lg mt-4 text-gray-600">Three simple ways to engage with our cooking community...</p>
+          </div>
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10 w-[75%] mx-auto pt-10 pb-20">
 
-            <WobbleCard containerClassName="col-span-1 max-h-[22em] bg-gray-50 text-black border border-orange-800">
-              <h2 className="max-w-80 text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em]">
-                Challenge ⚔️
-              </h2>
-              <p className="mt-4 max-w-[26rem] text-left text-base lg:text-xl text-black">
-                Challenge the community with your own recipe! Post the steps on the taskboard and earn points for 
-                completed submissions.
-              </p>
-            </WobbleCard>
+            <div className="col-span-1 bg-white text-black rounded-xl shadow-md p-6 border border-orange-200 transition-transform duration-200 hover:scale-105 hover:shadow-lg">
+              <Link href="/authenticated/challenges" className="flex flex-col items-center">
+                <div className="flex justify-center mb-4 text-orange-500 text-5xl animate-bounce-slow animation-delay-250">
+                🍳
+                </div>
+                <h3 className="text-orange-800 text-2xl font-semibold mb-2 text-center">Cook</h3>
+                <p className="text-gray-700 text-center">Find a posted recipe on the taskboard and cook it up! Submit pictures of your masterpiece to earn
+                points.</p>
+              </Link>
+            </div>
 
-            <WobbleCard containerClassName="col-span-1 max-h-[22em] bg-gray-50 text-black border border-orange-800">
-              <h2 className="max-w-80 text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em]">
-                Compete 👑
-              </h2>
-              <p className="mt-4 max-w-[26rem] text-left text-base lg:text-xl text-black">
-                Compete against the world to gather the most amount of points, and become a <br/><span className="font-bold underline text-orange-800">Master Chef!</span>
-              </p>
-            </WobbleCard>
+            <div className="col-span-1 bg-white text-black rounded-xl shadow-md p-6 border border-orange-200 transition-transform duration-200 hover:scale-105 hover:shadow-lg">
+              <Link href="/authenticated/createpost" className="flex flex-col items-center">
+                <div className="flex justify-center mb-4 text-orange-500 text-5xl animate-bounce-slow animation-delay-500">
+                ⚔️
+                </div>
+                <h3 className="text-orange-800 text-2xl font-semibold mb-2 text-center">Challenge</h3>
+                <p className="text-gray-700 text-center">Challenge the community with your own recipe! Post the steps on the taskboard and earn points for 
+                completed submissions.</p>
+              </Link>
+            </div>
+
+            <div className="justify-self-center col-span-2 lg:col-span-1 bg-white text-black rounded-xl shadow-md p-6 border border-orange-200 transition-transform duration-200 hover:scale-105 hover:shadow-lg">
+              <Link href="/authenticated/leaderboard" className="flex flex-col items-center">
+                <div className="flex justify-center mb-4 text-orange-500 text-5xl animate-bounce-slow animation-delay-750">
+                👑
+                </div>
+                <h3 className="text-orange-800 text-2xl font-semibold mb-2 text-center">Compete</h3>
+                <p className="text-gray-700 text-center">Compete against the world to gather the most amount of points, and become a <br/><span className="font-bold underline text-orange-600">Master Chef!</span></p>
+              </Link>
+            </div>
           </div>
         </div>
 
-        {/* Brief Statistics */}
-        <div>
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-1 lg:gap-10 max-w-xl lg:max-w-6xl mx-auto w-full pt-5 pb-5 pl-10 pr-10">
-            <WobbleCard containerClassName="col-span-1 max-h-[22em] text-black bg-white content-center">
-                <div className="flex justify-center">
-                  <Image
-                    src="/ChefHat.png"
-                    width={75}
-                    height={75}
-                    alt="Chef Hat"
-                  />
-                </div>
-                <h2 className="mx-auto mt-7 mb-1 max-w-80 text-orange-600 text-balance text-base md:text-xl lg:text-3xl font-extrabold tracking-[-0.015em] text-center">
-                  96,000
-                </h2>
-                <h2 className="mx-auto max-w-80 text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-center">
-                  Chefs
-                </h2>
-              </WobbleCard>
+      {/* Why LetsCook Section */}
+      <div id="stats" className="pt-20 bg-gradient-to-b from-white to-orange-50">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center">
+            <h2 className="text-5xl font-bold text-orange-800">Why LetsCook?</h2>
+            <p className="mt-4 text-lg text-gray-700">The perfect platform for cooking enthusiasts</p>
+          </div>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-10 w-full pt-10 pb-20">
+            <div className="col-span-1 bg-white text-black rounded-xl shadow-md p-6 border border-orange-200 transition-transform duration-200 hover:scale-105 hover:shadow-lg">
+              <div className="flex flex-col items-center">
+                <div className="flex justify-center mb-4 text-orange-500 text-5xl animate-bounce-slow">🏆</div>
+                <h3 className="text-orange-800 text-2xl font-semibold mb-2 text-center">Compete</h3>
+                <p className="text-gray-700 text-center">Challenge others and earn recognition</p>
+              </div>
+            </div>
 
-              <WobbleCard containerClassName="col-span-1 max-h-[22em] text-black bg-white content-center">
-                <div className="flex justify-center">
-                  <Image
-                    src="/CookBook.png"
-                    width={75}
-                    height={75}
-                    alt="Cook Book"
-                  />
+            <div className="col-span-1 bg-white text-black rounded-xl shadow-md p-6 border border-orange-200 transition-transform duration-200 hover:scale-105 hover:shadow-lg">
+              <div className="flex flex-col items-center">
+                <div className="flex justify-center mb-4 text-orange-500 text-5xl animate-bounce-slow animation-delay-250">
+                  🧑‍🍳
                 </div>
-                <h2 className="mx-auto mt-7 mb-1 max-w-80 text-orange-600 text-balance text-base md:text-xl lg:text-3xl font-extrabold tracking-[-0.015em] text-center">
-                  145,000
-                </h2>
-                <h2 className="mx-auto max-w-80 text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-center">
-                  Recipes
-                </h2>
-              </WobbleCard>
+                <h3 className="text-orange-800 text-2xl font-semibold mb-2 text-center">Learn</h3>
+                <p className="text-gray-700 text-center">Improve your cooking skills with each recipe</p>
+              </div>
+            </div>
 
-              <WobbleCard containerClassName="col-span-1 max-h-[22em] text-black bg-white content-center">
-                <div className="flex justify-center">
-                  <Image
-                    src="/Chart.png"
-                    width={75}
-                    height={75}
-                    alt="Chart"
-                  />
+            <div className="col-span-1 bg-white text-black rounded-xl shadow-md p-6 border border-orange-200 transition-transform duration-200 hover:scale-105 hover:shadow-lg">
+              <div className="flex flex-col items-center">
+                <div className="flex justify-center mb-4 text-orange-500 text-5xl animate-bounce-slow animation-delay-500">
+                  🔎
                 </div>
-                <h2 className="mx-auto mt-7 pl-0 mb-1 max-w-80 text-orange-600 text-balance text-base md:text-xl lg:text-3xl font-extrabold tracking-[-0.015em] text-center">
-                  345,001
-                </h2>
-                <h2 className="mx-auto text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-center">
-                  Meals
-                </h2>
-              </WobbleCard>
-              
-              <WobbleCard containerClassName="col-span-1 max-h-[22em] text-black bg-white content-center">
-                <div className="flex justify-center">
-                  <Image
-                    src="/Trophy.png"
-                    width={75}
-                    height={75}
-                    alt="Trophy"
-                  />
+                <h3 className="text-orange-800 text-2xl font-semibold mb-2 text-center">Discover</h3>
+                <p className="text-gray-700 text-center">Discover new cultures and delicate dishes</p>
+              </div>
+            </div>
+
+            <div className="col-span-1 bg-white text-black rounded-xl shadow-md p-6 border border-orange-200 transition-transform duration-200 hover:scale-105 hover:shadow-lg">
+              <div className="flex flex-col items-center">
+                <div className="flex justify-center mb-4 text-orange-500 text-5xl animate-bounce-slow animation-delay-750">
+                  👥
                 </div>
-                <h2 className="mx-auto mt-7 mb-1 max-w-80 text-orange-600 text-balance text-base md:text-xl lg:text-3xl font-extrabold tracking-[-0.015em] text-center">
-                  100%
-                </h2>
-                <h2 className="mx-auto max-w-80 text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-center">
-                  Success
-                </h2>
-              </WobbleCard>
+                <h3 className="text-orange-800 text-2xl font-semibold mb-2 text-center">Connect</h3>
+                <p className="text-gray-700 text-center">Join a community of passionate food lovers</p>
+              </div>
+            </div>
           </div>
         </div>
+      </div>
 
         {/* Quote */}
-        <div className="flex-col content-center justify-items-center pt-[6em] pb-[6em] px-10 bg-gray-100">
-          <h1 className="text-[2em]">"The difference between humans and animals? We can cook. Tell a dog to make dinner—he’ll  look at you thinking you’re the one who needs a lesson.
+        <div className="flex-col content-center justify-items-center pt-[4em] pb-[4em] px-10 bg-gray-100">
+          <svg
+            className="w-12 h-12 text-orange-300 mx-auto mb-6 animate-pulse-slow"
+            fill="currentColor"
+            viewBox="0 0 32 32"
+            aria-hidden="true"
+          >
+            <path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z" />
+          </svg>
+
+          <h1 className="text-[1.5em] max-w-[30em]">"The difference between humans and animals? We can cook. Tell a dog to make dinner—he’ll  look at you thinking you’re the one who needs a lesson.
             So get to the kitchen and start cooking, why don't you?" <br/><span className="text-[0.75em] text-gray-700">— Haris Khawja, Co-Founder</span>
           </h1>
           <Button onClick={
             () => {
               redirect("/login");
             }
-          }className="scale-[1.5] mt-[3em] font-bold bg-orange-600">Count me in! 🤝</Button>
+          } className="scale-[1.5] mt-[3em] font-bold bg-orange-600 shadow-md transition-all duration-300 hover:-translate-y-2">Count me in! 🤝</Button>
         </div>
       </div>
     )

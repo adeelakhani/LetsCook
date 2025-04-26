@@ -1,6 +1,7 @@
 "use server"
 import React from "react"
 import ChallengeTable from "@/components/ui/challengeTable" 
+import AuthNav from "@/components/ui/authNav";
 
 const recipes = [
     { author: "Adeel Akhani", recipe: "sandwitch", difficulty: "Easy" },
@@ -34,16 +35,19 @@ const recipes = [
     { author: "Jeff Bezos", recipe: "Amazonian Steak", difficulty: "Hard" }
 ]
 
-export default async function Challenge() {
+export default async function Challenges() {
     return (
-        <div className="py-5 bg-gray-100 flex-col justify-center content-center items-center mx-auto text-black">
-            <h1 className="text-3xl font-bold mb-5 justify-center content-center text-center items-center mx-auto">Find a Challenge!</h1>
-            <ChallengeTable elements={recipes} description="Click on any challenge to view details"/>
-            <div className="text-center mt-3 opacity-75">
-                <span className="inline-flex items-center gap-1 bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm">
-                    <span className="h-2 w-2 bg-orange-500 rounded-full animate-pulse"></span>
-                    Challenges update daily
-                </span>
+        <div>
+            <AuthNav highlight="Challenges" />
+            <div className="py-5 bg-gray-100 flex-col justify-center content-center items-center mx-auto text-black">            
+                <h1 className="text-3xl font-bold mb-5 justify-center content-center text-center items-center mx-auto">Find a Challenge!</h1>
+                <ChallengeTable elements={recipes} description="Click on any challenge to view details"/>
+                <div className="text-center mt-3 opacity-75">
+                    <span className="inline-flex items-center gap-1 bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm">
+                        <span className="h-2 w-2 bg-orange-500 rounded-full animate-pulse"></span>
+                        Challenges update daily
+                    </span>
+                </div>
             </div>
         </div>
     )

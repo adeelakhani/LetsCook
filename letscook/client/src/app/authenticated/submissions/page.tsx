@@ -1,6 +1,7 @@
 "use server"
 
 import SubmissionsTable from "@/components/ui/submissionsTable"
+import AuthNav from "@/components/ui/authNav"
 
 const submissions = [
     { user: "Adeel Akhani", recipe: "sandwich", submission_time: new Date() },
@@ -36,9 +37,12 @@ const submissions = [
 
 export default async function Submissions() {
     return (
-        <div className="py-5 bg-gray-100 flex-col justify-center content-center items-center mx-auto text-black">
-            <h1 className="text-3xl font-bold mb-5 justify-center content-center text-center items-center mx-auto">View Submissions to Your Recipes!</h1>
-            <SubmissionsTable elements={submissions} description="Click on any submission to view details"/>
+        <div>
+            <AuthNav highlight="Submissions" />
+            <div className="py-5 bg-gray-100 flex-col justify-center content-center items-center mx-auto text-black">
+                <h1 className="text-3xl font-bold mb-5 justify-center content-center text-center items-center mx-auto">View Submissions to Your Recipes!</h1>
+                <SubmissionsTable elements={submissions} description="Click on any submission to view details"/>
+            </div>
         </div>
     )
 }
