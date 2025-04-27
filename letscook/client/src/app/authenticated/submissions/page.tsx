@@ -39,10 +39,7 @@ export default async function Submissions() {
     return (
         <div>
             <AuthNav highlight="Submissions" />
-            <div className="py-5 bg-gray-100 flex-col justify-center content-center items-center mx-auto text-black">
-                <h1 className="text-3xl font-bold mb-5 justify-center content-center text-center items-center mx-auto">View Submissions to Your Recipes!</h1>
-                <SubmissionsTable elements={submissions} description="Click on any submission to view details"/>
-            </div>
+            <SubmissionsTable elements={submissions} description="Click on any submission to view details"/>
         </div>
     )
 }
