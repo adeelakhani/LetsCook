@@ -40,7 +40,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div>
               <p className="text-gray-700 mb-4">
-                LetsCook was born from a simple idea: cooking should be fun, social, and rewarding. Founded in 2023 by Adeel Akhani and Haris Khawja, our platform began as a small community of food enthusiasts sharing recipes and cooking tips.
+                LetsCook was born from a simple idea: cooking should be fun, social, and rewarding. Founded in 2025 by Adeel Akhani and Haris Khawja, our platform began as a small community of food enthusiasts sharing recipes and cooking tips.
               </p>
               <p className="text-gray-700 mb-4">
                 What started as a passion project quickly grew into something bigger. We noticed that people weren't just sharing recipes—they were forming connections, learning new skills, and challenging themselves to become better cooks.
@@ -52,7 +52,7 @@ export default function AboutPage() {
             <div className="flex justify-center">
               <div className="relative w-full max-w-md h-64 rounded-lg overflow-hidden shadow-lg animate-shimmer-border">
                 <Image 
-                  src="/placeholder.svg?height=400&width=600" 
+                  src="/tempGroup.png" 
                   alt="LetsCook Team" 
                   fill 
                   className="object-cover"
@@ -105,7 +105,7 @@ export default function AboutPage() {
                 />
               </div>
               <h3 className="text-xl font-semibold text-orange-800">Adeel Akhani</h3>
-              <p className="text-orange-600 mb-2">Co-Founder & CEO</p>
+              <p className="text-orange-600 mb-2">Co-Founder</p>
               <p className="text-gray-700 text-center max-w-md">
                 With a background in technology and a passion for food, Adeel brings the technical expertise needed to build our platform.
               </p>
@@ -113,17 +113,17 @@ export default function AboutPage() {
             <div className="flex flex-col items-center">
               <div className="w-40 h-40 rounded-full overflow-hidden mb-4 border-4 border-orange-300">
                 <Image 
-                  src="/Xerxes.jpg" 
+                  src="/Haris.png" 
                   alt="Haris Khawja"
-                  width={160} 
+                  width={160}
                   height={160}
-                  className="object-cover"
+                  className="object-cover relative -top-1 scale-105 left-1"
                 />
               </div>
-              <h3 className="text-xl font-semibold text-orange-800">Xerxes Radon</h3>
-              <p className="text-orange-600 mb-2">Co-Founder & COO</p>
+              <h3 className="text-xl font-semibold text-orange-800">Haris Khawja</h3>
+              <p className="text-orange-600 mb-2">Co-Founder</p>
               <p className="text-gray-700 text-center max-w-md">
-                A culinary enthusiast with a knack for business development, Xerxes oversees operations and community growth.
+                Connecting culture with technology, Haris brings the heat with his fullstack expertise and his 5-star recipes.
               </p>
             </div>
           </div>

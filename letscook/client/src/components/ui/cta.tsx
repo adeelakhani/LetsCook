@@ -9,7 +9,7 @@ export default function CTA() {
             <p className="text-lg mb-6 max-w-2xl mx-auto">
             Whether you're a beginner or a seasoned chef, there's a place for you in our community. Start your culinary journey today!
             </p>
-            <Link href="/">
+            <Link href="/login">
             <Button className="bg-white text-orange-600 hover:bg-orange-100 font-bold px-8 py-6 text-lg transition-all duration-300 hover:-translate-y-1">
                 Get Started
             </Button>
