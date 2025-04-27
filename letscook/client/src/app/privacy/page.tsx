@@ -29,7 +29,7 @@ export default function PrivacyPage() {
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-orange-600 mb-4">Privacy Policy</h1>
           <p className="text-lg text-gray-700">
-            Last Updated: March 25, 2024
+            Last Updated: April 26, 2024
           </p>
         </div>
 
@@ -93,13 +93,13 @@ export default function PrivacyPage() {
             We may change this privacy policy from time to time. If we make changes, we will notify you by revising the date at the top of the policy and, in some cases, we may provide you with additional notice.
           </p>
 
-          <h2 className="text-2xl font-bold text-orange-800 mb-4">Contact Us</h2>
+          {/* <h2 className="text-2xl font-bold text-orange-800 mb-4">Contact Us</h2>
           <p className="text-gray-700">
             If you have any questions about this privacy policy, please contact us at:
           </p>
           <p className="text-orange-600 font-semibold mt-2">
             privacy@letscook.example.com
-          </p>
+          </p> */}
         </div>
       </div>
     </div>
