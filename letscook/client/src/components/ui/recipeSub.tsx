@@ -22,7 +22,7 @@ export default function RecipeSub({ user_id, token }: RecipeSubProps) {
     path: `posts/${user_id}/${postId}`,
     allowedMimeTypes: ["image/*"],
     maxFiles: 10,
-    maxFileSize: 1000 * 1000 * 10, // 10MB,
+    maxFileSize: 1000 * 1000 * 10,
   })
 
   const [dishName, setDishName] = useState("")
