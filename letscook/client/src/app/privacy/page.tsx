@@ -3,25 +3,29 @@ import React from "react"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, ChevronLeft } from 'lucide-react'
+import { useRouter } from "next/navigation"
 
 import UnauthNav from "@/components/ui/unauthNav"
 
 export default function PrivacyPage() {
+  const router = useRouter()
   return (
     <div className="min-w-screen min-h-screen bg-gradient-to-b from-orange-50 via-white to-orange-50 animate-fadeIn">
       {/* Top Horizontal Navbar */}
       <UnauthNav highlight="None" />
 
 
-      {/* Back to Home Button */}
+      {/* Back Button */}
       <div className="max-w-6xl mx-auto px-6 pt-8">
-        <Link href="/">
-          <Button variant="ghost" className="flex items-center text-orange-600 hover:text-orange-700 hover:bg-orange-50">
-            <ArrowLeft className="mr-2 h-4 w-4" />
+          <Button
+            variant="ghost"
+            className="text-orange-600 hover:text-orange-800 hover:bg-orange-100 -ml-2"
+            onClick={() => router.push("/")}
+          >
+            <ChevronLeft className="mr-1 h-4 w-4" />
             Back to Home
           </Button>
-        </Link>
       </div>
 
       {/* Privacy Policy Content */}
@@ -29,7 +33,7 @@ export default function PrivacyPage() {
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-orange-600 mb-4">Privacy Policy</h1>
           <p className="text-lg text-gray-700">
-            Last Updated: April 26, 2024
+            Last Updated: April 27, 2024
           </p>
         </div>
 
