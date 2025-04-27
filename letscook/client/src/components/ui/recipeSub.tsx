@@ -192,7 +192,7 @@ export default function RecipeSub({ user_id, token }: RecipeSubProps) {
               {props.files.length > 0 && (
                 <p className="text-sm text-gray-600 mt-2">
                   {props.files.length} file{props.files.length !== 1 ? "s" : ""} selected. They will be uploaded when
-                  you click &quote;Create Post&quote;.
+                  you click Create Post.
                 </p>
               )}
             </div>
