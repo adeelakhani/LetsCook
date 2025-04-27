@@ -38,10 +38,10 @@ export default function RootLayout({ children }: { children: React.ReactNode}) {
                 <Link href="/about" className="text-gray-400 hover:text-white transition-colors w-fit">
                   About
                 </Link>
-                <Link href="/authenticated/challenges" className="text-gray-400 hover:text-white transition-colors w-fit">Recipes</Link>
-                <Link href="/contact" className="text-gray-400 hover:text-white transition-colors w-fit">
+                {/* <Link href="/authenticated/challenges" className="text-gray-400 hover:text-white transition-colors w-fit">Recipes</Link> */}
+                {/* <Link href="/contact" className="text-gray-400 hover:text-white transition-colors w-fit">
                   Contact
-                </Link>
+                </Link> */}
                 <Link href="/privacy" className="text-gray-400 hover:text-white transition-colors w-fit">
                   Privacy
                 </Link>
@@ -53,8 +53,9 @@ export default function RootLayout({ children }: { children: React.ReactNode}) {
             <div>
               <h3 className="font-semibold mb-4">Our Team</h3>
               <p className="text-gray-400">Founded by Adeel Akhani & Haris Khawja.</p>
-
-              <div className="mt-4 flex space-x-4">
+              
+              {/* Email + Social Media */}
+              {/* <div className="mt-4 flex space-x-4">
                 <a href="#" className="text-gray-400 hover:text-white transition-colors">
                   <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path
@@ -81,7 +82,7 @@ export default function RootLayout({ children }: { children: React.ReactNode}) {
                     />
                   </svg>
                 </a>
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="mt-8 pt-6 border-t border-gray-700 text-center text-gray-400 text-sm">
