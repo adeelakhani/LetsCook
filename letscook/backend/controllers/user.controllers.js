@@ -137,6 +137,30 @@ export const createpost = async (req, res) => {
     }
     // NEED TO SEE HOW TO GET IMAGES FROM BUCKETS
     // REFERENCE TEST ENDPOINT
+    const { data, error } = await supabaseNoAuth.storage
+      .from("postimages")
+      .list(`posts/${userId}/${postID}`);
+
+    if (error) {
+      console.error("Failed to list images:", error);
+      return res.status(500).json({ error: "Could not list images" });
+    }
+
+    const imageUrls = data.map((file) => {
+      const { data: urlData } = supabaseNoAuth.storage
+        .from("postimages")
+        .getPublicUrl(`posts/${userId}/${postID}/${file.name}`);
+      return urlData.publicUrl;
+    });
+
+    const {data: imageData, error: imageError} = await supabaseAuth
+      .from("post_images")
+      .insert(
+        imageUrls.map((url) => ({
+            post_id: postID,
+            image_url: url,
+          }))
+      );
 
     res.status(201).send("Post created successfully");
   } catch (e) {
@@ -150,19 +174,19 @@ export const test = async (req, res) => {
 
   const { data, error } = await supabaseNoAuth.storage
     .from("postimages")
-    .list(`posts/${userId}/${postId}/`, { limit: 100 });
-
+    .list(`posts/${userId}/${postId}`);
+    
+  console.log(data);
   if (error) {
     console.error("Failed to list images:", error);
     return res.status(500).json({ error: "Could not list images" });
   }
-
-  const imageUrls = data.map(file =>
-    supabaseNoAuth.storage
+  const imageUrls = data.map(file => {
+    const { data: urlData } = supabaseNoAuth.storage
       .from("postimages")
-      .getPublicUrl(`posts/${userId}/${postId}/${file.name}`).data.publicUrl
-  );
+      .getPublicUrl(`posts/${userId}/${postId}/${file.name}`);
+    return urlData.publicUrl;
+  });
 
   res.status(200).json({ imageUrls });
 };
-
