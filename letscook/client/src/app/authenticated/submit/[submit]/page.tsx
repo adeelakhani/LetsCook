@@ -6,7 +6,7 @@ import AuthNav from "@/components/ui/authNav"
 export default async function Submit() {
     return (
         <div>
-            <AuthNav highlight="" />
+            <AuthNav highlight="Challenges" />
             <SubmitSub/>
         </div>
     )
