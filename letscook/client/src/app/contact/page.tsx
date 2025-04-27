@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card } from "@/components/ui/card"
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowLeft, Mail, Phone, MapPin, Send, CheckCircle } from "lucide-react"
+import { ArrowLeft, Mail, Phone, MapPin, Send, CheckCircle, ChevronLeft } from "lucide-react"
 import { useRouter } from "next/navigation"
 
 import UnauthNav from "@/components/ui/unauthNav"
@@ -60,17 +60,16 @@ export default function ContactPage() {
       {/* Top Horizontal Navbar */}
       <UnauthNav highlight="Contact"/>
 
-      {/* Back to Home Button */}
+      {/* Back Button */}
       <div className="max-w-6xl mx-auto px-6 pt-8">
-        <Link href="/">
           <Button
             variant="ghost"
-            className="flex items-center text-orange-600 hover:text-orange-700 hover:bg-orange-50"
+            className="text-orange-600 hover:text-orange-800 hover:bg-orange-100 -ml-2"
+            onClick={() => router.push("/")}
           >
-            <ArrowLeft className="mr-2 h-4 w-4" />
+            <ChevronLeft className="mr-1 h-4 w-4" />
             Back to Home
           </Button>
-        </Link>
       </div>
 
       {/* Contact Us Content */}

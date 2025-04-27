@@ -15,7 +15,6 @@ export default function PrivacyPage() {
       {/* Top Horizontal Navbar */}
       <UnauthNav highlight="None" />
 
-
       {/* Back Button */}
       <div className="max-w-6xl mx-auto px-6 pt-8">
           <Button
