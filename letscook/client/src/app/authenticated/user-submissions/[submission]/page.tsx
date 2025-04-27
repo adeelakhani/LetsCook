@@ -1,9 +1,13 @@
 "use server"
 
+import AuthNav from "@/components/ui/authNav"
 import UserSubmitSub from "@/components/ui/userSubmitSub"
 
 export default async function Submit() {
     return (
-        <UserSubmitSub />
+        <div>
+            <AuthNav highlight="Submissions" />
+            <UserSubmitSub />
+        </div>
     )
 }
