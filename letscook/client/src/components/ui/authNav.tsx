@@ -7,7 +7,7 @@ export default function AuthNav({ highlight }: { highlight: string }) {
 
     return (
         <div className="flex pl-3 pt-2 pb-2 bg-white shadow-sm !important">
-        <Link href="/">
+        <Link href="/authenticated/explore">
           <div className="flex items-center">
             <Image src="/LetsCook.png" width={50} height={50} alt="LetsCook" />
             <h1 className="text-[2em] ml-3 font-bold">LetsCook</h1>
