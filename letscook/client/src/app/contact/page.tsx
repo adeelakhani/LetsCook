@@ -8,11 +8,18 @@ import { Card } from "@/components/ui/card"
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowLeft, Mail, Phone, MapPin, Send, CheckCircle } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 import UnauthNav from "@/components/ui/unauthNav"
 import CTA from "@/components/ui/cta"
 
 export default function ContactPage() {
+
+  const router = useRouter()
+
+  // Delete this when contact page comes back
+  router.push('404')
+
   const [formState, setFormState] = useState({
     name: "",
     email: "",

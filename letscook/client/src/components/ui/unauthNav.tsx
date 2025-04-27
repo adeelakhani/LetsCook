@@ -33,13 +33,13 @@ export default function UnauthNav({ highlight }: { highlight: string }) {
                 </Button>
             </Link>
             
-            <Link href="/contact">
+            {/* <Link href="/contact">
                 <Button className={`flex-right mt-1 ml-auto font-bold bg-white text-black hover:text-orange-600 hover:bg-white mr-3 ${
                 highlight === "Contact" ? "bg-orange-100 text-orange-600 hover:bg-orange-200" : ""
                 }`}>
                 Contact
                 </Button>
-            </Link>
+            </Link> */}
 
             <Button onClick={
                 () => {
