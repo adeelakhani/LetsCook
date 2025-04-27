@@ -4,25 +4,31 @@ import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import Link from "next/link"
 import { redirect } from "next/navigation"
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, ChevronLeft } from 'lucide-react'
+import { useRouter } from "next/navigation"
 
 import UnauthNav from "@/components/ui/unauthNav"
 import CTA from "@/components/ui/cta"
 
 export default function AboutPage() {
+
+  const router = useRouter()
+
   return (
     <div className="min-w-screen min-h-screen bg-gradient-to-b from-orange-50 via-white to-orange-50 animate-fadeIn">
       {/* Top Horizontal Navbar */}
       <UnauthNav highlight="About"/>
 
-      {/* Back to Home Button */}
+      {/* Back Button */}
       <div className="max-w-6xl mx-auto px-6 pt-8">
-        <Link href="/">
-          <Button variant="ghost" className="flex items-center text-orange-600 hover:text-orange-700 hover:bg-orange-50">
-            <ArrowLeft className="mr-2 h-4 w-4" />
+          <Button
+            variant="ghost"
+            className="text-orange-600 hover:text-orange-800 hover:bg-orange-100 -ml-2"
+            onClick={() => router.push("/")}
+          >
+            <ChevronLeft className="mr-1 h-4 w-4" />
             Back to Home
           </Button>
-        </Link>
       </div>
 
       {/* About Us Content */}
