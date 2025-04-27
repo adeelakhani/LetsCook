@@ -7,7 +7,12 @@ import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Search, Trophy, Star, Award, TrendingUp, Filter, ChevronUp, ChevronDown } from "lucide-react"
+import { useRouter } from 'next/navigation';
+import Link from "next/link"
 import AuthNav from "@/components/ui/authNav"
+
+import { createClientForServer } from "@/utils/supabase/supabaseClient";
+import axios from 'axios';
 
 type Row = {
     rank: number,
@@ -22,6 +27,8 @@ type LeaderboardTable = {
 }
 
 export default function LeaderboardTable({ elements }: LeaderboardTable) {
+    const router = useRouter();
+
     const [searchTerm, setSearchTerm] = useState("")
     const [activeTab, setActiveTab] = useState("all-time")
     const [sortBy, setSortBy] = useState("points")
@@ -172,15 +179,7 @@ export default function LeaderboardTable({ elements }: LeaderboardTable) {
                   </div>
                 </div>
   
-                <Tabs defaultValue="all-time" className="w-full" onValueChange={setActiveTab}>
-                  <div className="px-4 pt-2 border-b border-orange-100">
-                    <TabsList className="bg-orange-50">
-                      <TabsTrigger value="all-time">All Time</TabsTrigger>
-                      <TabsTrigger value="this-month">This Month</TabsTrigger>
-                      <TabsTrigger value="this-week">This Week</TabsTrigger>
-                    </TabsList>
-                  </div>
-  
+                <Tabs defaultValue="all-time" className="w-full" onValueChange={setActiveTab}>  
                   <TabsContent value="all-time" className="m-0">
                     <div className="p-4">
                       <div className="overflow-x-auto">
@@ -237,9 +236,10 @@ export default function LeaderboardTable({ elements }: LeaderboardTable) {
                             {sortedLeaderboard.map((chef, index) => (
                               <tr
                                 key={index}
-                                className={`border-b border-orange-50 hover:bg-orange-50 transition-colors ${
+                                className={`border-b border-orange-50 hover:bg-orange-50 hover:cursor-pointer transition-colors ${
                                   chef.rank <= 3 ? "bg-orange-50" : ""
                                 }`}
+                                onClick={() => router.push(`/users/${chef.user}`)}
                               >
                                 <td className="px-4 py-3">
                                   <div className="flex items-center">
@@ -349,7 +349,10 @@ export default function LeaderboardTable({ elements }: LeaderboardTable) {
                       </div>
                     </div>
                     <div className="mt-4 w-full">
-                      <Button className="w-full bg-orange-600 hover:bg-orange-700">View Profile</Button>
+                      <Button 
+                      className="w-full bg-orange-600 hover:bg-orange-700"
+                      onClick={() => router.push(`/users/${elements[0].user}`)}
+                      >View Profile</Button>
                     </div>
                   </div>
                 </div>
@@ -378,27 +381,15 @@ export default function LeaderboardTable({ elements }: LeaderboardTable) {
                         <span className="font-semibold">Create Recipes</span> - Earn points everytime someone cooks your recipe
                       </p>
                     </li>
-                    {/* <li className="flex items-start">
-                      <div className="bg-orange-100 rounded-full p-1 mr-3 mt-0.5">
-                        <span className="text-sm">👍</span>
-                      </div>
-                      <p className="text-gray-700">
-                        <span className="font-semibold">Get likes</span> - Earn 1 point for each like on your dishes
-                      </p>
-                    </li> */}
-                    {/* <li className="flex items-start">
-                      <div className="bg-orange-100 rounded-full p-1 mr-3 mt-0.5">
-                        <span className="text-sm">🏆</span>
-                      </div>
-                      <p className="text-gray-700">
-                        <span className="font-semibold">Win challenges</span> - Earn 10 points for each challenge you win
-                      </p>
-                    </li> */}
                   </ul>
                   <div className="mt-4">
-                    <Button variant="outline" className="w-full border-orange-200 text-orange-600 hover:bg-orange-50">
-                      Start Cooking
-                    </Button>
+                    <Link href="/authenticated/challenges">
+                      <Button 
+                      variant="outline" className="w-full border-orange-200 text-orange-600 hover:bg-orange-50"
+                      >
+                        Start Cooking
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               </Card>

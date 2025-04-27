@@ -3,6 +3,9 @@ import React from "react"
 import ChallengeTable from "@/components/ui/challengeTable" 
 import AuthNav from "@/components/ui/authNav";
 
+import { createClientForServer } from "@/utils/supabase/supabaseClient";
+import axios from 'axios';
+
 const recipes = [
     { author: "Adeel Akhani", recipe: "sandwitch", difficulty: "Easy" },
     { author: "Xerxes Radon", recipe: "spinach", difficulty: "Easy" },
