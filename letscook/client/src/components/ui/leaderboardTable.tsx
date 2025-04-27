@@ -330,7 +330,7 @@ export default function LeaderboardTable({ elements }: LeaderboardTable) {
                 <div className="p-4">
                   <div className="flex flex-col items-center text-center">
                     <div className="w-20 h-20 rounded-full bg-orange-100 border-4 border-orange-300 flex items-center justify-center mb-4">
-                      <span className="text-3xl">👨‍🍳</span>
+                      <span className="text-3xl">{elements[0].user.charAt(0).toUpperCase()}</span>
                     </div>
                     <h3 className="font-bold text-lg text-gray-800">{elements[0].user}</h3>
                     <p className="text-orange-600 font-semibold">Current #1 Chef</p>
