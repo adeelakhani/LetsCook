@@ -168,6 +168,10 @@ export const createpost = async (req, res) => {
     res.status(500).json({ error: "An unexpected error occurred" });
   }
 };
+
+export const getAllRecipes = async (req, res) => {
+  
+};
 export const test = async (req, res) => {
   const userId = req.params.id;
   const postId = req.params.postId;
