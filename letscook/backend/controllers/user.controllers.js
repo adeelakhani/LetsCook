@@ -170,7 +170,13 @@ export const createpost = async (req, res) => {
 };
 
 export const getAllRecipes = async (req, res) => {
-  
+  console.log("getAllRecipes");
+  const token = req.headers["authorization"]?.split(" ")[1];
+  const supabaseAuth = await getClient(token);
+  res.json({ message: "All recipes" });
+  // TO DO:
+  // CALL THE SUPABASE FUNCTION TO GET ALL RECIPES
+  // KEEP TRACK OF THE USER ID SO WE KNOW WHO IS SUBMITTING TO WHAT POST ID
 };
 export const test = async (req, res) => {
   const userId = req.params.id;
