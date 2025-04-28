@@ -23,16 +23,21 @@ type SubmissionsTable = {
 export default function SubmissionsTable({ elements, description }: SubmissionsTable) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const [searchTerm, setSearchTerm] = useState("")
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 100;
   const router = useRouter()
 
-  // Filter submissions based on search term
   const filteredSubmissions = elements.filter(
     (submission) =>
       submission.user.toLowerCase().includes(searchTerm.toLowerCase()) ||
       submission.recipe.toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
-  // Format date to be more readable
+  const indexOfLastItem = currentPage * itemsPerPage
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage
+  const currentItems = filteredSubmissions.slice(indexOfFirstItem, indexOfLastItem)
+  const totalPages = Math.ceil(filteredSubmissions.length / itemsPerPage)
+
   const formatDate = (date: Date) => {
     const options: Intl.DateTimeFormatOptions = {
       year: "numeric",
@@ -96,14 +101,14 @@ export default function SubmissionsTable({ elements, description }: SubmissionsT
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredSubmissions.length === 0 ? (
+                  {currentItems.length === 0 ? (
                     <tr>
                       <td colSpan={3} className="px-4 py-8 text-center text-gray-500">
                         No submissions found matching your search.
                       </td>
                     </tr>
                   ) : (
-                    filteredSubmissions.map((submission, index) => (
+                    currentItems.map((submission, index) => (
                       <tr
                         key={index}
                         className={`border-b border-orange-50 hover:bg-orange-50 hover:cursor-pointer transition-colors ${
@@ -138,9 +143,9 @@ export default function SubmissionsTable({ elements, description }: SubmissionsT
                             <span className="text-gray-600">{formatDate(submission.submission_time)}</span>
                             <ChevronRight
                               className={`
-                                                                ${hoveredIndex === index ? "text-orange-600 translate-x-1" : "text-gray-400"} 
-                                                                transition-all duration-200
-                                                            `}
+                  ${hoveredIndex === index ? "text-orange-600 translate-x-1" : "text-gray-400"} 
+                  transition-all duration-200
+                `}
                             />
                           </div>
                         </td>
@@ -152,6 +157,34 @@ export default function SubmissionsTable({ elements, description }: SubmissionsT
             </div>
           </div>
         </Card>
+
+        {filteredSubmissions.length > 0 && (
+          <div className="flex items-center justify-between mt-4 border-t border-orange-100 pt-4">
+            <div className="text-sm text-gray-600">
+              Showing {indexOfFirstItem + 1}-{Math.min(indexOfLastItem, filteredSubmissions.length)} of{" "}
+              {filteredSubmissions.length} submissions
+            </div>
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className="p-2 rounded-md border border-orange-200 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-orange-50"
+              >
+                <ChevronRight className="h-4 w-4 text-orange-600 transform rotate-180" />
+              </button>
+              <span className="text-sm font-medium text-gray-700">
+                Page {currentPage} of {totalPages || 1}
+              </span>
+              <button
+                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                disabled={currentPage === totalPages || totalPages === 0}
+                className="p-2 rounded-md border border-orange-200 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-orange-50"
+              >
+                <ChevronRight className="h-4 w-4 text-orange-600" />
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">

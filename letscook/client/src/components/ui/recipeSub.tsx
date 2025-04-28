@@ -9,8 +9,7 @@ import { v4 as uuidv4 } from "uuid"
 import type React from "react"
 import { useState, useEffect } from "react"
 import axios from "axios"
-import { Loader2, ChevronLeft, Camera, ChefHat, BookOpen, Upload, Info, AlertCircle } from "lucide-react"
-import { useRouter } from "next/navigation"
+import { Loader2, Camera, ChefHat, BookOpen, Upload, Info, AlertCircle } from "lucide-react"
 
 interface RecipeSubmissionFormProps {
   user_id: string
@@ -18,7 +17,6 @@ interface RecipeSubmissionFormProps {
 }
 
 export default function RecipeSubmissionForm({ user_id, token }: RecipeSubmissionFormProps) {
-  const router = useRouter()
   const postId = uuidv4()
   const props = useSupabaseUpload({
     bucketName: "postimages",
@@ -108,17 +106,6 @@ export default function RecipeSubmissionForm({ user_id, token }: RecipeSubmissio
   return (
     <div className="min-h-screen bg-gradient-to-b from-orange-50 via-white to-orange-50">
       <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Back button */}
-        <div className="mb-6">
-          <Button
-            variant="ghost"
-            className="text-orange-600 hover:text-orange-800 hover:bg-orange-100 -ml-2"
-            onClick={() => router.push("/authenticated/recipes")}
-          >
-            <ChevronLeft className="mr-1 h-4 w-4" />
-            Back to Recipes
-          </Button>
-        </div>
 
         {/* Hero Section */}
         <div className="text-center mb-8">
@@ -166,7 +153,6 @@ export default function RecipeSubmissionForm({ user_id, token }: RecipeSubmissio
                       />
                     </div>
 
-                    {/* Difficulty */}
                     <div>
                       <label htmlFor="difficulty" className="block text-sm font-medium text-gray-700 mb-1">
                         Difficulty Level <span className="text-red-500">*</span>
@@ -189,7 +175,6 @@ export default function RecipeSubmissionForm({ user_id, token }: RecipeSubmissio
                       </select>
                     </div>
 
-                    {/* Recipe Description */}
                     <div>
                       <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
                         Recipe Description <span className="text-red-500">*</span>
@@ -209,7 +194,6 @@ export default function RecipeSubmissionForm({ user_id, token }: RecipeSubmissio
                       ></textarea>
                     </div>
 
-                    {/* Recipe Photos */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
                         Recipe Photos <span className="text-red-500">*</span>
@@ -237,7 +221,6 @@ export default function RecipeSubmissionForm({ user_id, token }: RecipeSubmissio
                       )}
                     </div>
 
-                    {/* Submit Button */}
                     <div className="pt-4">
                       <Button
                         type="submit"
@@ -274,9 +257,7 @@ export default function RecipeSubmissionForm({ user_id, token }: RecipeSubmissio
             </Card>
           </div>
 
-          {/* Sidebar */}
           <div className="lg:col-span-1">
-            {/* Tips Card */}
             <Card className="bg-white shadow-md border border-orange-200 overflow-hidden mb-6">
               <div className="p-4 border-b border-orange-100 bg-gradient-to-r from-orange-50 to-white">
                 <h2 className="text-xl font-bold text-orange-800 flex items-center">
@@ -352,7 +333,7 @@ export default function RecipeSubmissionForm({ user_id, token }: RecipeSubmissio
                 </div>
 
                 <div className="mt-4 p-3 bg-orange-50 rounded-lg text-sm text-gray-700">
-                  <p>You'll earn additional points each time someone cooks your recipe!</p>
+                  <p>You will earn points if someone cooks your recipe and they beat the challenge!</p>
                 </div>
               </div>
             </Card>
