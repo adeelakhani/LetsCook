@@ -332,9 +332,9 @@ export default function RecipeSubmissionForm({ user_id, token }: RecipeSubmissio
                   </div>
                 </div>
 
-                <div className="mt-4 p-3 bg-orange-50 rounded-lg text-sm text-gray-700">
-                  <p>You will earn points if someone cooks your recipe and they beat the challenge!</p>
-                </div>
+                {/* <div className="mt-4 p-3 bg-orange-50 rounded-lg text-sm text-gray-700">
+                  <p>Good luck!</p>
+                </div> */}
               </div>
             </Card>
           </div>

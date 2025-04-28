@@ -4,6 +4,7 @@ import ChallengeTable from "@/components/ui/challengeTable"
 import AuthNav from "@/components/ui/authNav";
 
 import { createClientForServer } from "@/utils/supabase/supabaseClient";
+import { redirect } from "next/navigation";
 import axios from 'axios';
 
 const recipes = [
@@ -39,6 +40,34 @@ const recipes = [
 ]
 
 export default async function Challenges() {
+    const supabase = await createClientForServer();
+      const { data, error } = await supabase.auth.getUser();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+    
+      if (error || !data?.user) {
+        redirect("/login");
+      }
+      if (!session) {
+        redirect("/login");
+      }
+      const token = session.access_token;
+      const this_user_id = data.user.id;
+
+      try{
+        const posts = await axios.get(`http://localhost:3001/api/getAllRecipes`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "multipart/form-data",
+            },
+          })
+      }catch (error) {
+        console.error("Error fetching user data:", error);
+        // redirect("/login");
+      }
+      
+
     return (
         <div>
             <AuthNav highlight="Challenges" />
