@@ -197,8 +197,23 @@ export const getAllRecipes = async (req, res) => {
 
 export const getPostInfo = async (req, res) => {
   const token = req.headers["authorization"]?.split(" ")[1];
+  const postId = req.params.postId;
   const supabaseAuth = await getClient(token);
-  res.json("good to go");
+  const { data, error } = await supabaseAuth
+    .from("posts")
+    .select("*")
+    .eq("id", postId);
+  if (error) return res.status(400).json({ error: error.message });
+  const { data: imageData, error: errorData } = await supabaseAuth
+    .from("post_images")
+    .select("*")
+    .eq("post_id", postId);
+  if (errorData) return res.status(400).json({ error: error.message });
+  const newObj = {
+    ...data[0],
+    images: imageData.map((image) => image.image_url),
+  }
+  res.status(200).json({ newObj });
 };
 
 
