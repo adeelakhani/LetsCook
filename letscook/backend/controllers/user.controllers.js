@@ -170,10 +170,15 @@ export const createpost = async (req, res) => {
 };
 
 export const getAllRecipes = async (req, res) => {
-  console.log("getAllRecipes");
   const token = req.headers["authorization"]?.split(" ")[1];
   const supabaseAuth = await getClient(token);
-  res.json({ message: "All recipes" });
+  const { data, error } = await supabaseAuth
+    .from("posts")
+    .select("*")
+  if (error || !data) {
+    return res.status(404).json({ error: "Profile not found" });
+  }
+  res.json(data);
   // TO DO:
   // CALL THE SUPABASE FUNCTION TO GET ALL RECIPES
   // KEEP TRACK OF THE USER ID SO WE KNOW WHO IS SUBMITTING TO WHAT POST ID
