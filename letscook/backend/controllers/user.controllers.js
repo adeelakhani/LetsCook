@@ -153,14 +153,30 @@ export const createpost = async (req, res) => {
       return urlData.publicUrl;
     });
 
-    const {data: imageData, error: imageError} = await supabaseAuth
+    const { data: imageData, error: imageError } = await supabaseAuth
       .from("post_images")
       .insert(
         imageUrls.map((url) => ({
-            post_id: postID,
-            image_url: url,
-          }))
+          post_id: postID,
+          image_url: url,
+        }))
       );
+    const { count, error: countError } = await supabaseAuth
+      .from("posts")
+      .select("*", { count: "exact", head: true })
+      .eq("user_id", userId);
+    if (!countError) {
+      const { data: updating, error: updateError } = await supabaseAuth
+        .from("viewableprofiles")
+        .update({ created_recipes: count })
+        .eq("id", userId);
+
+      if (updateError) {
+        console.error("Update error:", updateError);
+      }
+    } else {
+      console.error("Count error:", countError);
+    }
 
     res.status(201).send("Post created successfully");
   } catch (e) {
@@ -172,17 +188,20 @@ export const createpost = async (req, res) => {
 export const getAllRecipes = async (req, res) => {
   const token = req.headers["authorization"]?.split(" ")[1];
   const supabaseAuth = await getClient(token);
-  const { data, error } = await supabaseAuth
-    .from("posts")
-    .select("*")
+  const { data, error } = await supabaseAuth.from("posts").select("*");
   if (error || !data) {
     return res.status(404).json({ error: "Profile not found" });
   }
   res.json(data);
-  // TO DO:
-  // CALL THE SUPABASE FUNCTION TO GET ALL RECIPES
-  // KEEP TRACK OF THE USER ID SO WE KNOW WHO IS SUBMITTING TO WHAT POST ID
 };
+
+export const getPostInfo = async (req, res) => {
+  const token = req.headers["authorization"]?.split(" ")[1];
+  const supabaseAuth = await getClient(token);
+  res.json("good to go");
+};
+
+
 export const test = async (req, res) => {
   const userId = req.params.id;
   const postId = req.params.postId;
@@ -190,13 +209,13 @@ export const test = async (req, res) => {
   const { data, error } = await supabaseNoAuth.storage
     .from("postimages")
     .list(`posts/${userId}/${postId}`);
-    
+
   console.log(data);
   if (error) {
     console.error("Failed to list images:", error);
     return res.status(500).json({ error: "Could not list images" });
   }
-  const imageUrls = data.map(file => {
+  const imageUrls = data.map((file) => {
     const { data: urlData } = supabaseNoAuth.storage
       .from("postimages")
       .getPublicUrl(`posts/${userId}/${postId}/${file.name}`);
