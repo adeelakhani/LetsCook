@@ -53,6 +53,13 @@ export default async function Profile() {
       'Content-Type': 'application/json',
     },
   });
+  const posts = await axios.get(`http://localhost:3001/api/getAllRecipes`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data",
+    },
+  })
+console.log(posts.data);
 
   const user = {
     username: userData.data[0].username,

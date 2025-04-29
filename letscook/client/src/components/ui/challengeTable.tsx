@@ -28,7 +28,7 @@ type PostInfoType = {
 };
 
 export default function ChallengeTable({
-    this_user_id,
+  this_user_id,
   postsInfo,
   description,
 }: ChallengeTable) {
@@ -43,6 +43,7 @@ export default function ChallengeTable({
       challenge.dish_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       challenge.difficulty.toLowerCase().includes(searchTerm.toLowerCase())
   );
+  console.log(this_user_id);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-orange-50 via-white to-orange-50">
@@ -122,12 +123,7 @@ export default function ChallengeTable({
                           hoveredIndex === index ? "bg-orange-50" : ""
                         }`}
                         onClick={() => {
-                          router.push(
-                            `/authenticated/submit/${challenge.dish_name.replaceAll(
-                              " ",
-                              "-"
-                            )}`
-                          );
+                          router.push(`/authenticated/submit/${challenge.id}`);
                         }}
                         onMouseEnter={() => setHoveredIndex(index)}
                         onMouseLeave={() => setHoveredIndex(null)}
@@ -142,7 +138,6 @@ export default function ChallengeTable({
                                 alt="GoogleIcon"
                                 className="border rounded-lg self-start"
                               />
-                              {/* {challenge.username.charAt(0).toUpperCase()} */}
                             </div>
                             <span className="font-medium">
                               {challenge.username}

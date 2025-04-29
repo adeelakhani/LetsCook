@@ -21,7 +21,6 @@ import {
   AlertCircle,
   Info,
   Utensils,
-  Timer,
   X,
 } from "lucide-react"
 
