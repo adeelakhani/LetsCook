@@ -1,44 +1,57 @@
-"use client"
-import { useState } from "react"
-import { Badge } from "@/components/ui/badge"
-import { Card } from "@/components/ui/card"
-import { ChevronRight, Award, BookOpen, Star } from "lucide-react"
-import { Input } from "@/components/ui/input"
-import { Search } from "lucide-react"
-import "@/styles/globals.css"
+"use client";
+import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
+import { ChevronRight, Award, BookOpen, Star } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Search } from "lucide-react";
+import Image from "next/image";
 
-import { useRouter } from "next/navigation"
+import "@/styles/globals.css";
 
-type Row = {
-  author: string
-  recipe: string
-  difficulty: string
-}
+import { useRouter } from "next/navigation";
 
 type ChallengeTable = {
-  elements: Row[]
-  description: string
-}
+  this_user_id: string;
+  postsInfo: PostInfoType[];
+  description: string;
+};
+type PostInfoType = {
+  id: string;
+  user_id: string;
+  username: string;
+  dish_name: string;
+  difficulty: string;
+  description: string;
+  profile_url: string;
+  created_at: string;
+};
 
-export default function ChallengeTable({ elements, description }: ChallengeTable) {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
-  const [searchTerm, setSearchTerm] = useState("")
-  const router = useRouter()
+export default function ChallengeTable({
+    this_user_id,
+  postsInfo,
+  description,
+}: ChallengeTable) {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const router = useRouter();
 
   // Filter challenges based on search term
-  const filteredChallenges = elements.filter(
+  const filteredChallenges = postsInfo.filter(
     (challenge) =>
-      challenge.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      challenge.recipe.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      challenge.difficulty.toLowerCase().includes(searchTerm.toLowerCase()),
-  )
+      challenge.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      challenge.dish_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      challenge.difficulty.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-orange-50 via-white to-orange-50">
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Hero Section */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-orange-600 mb-4">Recipe Challenges</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-orange-600 mb-4">
+            Recipe Challenges
+          </h1>
           <p className="text-lg text-gray-700 max-w-3xl mx-auto">
             Test your culinary skills with these exciting recipe challenges.
           </p>
@@ -74,9 +87,15 @@ export default function ChallengeTable({ elements, description }: ChallengeTable
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-orange-100">
-                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Author</th>
-                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Recipe</th>
-                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Difficulty</th>
+                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">
+                      Author
+                    </th>
+                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">
+                      Recipe
+                    </th>
+                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">
+                      Difficulty
+                    </th>
                     <th className="px-4 py-3 text-right text-sm font-semibold text-gray-600">
                       <div className="flex items-center justify-end">
                         <Star className="mr-1 h-4 w-4 text-orange-500" />
@@ -88,7 +107,10 @@ export default function ChallengeTable({ elements, description }: ChallengeTable
                 <tbody>
                   {filteredChallenges.length === 0 ? (
                     <tr>
-                      <td colSpan={4} className="px-4 py-8 text-center text-gray-500">
+                      <td
+                        colSpan={4}
+                        className="px-4 py-8 text-center text-gray-500"
+                      >
                         No challenges found matching your search.
                       </td>
                     </tr>
@@ -100,7 +122,12 @@ export default function ChallengeTable({ elements, description }: ChallengeTable
                           hoveredIndex === index ? "bg-orange-50" : ""
                         }`}
                         onClick={() => {
-                          router.push(`/authenticated/submit/${challenge.recipe.replaceAll(" ", "-")}`)
+                          router.push(
+                            `/authenticated/submit/${challenge.dish_name.replaceAll(
+                              " ",
+                              "-"
+                            )}`
+                          );
                         }}
                         onMouseEnter={() => setHoveredIndex(index)}
                         onMouseLeave={() => setHoveredIndex(null)}
@@ -108,44 +135,66 @@ export default function ChallengeTable({ elements, description }: ChallengeTable
                         <td className="px-4 py-3">
                           <div className="flex items-center">
                             <div className="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center mr-2">
-                              {challenge.author.charAt(0).toUpperCase()}
+                              <Image
+                                src={challenge.profile_url}
+                                width={75}
+                                height={75}
+                                alt="GoogleIcon"
+                                className="border rounded-lg self-start"
+                              />
+                              {/* {challenge.username.charAt(0).toUpperCase()} */}
                             </div>
-                            <span className="font-medium">{challenge.author}</span>
+                            <span className="font-medium">
+                              {challenge.username}
+                            </span>
                           </div>
                         </td>
                         <td className="px-4 py-3">
                           <div className="flex items-center">
-                            <Badge variant="outline" className="border-orange-200 text-orange-600 mr-2">
+                            <Badge
+                              variant="outline"
+                              className="border-orange-200 text-orange-600 mr-2"
+                            >
                               Recipe
                             </Badge>
-                            {challenge.recipe}
+                            {challenge.dish_name}
                           </div>
                         </td>
                         <td className="px-4 py-3">
-                          {challenge.difficulty === "Easy" && (
-                            <Badge className="bg-cyan-600 hover:bg-cyan-700">Easy</Badge>
+                          {challenge.difficulty === "easy" && (
+                            <Badge className="bg-cyan-600 hover:bg-cyan-700">
+                              Easy
+                            </Badge>
                           )}
-                          {challenge.difficulty === "Medium" && (
-                            <Badge className="bg-yellow-600 hover:bg-yellow-700">Medium</Badge>
+                          {challenge.difficulty === "medium" && (
+                            <Badge className="bg-yellow-600 hover:bg-yellow-700">
+                              Medium
+                            </Badge>
                           )}
-                          {challenge.difficulty === "Hard" && (
-                            <Badge className="bg-red-600 hover:bg-red-700">Hard</Badge>
+                          {challenge.difficulty === "hard" && (
+                            <Badge className="bg-red-600 hover:bg-red-700">
+                              Hard
+                            </Badge>
                           )}
                         </td>
                         <td className="px-4 py-3">
                           <div className="flex items-center justify-end">
                             <span className="font-medium mr-2">
-                              {challenge.difficulty === "Easy"
+                              {challenge.difficulty === "easy"
                                 ? 2
-                                : challenge.difficulty === "Medium"
-                                  ? 5
-                                  : challenge.difficulty === "Hard"
-                                    ? 10
-                                    : 0}
+                                : challenge.difficulty === "medium"
+                                ? 5
+                                : challenge.difficulty === "hard"
+                                ? 10
+                                : 0}
                             </span>
                             <ChevronRight
                               className={`
-                                ${hoveredIndex === index ? "text-orange-600 translate-x-1" : "text-gray-400"} 
+                                ${
+                                  hoveredIndex === index
+                                    ? "text-orange-600 translate-x-1"
+                                    : "text-gray-400"
+                                } 
                                 transition-all duration-200
                               `}
                             />
@@ -166,7 +215,9 @@ export default function ChallengeTable({ elements, description }: ChallengeTable
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">Total Challenges</p>
-                <p className="text-2xl font-bold text-orange-600">{elements.length}</p>
+                <p className="text-2xl font-bold text-orange-600">
+                  {postsInfo.length}
+                </p>
               </div>
               <div className="bg-orange-100 p-3 rounded-full">
                 <BookOpen className="h-6 w-6 text-orange-500" />
@@ -179,7 +230,7 @@ export default function ChallengeTable({ elements, description }: ChallengeTable
               <div>
                 <p className="text-sm text-gray-600">Unique Authors</p>
                 <p className="text-2xl font-bold text-orange-600">
-                  {new Set(elements.map((item) => item.author)).size}
+                  {new Set(postsInfo.map((item) => item.username)).size}
                 </p>
               </div>
               <div className="bg-orange-100 p-3 rounded-full">
@@ -193,17 +244,17 @@ export default function ChallengeTable({ elements, description }: ChallengeTable
               <div>
                 <p className="text-sm text-gray-600">Max Points Available</p>
                 <p className="text-2xl font-bold text-orange-600">
-                  {elements.reduce(
+                  {postsInfo.reduce(
                     (total, item) =>
                       total +
-                      (item.difficulty === "Easy"
+                      (item.difficulty === "easy"
                         ? 2
-                        : item.difficulty === "Medium"
-                          ? 5
-                          : item.difficulty === "Hard"
-                            ? 10
-                            : 0),
-                    0,
+                        : item.difficulty === "medium"
+                        ? 5
+                        : item.difficulty === "hard"
+                        ? 10
+                        : 0),
+                    0
                   )}
                 </p>
               </div>
@@ -218,10 +269,12 @@ export default function ChallengeTable({ elements, description }: ChallengeTable
         <div className="text-center mt-8">
           <div className="inline-flex items-center gap-2 bg-orange-100 text-orange-800 px-4 py-2 rounded-lg shadow-sm border border-orange-200">
             <span className="h-3 w-3 bg-orange-500 rounded-full animate-pulse"></span>
-            <span className="font-medium">Complete challenges to earn points and badges!</span>
+            <span className="font-medium">
+              Complete challenges to earn points and badges!
+            </span>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
