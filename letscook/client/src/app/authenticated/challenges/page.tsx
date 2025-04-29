@@ -61,7 +61,6 @@ export default async function Challenges() {
               "Content-Type": "multipart/form-data",
             },
           })
-        console.log(posts.data);
         // console.error("Error fetching user data:", error);
 
     return (
