@@ -39,6 +39,7 @@ interface SubmitSubProps {
 
 export default function SubmitSub({ postInfo, this_user_id }: SubmitSubProps) {
   const router = useRouter()
+  const [description, setDescription] = useState("")
   const [isDeleting, setIsDeleting] = useState(false)
 
   // Handle the case where postInfo might be wrapped in a newObj property
@@ -194,7 +195,7 @@ export default function SubmitSub({ postInfo, this_user_id }: SubmitSubProps) {
               </div>
             </Card>
           </div>
-
+                  
           {/* Sidebar */}
           <div className="lg:col-span-1">
             {/* User Profile */}
