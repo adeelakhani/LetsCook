@@ -216,6 +216,12 @@ export const getPostInfo = async (req, res) => {
   res.status(200).json({ newObj });
 };
 
+export const submitRecipe = async (req, res) => {
+  const { description } = req.body;
+  console.log(description);
+  res.status(200).json( {message: "hello"} );
+};
+
 
 export const test = async (req, res) => {
   const userId = req.params.id;
