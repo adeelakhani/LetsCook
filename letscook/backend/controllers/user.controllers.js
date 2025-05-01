@@ -217,31 +217,127 @@ export const getPostInfo = async (req, res) => {
 };
 
 export const submitRecipe = async (req, res) => {
-  const { description } = req.body;
-  console.log(description);
-  res.status(200).json( {message: "hello"} );
+  const token = req.headers["authorization"]?.split(" ")[1];
+  const { description, difficulty } = req.body;
+  const submitters_user_id = req.params.id;
+  const submissionId = req.params.submissionId;
+  const postUserId = req.params.postUserId;
+  const postId = req.params.postId;
+  // console.log(difficulty);
+  const { data: user, error: authError } = await supabaseNoAuth.auth.getUser(
+    token
+  );
+  if (authError || !user) {
+    return res.status(401).json({ error: "Invalid or expired token" });
+  }
+  if (user.user.id !== submitters_user_id) {
+    return res
+      .status(403)
+      .json({ error: "Access denied: You can only access your own profile" });
+  }
+  const supabaseAuth = await getClient(token);
+
+  //sdfsdf
+    const { data: userData, error: userDataError } = await supabaseAuth
+      .from("profiles")
+      .select("*")
+      .eq("id", submitters_user_id);
+    const { data: submissionData, error: submissionError } = await supabaseAuth
+      .from("submissions")
+      .insert({
+        id: submissionId,
+        submitted_by_id: submitters_user_id,
+        submitted_by_username: userData[0].username,
+        submitted_to_id: postUserId,
+        post_id: postId,
+        description: description,
+        difficulty: difficulty,
+        submitted_by_profile_url: userData[0].image_url,
+      })
+      .select()
+      .single();
+
+    if (submissionError || !submissionData) {
+      console.error("Post creation error:", submissionError);
+      return res.status(500).json({ error: "Post creation failed" });
+    }
+
+
+    //herere
+    const { data, error } = await supabaseNoAuth.storage
+      .from("postimages")
+      .list(`submissions/${submitters_user_id}/${postId}/${submissionId}`);
+
+    if (error) {
+      console.error("Failed to list images:", error);
+      return res.status(500).json({ error: "Could not list images" });
+    }
+
+    const imageUrls = data.map((file) => {
+      const { data: urlData } = supabaseNoAuth.storage
+        .from("postimages")
+        .getPublicUrl(`submissions/${submitters_user_id}/${postId}/${submissionId}/${file.name}`);
+      return urlData.publicUrl;
+    });
+    const { data: imageData, error: imageError } = await supabaseAuth
+    .from("submission_images")
+    .insert(
+      imageUrls.map((url) => ({
+        submission_id: submissionId,
+        image_url: url,
+      }))
+    );
+
+    const { count, error: countError } = await supabaseAuth
+      .from("submissions")
+      .select("*", { count: "exact", head: true })
+      .eq("submitted_by_id", submitters_user_id);
+    if (!countError) {
+      const { data: updating, error: updateError } = await supabaseAuth
+        .from("viewableprofiles")
+        .update({ meals_cooked: count })
+        .eq("id", submitters_user_id);
+
+      if (updateError) {
+        console.error("Update error:", updateError);
+      }
+    } else {
+      console.error("Count error:", countError);
+    }
+    res.status(200).send("Post created successfully");
 };
 
 
 export const test = async (req, res) => {
-  const userId = req.params.id;
+  const submitters_user_id = req.params.id;
+  const submissionId = req.params.submissionId;
   const postId = req.params.postId;
 
-  const { data, error } = await supabaseNoAuth.storage
-    .from("postimages")
-    .list(`posts/${userId}/${postId}`);
 
-  console.log(data);
-  if (error) {
-    console.error("Failed to list images:", error);
-    return res.status(500).json({ error: "Could not list images" });
-  }
-  const imageUrls = data.map((file) => {
-    const { data: urlData } = supabaseNoAuth.storage
+  const { data, error } = await supabaseNoAuth.storage
       .from("postimages")
-      .getPublicUrl(`posts/${userId}/${postId}/${file.name}`);
-    return urlData.publicUrl;
-  });
+      .list(`submissions/${submitters_user_id}/${postId}/${submissionId}`);
+
+    if (error) {
+      console.error("Failed to list images:", error);
+      return res.status(500).json({ error: "Could not list images" });
+    }
+
+    const imageUrls = data.map((file) => {
+      const { data: urlData } = supabaseNoAuth.storage
+        .from("postimages")
+        .getPublicUrl(`submissions/${submitters_user_id}/${postId}/${submissionId}/${file.name}`);
+      return urlData.publicUrl;
+    });
+
+    // const { data: imageData, error: imageError } = await supabaseAuth
+    //   .from("post_images")
+    //   .insert(
+    //     imageUrls.map((url) => ({
+    //       post_id: postID,
+    //       image_url: url,
+    //     }))
+    //   ); 
 
   res.status(200).json({ imageUrls });
 };
