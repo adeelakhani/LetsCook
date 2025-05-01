@@ -9,6 +9,7 @@ import { Loader2, Upload, AlertCircle } from "lucide-react"
 import { Dropzone, DropzoneContent, DropzoneEmptyState } from "@/components/dropzone"
 import axios from "axios"
 import { useSupabaseUpload } from "@/hooks/use-supabase-upload"
+import { v4 as uuidv4 } from "uuid"
 
 
 import { useState, useEffect } from "react";
@@ -69,9 +70,10 @@ export default function SubmitSub({ token, postInfo, this_user_id }: SubmitSubPr
 
   // Check if this is the user's own post
   const isOwnPost = post.user_id === this_user_id;
+  const submissionId = uuidv4()
   const props = useSupabaseUpload({
     bucketName: "postimages",
-    path: `submissions/${this_user_id}/${post.id}`,
+    path: `submissions/${this_user_id}/${post.id}/${submissionId}`,
     allowedMimeTypes: ["image/*"],
     maxFiles: 10,
     maxFileSize: 1000 * 1000 * 10,
@@ -108,9 +110,10 @@ export default function SubmitSub({ token, postInfo, this_user_id }: SubmitSubPr
     }
     const formData = new FormData()
     formData.append("description", description)
+    formData.append("difficulty", post.difficulty? post.difficulty : "easy");
 
     try {
-      const submission = await axios.post(`http://localhost:3001/api/submitRecipe/${this_user_id}/${post.id}`, formData, {
+      const submission = await axios.post(`http://localhost:3001/api/submitRecipe/${this_user_id}/${post.user_id}/${post.id}/${submissionId}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
@@ -315,7 +318,7 @@ export default function SubmitSub({ token, postInfo, this_user_id }: SubmitSubPr
                         Recipe Photos <span className="text-red-500">*</span>
                       </label>
                       <p className="text-xs text-gray-500 mb-4">
-                        Add photos of your dish to make your recipe more appealing. You can upload up to 10 images.
+                        Add photos of your dish to make your recipe more appealing. You can upload up to 10 images. <span className="text-red-600 font-extrabold">*DO NOT INCLUDE SCREENSHOTS*</span>
                       </p>
                       <div className="w-full dropzone-content-wrapper border-2 border-dashed border-orange-200 rounded-lg hover:border-orange-400 hover:bg-orange-50 transition-colors">
                         <Dropzone {...props}>
