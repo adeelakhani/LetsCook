@@ -126,27 +126,32 @@ const submissions = [
 ]
 
 export default async function Submissions() {
-    // const supabase = await createClientForServer();
-    //   const { data, error } = await supabase.auth.getUser();
-    //   const {
-    //     data: { session },
-    //   } = await supabase.auth.getSession();
+    const supabase = await createClientForServer();
+      const { data, error } = await supabase.auth.getUser();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
     
-    //   if (error || !data?.user) {
-    //     redirect("/login");
-    //   }
-    //   if (!session) {
-    //     redirect("/login");
-    //   }
-    //   const token = session.access_token;
-    //   const this_user_id = data.user.id;
+      if (error || !data?.user) {
+        redirect("/login");
+      }
+      if (!session) {
+        redirect("/login");
+      }
+      const token = session.access_token;
+      const this_user_id = data.user.id;
 
-    //   const posts = await axios.get(`http://localhost:3001/api/getAllRecipes`, {
-    //         headers: {
-    //           Authorization: `Bearer ${token}`,
-    //           "Content-Type": "multipart/form-data",
-    //         },
-    //       })
+      const submissionsT = await axios.get(`http://localhost:3001/api/submissions/${this_user_id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "multipart/form-data",
+            },
+          })
+        if(submissionsT.status !== 200) {
+            console.log("Error fetching submissions");
+            redirect("/login");
+        }
+        console.log(submissionsT.data);
     return (
         <div>
             <AuthNav highlight="Submissions" />

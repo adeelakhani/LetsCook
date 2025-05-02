@@ -61,8 +61,10 @@ export default async function Challenges() {
               "Content-Type": "multipart/form-data",
             },
           })
-        // console.error("Error fetching user data:", error);
-
+          if(posts.status !== 200) {
+            console.log("Error fetching posts");
+            redirect("/login");
+        }
     return (
         <div>
             <AuthNav highlight="Challenges" />

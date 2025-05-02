@@ -118,6 +118,7 @@ export default function SubmitSub({
     const formData = new FormData();
     formData.append("description", description);
     formData.append("difficulty", post.difficulty ? post.difficulty : "easy");
+    formData.append("dish_name", post.dish_name);
 
     try {
       const submission = await axios.post(

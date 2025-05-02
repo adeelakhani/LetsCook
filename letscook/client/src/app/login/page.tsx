@@ -4,8 +4,19 @@ import signInWithGoogle from '@/utils/supabase/sign_in_function';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
+import { createClientForServer } from "@/utils/supabase/supabaseClient";
+import { redirect } from "next/navigation";
 
 export default async function Login() {
+  const supabase = await createClientForServer();
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (session) {
+    redirect('/authenticated/explore');
+  }
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4">
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 border border-orange-200">
