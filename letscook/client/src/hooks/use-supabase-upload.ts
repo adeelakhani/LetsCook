@@ -2,6 +2,11 @@ import { createClient } from '@/lib/supabase/client'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { type FileError, type FileRejection, useDropzone } from 'react-dropzone'
 
+const sanitizeFilename = (filename: string): string => {
+  // Replace spaces with underscores and remove any other problematic characters
+  return filename.replace(/\s+/g, "_").replace(/[^a-zA-Z0-9_.-]/g, "")
+}
+
 const supabase = createClient()
 
 interface FileWithPreview extends File {
@@ -128,7 +133,7 @@ const useSupabaseUpload = (options: UseSupabaseUploadOptions) => {
       filesToUpload.map(async (file) => {
         const { error } = await supabase.storage
           .from(bucketName)
-          .upload(!!path ? `${path}/${file.name}` : file.name, file, {
+          .upload(!!path ? `${path}/${sanitizeFilename(file.name)}` : file.name, file, {
             cacheControl: cacheControl.toString(),
             upsert,
           })

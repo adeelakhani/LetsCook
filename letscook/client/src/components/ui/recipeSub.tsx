@@ -198,9 +198,13 @@ export default function RecipeSubmissionForm({ user_id, token }: RecipeSubmissio
                       <label className="block text-sm font-medium text-gray-700 mb-1">
                         Recipe Photos <span className="text-red-500">*</span>
                       </label>
-                      <p className="text-xs text-gray-500 mb-4">
+                      <p className="text-xs text-gray-500 mb-1">
                         Add photos of your dish to make your recipe more appealing. You can upload up to 10 images.
                       </p>
+                      <p className="text-xs text-red-600 font-extrabold mb-4">
+                      *ALL FILE NAMES WITH SPACES WILL BE REPLACED WITH "_" s
+                        SO WATCH OUT FOR DUPLICATE FILE NAMES*
+                    </p>
                       <div className="w-full dropzone-content-wrapper border-2 border-dashed border-orange-200 rounded-lg hover:border-orange-400 hover:bg-orange-50 transition-colors">
                         <Dropzone {...props}>
                           <DropzoneEmptyState />

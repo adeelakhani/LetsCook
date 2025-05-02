@@ -2,6 +2,9 @@
 
 import SubmissionsTable from "@/components/ui/submissionsTable"
 import AuthNav from "@/components/ui/authNav"
+import { createClientForServer } from "@/utils/supabase/supabaseClient";
+import { redirect } from "next/navigation";
+import axios from 'axios';
 
 const submissions = [
     { user: "Adeel Akhani", recipe: "sandwich", submission_time: new Date() },
@@ -123,6 +126,27 @@ const submissions = [
 ]
 
 export default async function Submissions() {
+    // const supabase = await createClientForServer();
+    //   const { data, error } = await supabase.auth.getUser();
+    //   const {
+    //     data: { session },
+    //   } = await supabase.auth.getSession();
+    
+    //   if (error || !data?.user) {
+    //     redirect("/login");
+    //   }
+    //   if (!session) {
+    //     redirect("/login");
+    //   }
+    //   const token = session.access_token;
+    //   const this_user_id = data.user.id;
+
+    //   const posts = await axios.get(`http://localhost:3001/api/getAllRecipes`, {
+    //         headers: {
+    //           Authorization: `Bearer ${token}`,
+    //           "Content-Type": "multipart/form-data",
+    //         },
+    //       })
     return (
         <div>
             <AuthNav highlight="Submissions" />

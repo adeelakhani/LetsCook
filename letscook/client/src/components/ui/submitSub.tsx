@@ -5,12 +5,15 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
-import { Loader2, Upload, AlertCircle } from "lucide-react"
-import { Dropzone, DropzoneContent, DropzoneEmptyState } from "@/components/dropzone"
-import axios from "axios"
-import { useSupabaseUpload } from "@/hooks/use-supabase-upload"
-import { v4 as uuidv4 } from "uuid"
-
+import { Loader2, Upload, AlertCircle } from "lucide-react";
+import {
+  Dropzone,
+  DropzoneContent,
+  DropzoneEmptyState,
+} from "@/components/dropzone";
+import axios from "axios";
+import { useSupabaseUpload } from "@/hooks/use-supabase-upload";
+import { v4 as uuidv4 } from "uuid";
 
 import { useState, useEffect } from "react";
 import {
@@ -46,23 +49,27 @@ interface SubmitSubProps {
   this_user_id: string;
 }
 
-export default function SubmitSub({ token, postInfo, this_user_id }: SubmitSubProps) {
+export default function SubmitSub({
+  token,
+  postInfo,
+  this_user_id,
+}: SubmitSubProps) {
   useEffect(() => {
-      const style = document.createElement("style")
-      style.innerHTML = `
+    const style = document.createElement("style");
+    style.innerHTML = `
         .dropzone-content-wrapper .mt-2 button {
           display: none !important;
         }
-      `
-      document.head.appendChild(style)
-      return () => {
-        document.head.removeChild(style)
-      }
-    }, [])
+      `;
+    document.head.appendChild(style);
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
   const router = useRouter();
   const [description, setDescription] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
-  const [isUploading, setIsUploading] = useState(false)
+  const [isUploading, setIsUploading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Handle the case where postInfo might be wrapped in a newObj property
@@ -70,70 +77,74 @@ export default function SubmitSub({ token, postInfo, this_user_id }: SubmitSubPr
 
   // Check if this is the user's own post
   const isOwnPost = post.user_id === this_user_id;
-  const submissionId = uuidv4()
+  const submissionId = uuidv4();
   const props = useSupabaseUpload({
     bucketName: "postimages",
     path: `submissions/${this_user_id}/${post.id}/${submissionId}`,
     allowedMimeTypes: ["image/*"],
     maxFiles: 10,
     maxFileSize: 1000 * 1000 * 10,
-  })
+  });
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (props.files.length === 0) {
-      alert("Please add at least one image of your dish.")
-      return
+      alert("Please add at least one image of your dish.");
+      return;
     }
 
-    setIsSubmitting(true)
+    setIsSubmitting(true);
 
     if (props.files.length > 0) {
-      setIsUploading(true)
+      setIsUploading(true);
       try {
-        await props.onUpload()
-        setIsUploading(false)
+        await props.onUpload();
+        setIsUploading(false);
 
         if (props.errors.length > 0) {
-          console.error("Some files failed to upload:", props.errors)
-          alert("Some files failed to upload. Please try again.")
-          setIsSubmitting(false)
-          return
+          console.error("Some files failed to upload:", props.errors);
+          alert("Some files failed to upload. Please try again.");
+          setIsSubmitting(false);
+          return;
         }
       } catch (error) {
-        console.error("Error uploading files:", error)
-        alert("File upload failed. Please try again.")
-        setIsSubmitting(false)
-        setIsUploading(false)
-        return
+        console.error("Error uploading files:", error);
+        alert("File upload failed. Please try again.");
+        setIsSubmitting(false);
+        setIsUploading(false);
+        return;
       }
     }
-    const formData = new FormData()
-    formData.append("description", description)
-    formData.append("difficulty", post.difficulty? post.difficulty : "easy");
+    const formData = new FormData();
+    formData.append("description", description);
+    formData.append("difficulty", post.difficulty ? post.difficulty : "easy");
 
     try {
-      const submission = await axios.post(`http://localhost:3001/api/submitRecipe/${this_user_id}/${post.user_id}/${post.id}/${submissionId}`, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      const submission = await axios.post(
+        `http://localhost:3001/api/submitRecipe/${this_user_id}/${post.user_id}/${post.id}/${submissionId}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       if (submission.status !== 200) {
-        throw new Error("Failed to submit recipe")
+        throw new Error("Failed to submit recipe");
       }
-      alert("Recipe submitted!")
+      alert("Recipe submitted!");
 
-      setDescription("")
-      props.setFiles([])
-      router.push("/authenticated/challenges")
+      setDescription("");
+      props.setFiles([]);
+      router.push("/authenticated/challenges");
     } catch (e) {
-      console.error(e)
-      alert("Submission failed, please try again")
+      console.error(e);
+      alert("Submission failed, please try again");
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
   // Format date for display
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-US", {
@@ -292,86 +303,102 @@ export default function SubmitSub({ token, postInfo, this_user_id }: SubmitSubPr
                 </div>
               </div>
             </Card>
-            {!isOwnPost && (<form onSubmit={handleSubmit}>
-                  <div className="space-y-6 mt-6">
-                    <div>
-                      <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
-                        Recipe Description <span className="text-red-500">*</span>
-                      </label>
-                      <p className="text-xs text-gray-500 mb-2">
-                        Include ingredients, step-by-step instructions, and any other pieces of information to help {post.username} decide!
-                      </p>
-                      <textarea
-                        id="description"
-                        name="description"
-                        placeholder="Share how you replicated it, ingredients, and step-by-step instructions..."
-                        value={description}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-md h-64 focus:outline-none focus:ring-2 focus:ring-orange-600"
-                        onChange={(e) => setDescription(e.target.value)}
-                        required
-                        disabled={isSubmitting}
-                      ></textarea>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Recipe Photos <span className="text-red-500">*</span>
-                      </label>
-                      <p className="text-xs text-gray-500 mb-4">
-                        Add photos of your dish to make your recipe more appealing. You can upload up to 10 images. <span className="text-red-600 font-extrabold">*DO NOT INCLUDE SCREENSHOTS*</span>
-                      </p>
-                      <div className="w-full dropzone-content-wrapper border-2 border-dashed border-orange-200 rounded-lg hover:border-orange-400 hover:bg-orange-50 transition-colors">
-                        <Dropzone {...props}>
-                          <DropzoneEmptyState />
-                          <DropzoneContent />
-                        </Dropzone>
-                      </div>
-                      {props.files.length === 0 && (
-                        <p className="text-sm text-red-500 mt-2 flex items-center">
-                          <AlertCircle className="h-4 w-4 mr-1" />
-                          At least one image is required
-                        </p>
-                      )}
-                      {props.files.length > 0 && (
-                        <p className="text-sm text-gray-600 mt-2 flex items-center">
-                          <Camera className="h-4 w-4 mr-1 text-orange-500" />
-                          {props.files.length} file{props.files.length !== 1 ? "s" : ""} selected
-                        </p>
-                      )}
-                    </div>
-
-                    <div className="pt-4">
-                      <Button
-                        type="submit"
-                        className="w-full bg-orange-600 hover:bg-orange-700 text-white py-3 rounded-md font-medium flex items-center justify-center gap-2"
-                        disabled={
-                          isSubmitting || props.files.some((file) => file.errors.length > 0) || props.files.length === 0
-                        }
-                      >
-                        {isSubmitting ? (
-                          <>
-                            {isUploading ? (
-                              <>
-                                <Loader2 className="h-5 w-5 animate-spin" />
-                                <span>Uploading Images...</span>
-                              </>
-                            ) : (
-                              <>
-                                <Loader2 className="h-5 w-5 animate-spin" />
-                                <span>Creating Recipe...</span>
-                              </>
-                            )}
-                          </>
-                        ) : (
-                          <>
-                            <Upload className="h-5 w-5" />
-                            <span>Submit Challenge Submission</span>
-                          </>
-                        )}
-                      </Button>
-                    </div>
+            {!isOwnPost && (
+              <form onSubmit={handleSubmit}>
+                <div className="space-y-6 mt-6">
+                  <div>
+                    <label
+                      htmlFor="description"
+                      className="block text-sm font-medium text-gray-700 mb-1"
+                    >
+                      Recipe Description <span className="text-red-500">*</span>
+                    </label>
+                    <p className="text-xs text-gray-500 mb-2">
+                      Include ingredients, step-by-step instructions, and any
+                      other pieces of information to help {post.username}{" "}
+                      decide!
+                    </p>
+                    <textarea
+                      id="description"
+                      name="description"
+                      placeholder="Share how you replicated it, ingredients, and step-by-step instructions..."
+                      value={description}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-md h-64 focus:outline-none focus:ring-2 focus:ring-orange-600"
+                      onChange={(e) => setDescription(e.target.value)}
+                      required
+                      disabled={isSubmitting}
+                    ></textarea>
                   </div>
-                </form>)}
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Recipe Photos <span className="text-red-500">*</span>
+                    </label>
+                    <p className="text-xs text-gray-500 mb-1">
+                      Add photos of your dish to make your recipe more
+                      appealing. You can upload up to 10 images.
+                    </p>
+                    <p className="text-xs text-red-600 font-extrabold mb-4">
+                      *ALL FILE NAMES WITH SPACES WILL BE REPLACED WITH "_" s
+                        SO WATCH OUT FOR DUPLICATE FILE NAMES*
+                    </p>
+
+                    <div className="w-full dropzone-content-wrapper border-2 border-dashed border-orange-200 rounded-lg hover:border-orange-400 hover:bg-orange-50 transition-colors">
+                      <Dropzone {...props}>
+                        <DropzoneEmptyState />
+                        <DropzoneContent />
+                      </Dropzone>
+                    </div>
+                    {props.files.length === 0 && (
+                      <p className="text-sm text-red-500 mt-2 flex items-center">
+                        <AlertCircle className="h-4 w-4 mr-1" />
+                        At least one image is required
+                      </p>
+                    )}
+                    {props.files.length > 0 && (
+                      <p className="text-sm text-gray-600 mt-2 flex items-center">
+                        <Camera className="h-4 w-4 mr-1 text-orange-500" />
+                        {props.files.length} file
+                        {props.files.length !== 1 ? "s" : ""} selected
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="pt-4">
+                    <Button
+                      type="submit"
+                      className="w-full bg-orange-600 hover:bg-orange-700 text-white py-3 rounded-md font-medium flex items-center justify-center gap-2"
+                      disabled={
+                        isSubmitting ||
+                        props.files.some((file) => file.errors.length > 0) ||
+                        props.files.length === 0
+                      }
+                    >
+                      {isSubmitting ? (
+                        <>
+                          {isUploading ? (
+                            <>
+                              <Loader2 className="h-5 w-5 animate-spin" />
+                              <span>Uploading Images...</span>
+                            </>
+                          ) : (
+                            <>
+                              <Loader2 className="h-5 w-5 animate-spin" />
+                              <span>Creating Recipe...</span>
+                            </>
+                          )}
+                        </>
+                      ) : (
+                        <>
+                          <Upload className="h-5 w-5" />
+                          <span>Submit Challenge Submission</span>
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                </div>
+              </form>
+            )}
           </div>
           {/* HERERERERE */}
 
