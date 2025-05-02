@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
 import { usePathname, notFound, useRouter } from "next/navigation"
 import { useState, useEffect } from "react"
-import { ChevronLeft, Clock, User, Award, Check, X, Camera, ChefHat, BookOpen, ThumbsUp } from "lucide-react"
+import { ChevronLeft, Clock, User, Award, Check, X, Camera, ChefHat, BookOpen } from "lucide-react"
 
 type RecipeData = {
   user: string

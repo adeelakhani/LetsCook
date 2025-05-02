@@ -1,60 +1,68 @@
-"use client"
-import { useState } from "react"
-import { Badge } from "@/components/ui/badge"
-import { Card } from "@/components/ui/card"
-import { ChevronRight, Clock, Users, BookOpen } from "lucide-react"
-import { Input } from "@/components/ui/input"
-import { Search } from "lucide-react"
-import "@/styles/globals.css"
+"use client";
+import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
+import { ChevronRight, Clock, Users, BookOpen } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Search } from "lucide-react";
+import "@/styles/globals.css";
+import Image from "next/image";
 
-import { useRouter } from "next/navigation"
+import { useRouter } from "next/navigation";
 
-type Row = {
-  user: string
-  recipe: string
-  submission_time: Date
-}
+type Submission = {
+  id: string;
+  submitted_by_id: string;
+  submitted_by_username: string;
+  submitted_to_id: string;
+  post_id: string;
+  description: string;
+  submitted_by_profile_url: string;
+  created_at: string;
+  difficulty: string;
+  checked: boolean;
+  dish_name: string;
+};
 
 type SubmissionsTable = {
-  elements: Row[]
-  description: string
-}
+  submissions: Submission[];
+  description: string;
+};
 
-export default function SubmissionsTable({ elements, description }: SubmissionsTable) {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [currentPage, setCurrentPage] = useState(1)
+export default function SubmissionsTable({
+  submissions,
+  description,
+}: SubmissionsTable) {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 100;
-  const router = useRouter()
+  const router = useRouter();
 
-  const filteredSubmissions = elements.filter(
+  const filteredSubmissions = submissions.filter(
     (submission) =>
-      submission.user.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      submission.recipe.toLowerCase().includes(searchTerm.toLowerCase()),
-  )
+      submission.submitted_by_username
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      submission.dish_name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
-  const indexOfLastItem = currentPage * itemsPerPage
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage
-  const currentItems = filteredSubmissions.slice(indexOfFirstItem, indexOfLastItem)
-  const totalPages = Math.ceil(filteredSubmissions.length / itemsPerPage)
-
-  const formatDate = (date: Date) => {
-    const options: Intl.DateTimeFormatOptions = {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    }
-    return date.toLocaleDateString("en-US", options)
-  }
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredSubmissions.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
+  const totalPages = Math.ceil(filteredSubmissions.length / itemsPerPage);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-orange-50 via-white to-orange-50">
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Hero Section */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-orange-600 mb-4">Recipe Submissions</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-orange-600 mb-4">
+            Recipe Submissions
+          </h1>
           <p className="text-lg text-gray-700 max-w-3xl mx-auto">
             Track all recipe submissions from our community chefs.
           </p>
@@ -90,12 +98,16 @@ export default function SubmissionsTable({ elements, description }: SubmissionsT
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-orange-100">
-                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">User</th>
-                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Recipe</th>
+                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">
+                      User
+                    </th>
+                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">
+                      Recipe
+                    </th>
                     <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">
                       <div className="flex items-center">
                         <Clock className="mr-1 h-4 w-4 text-orange-500" />
-                        Submission Time
+                        Submission Date
                       </div>
                     </th>
                   </tr>
@@ -103,8 +115,11 @@ export default function SubmissionsTable({ elements, description }: SubmissionsT
                 <tbody>
                   {currentItems.length === 0 ? (
                     <tr>
-                      <td colSpan={3} className="px-4 py-8 text-center text-gray-500">
-                        No submissions found matching your search.
+                      <td
+                        colSpan={3}
+                        className="px-4 py-8 text-center text-gray-500"
+                      >
+                        No submissions found.
                       </td>
                     </tr>
                   ) : (
@@ -116,8 +131,8 @@ export default function SubmissionsTable({ elements, description }: SubmissionsT
                         }`}
                         onClick={() => {
                           router.push(
-                            `/authenticated/user-submissions/${submission.recipe.replaceAll(" ", "-")}_${submission.user}`,
-                          )
+                            `/authenticated/user-submissions/${submission.id}`
+                          );
                         }}
                         onMouseEnter={() => setHoveredIndex(index)}
                         onMouseLeave={() => setHoveredIndex(null)}
@@ -125,27 +140,51 @@ export default function SubmissionsTable({ elements, description }: SubmissionsT
                         <td className="px-4 py-3">
                           <div className="flex items-center">
                             <div className="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center mr-2">
-                              {submission.user.charAt(0).toUpperCase()}
+                              <Image
+                                src={submission.submitted_by_profile_url}
+                                width={75}
+                                height={75}
+                                alt="GoogleIcon"
+                                className="border rounded-lg self-start"
+                              />
                             </div>
-                            <span className="font-medium">{submission.user}</span>
+                            <span className="font-medium">
+                              {submission.submitted_by_username}
+                            </span>
                           </div>
                         </td>
                         <td className="px-4 py-3">
                           <div className="flex items-center">
-                            <Badge variant="outline" className="border-orange-200 text-orange-600 mr-2">
+                            <Badge
+                              variant="outline"
+                              className="border-orange-200 text-orange-600 mr-2"
+                            >
                               Recipe
                             </Badge>
-                            {submission.recipe}
+                            {submission.dish_name}
                           </div>
                         </td>
                         <td className="px-4 py-3">
                           <div className="flex items-center justify-between">
-                            <span className="text-gray-600">{formatDate(submission.submission_time)}</span>
+                            <span className="text-gray-600">
+                              {new Date(submission.created_at).toLocaleString(
+                                "en-US",
+                                {
+                                  year: "numeric",
+                                  month: "short",
+                                  day: "numeric"
+                                }
+                              )}
+                            </span>
                             <ChevronRight
                               className={`
-                  ${hoveredIndex === index ? "text-orange-600 translate-x-1" : "text-gray-400"} 
-                  transition-all duration-200
-                `}
+                                ${
+                                  hoveredIndex === index
+                                    ? "text-orange-600 translate-x-1"
+                                    : "text-gray-400"
+                                } 
+                                transition-all duration-200
+                              `}
                             />
                           </div>
                         </td>
@@ -161,7 +200,8 @@ export default function SubmissionsTable({ elements, description }: SubmissionsT
         {filteredSubmissions.length > 0 && (
           <div className="flex items-center justify-between mt-4 border-t border-orange-100 pt-4">
             <div className="text-sm text-gray-600">
-              Showing {indexOfFirstItem + 1}-{Math.min(indexOfLastItem, filteredSubmissions.length)} of{" "}
+              Showing {indexOfFirstItem + 1}-
+              {Math.min(indexOfLastItem, filteredSubmissions.length)} of{" "}
               {filteredSubmissions.length} submissions
             </div>
             <div className="flex items-center space-x-2">
@@ -176,7 +216,9 @@ export default function SubmissionsTable({ elements, description }: SubmissionsT
                 Page {currentPage} of {totalPages || 1}
               </span>
               <button
-                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                onClick={() =>
+                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                }
                 disabled={currentPage === totalPages || totalPages === 0}
                 className="p-2 rounded-md border border-orange-200 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-orange-50"
               >
@@ -192,7 +234,9 @@ export default function SubmissionsTable({ elements, description }: SubmissionsT
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">Total Submissions</p>
-                <p className="text-2xl font-bold text-orange-600">{elements.length}</p>
+                <p className="text-2xl font-bold text-orange-600">
+                  {submissions.length}
+                </p>
               </div>
               <div className="bg-orange-100 p-3 rounded-full">
                 <BookOpen className="h-6 w-6 text-orange-500" />
@@ -204,7 +248,13 @@ export default function SubmissionsTable({ elements, description }: SubmissionsT
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">Unique Chefs</p>
-                <p className="text-2xl font-bold text-orange-600">{new Set(elements.map((item) => item.user)).size}</p>
+                <p className="text-2xl font-bold text-orange-600">
+                  {
+                    new Set(
+                      submissions.map((item) => item.submitted_by_username)
+                    ).size
+                  }
+                </p>
               </div>
               <div className="bg-orange-100 p-3 rounded-full">
                 <Users className="h-6 w-6 text-orange-500" />
@@ -217,7 +267,7 @@ export default function SubmissionsTable({ elements, description }: SubmissionsT
               <div>
                 <p className="text-sm text-gray-600">Unique Recipes</p>
                 <p className="text-2xl font-bold text-orange-600">
-                  {new Set(elements.map((item) => item.recipe)).size}
+                  {new Set(submissions.map((item) => item.dish_name)).size}
                 </p>
               </div>
               <div className="bg-orange-100 p-3 rounded-full">
@@ -231,10 +281,12 @@ export default function SubmissionsTable({ elements, description }: SubmissionsT
         <div className="text-center mt-8">
           <div className="inline-flex items-center gap-2 bg-orange-100 text-orange-800 px-4 py-2 rounded-lg shadow-sm border border-orange-200">
             <span className="h-3 w-3 bg-orange-500 rounded-full animate-pulse"></span>
-            <span className="font-medium">Remember to mark submissions as complete!</span>
+            <span className="font-medium">
+              Remember to mark submissions as complete!
+            </span>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

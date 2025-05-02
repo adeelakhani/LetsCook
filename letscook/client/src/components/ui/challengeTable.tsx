@@ -12,7 +12,6 @@ import "@/styles/globals.css";
 import { useRouter } from "next/navigation";
 
 type ChallengeTable = {
-  this_user_id: string;
   postsInfo: PostInfoType[];
   description: string;
 };
@@ -28,7 +27,6 @@ type PostInfoType = {
 };
 
 export default function ChallengeTable({
-  this_user_id,
   postsInfo,
   description,
 }: ChallengeTable) {
@@ -43,7 +41,6 @@ export default function ChallengeTable({
       challenge.dish_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       challenge.difficulty.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  console.log(this_user_id);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-orange-50 via-white to-orange-50">

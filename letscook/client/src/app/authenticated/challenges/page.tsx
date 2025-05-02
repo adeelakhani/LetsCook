@@ -53,7 +53,6 @@ export default async function Challenges() {
         redirect("/login");
       }
       const token = session.access_token;
-      const this_user_id = data.user.id;
 
       const posts = await axios.get(`http://localhost:3001/api/getAllRecipes`, {
             headers: {
@@ -70,7 +69,7 @@ export default async function Challenges() {
             <AuthNav highlight="Challenges" />
             <div className="py-5 bg-gray-100 flex-col justify-center content-center items-center mx-auto text-black">            
                 <h1 className="text-3xl font-bold mb-5 justify-center content-center text-center items-center mx-auto">Find a Challenge!</h1>
-                <ChallengeTable this_user_id = {this_user_id} postsInfo={posts.data} description="Click on any challenge to view details"/>
+                <ChallengeTable postsInfo={posts.data} description="Click on any challenge to view details"/>
                 <div className="text-center mt-3 opacity-75">
                     <span className="inline-flex items-center gap-1 bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm">
                         <span className="h-2 w-2 bg-orange-500 rounded-full animate-pulse"></span>
