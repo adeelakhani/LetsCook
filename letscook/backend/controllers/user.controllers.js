@@ -218,12 +218,11 @@ export const getPostInfo = async (req, res) => {
 
 export const submitRecipe = async (req, res) => {
   const token = req.headers["authorization"]?.split(" ")[1];
-  const { description, difficulty } = req.body;
+  const { description, difficulty, dish_name } = req.body;
   const submitters_user_id = req.params.id;
   const submissionId = req.params.submissionId;
   const postUserId = req.params.postUserId;
   const postId = req.params.postId;
-  // console.log(difficulty);
   const { data: user, error: authError } = await supabaseNoAuth.auth.getUser(
     token
   );
@@ -249,6 +248,7 @@ export const submitRecipe = async (req, res) => {
         submitted_by_id: submitters_user_id,
         submitted_by_username: userData[0].username,
         submitted_to_id: postUserId,
+        dish_name: dish_name? dish_name : "unknown",
         post_id: postId,
         description: description,
         difficulty: difficulty,
@@ -306,8 +306,39 @@ export const submitRecipe = async (req, res) => {
     }
     res.status(200).send("Post created successfully");
 };
+export const submissions = async (req, res) => {
+  const token = req.headers["authorization"]?.split(" ")[1];
+  const id = req.params.id;
+  const supabaseAuth = await getClient(token);
+  const { data, error } = await supabaseAuth
+    .from("submissions")
+    .select("*")
+    .eq("submitted_to_id", id)
+    .eq("checked", false);
+
+  if (error) return res.status(400).json({ error: error.message });
+  res.status(200).json(data);
+};
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+export const approve = async (req, res) => {
+  res.status(200).send("Approved");
+};
 export const test = async (req, res) => {
   const submitters_user_id = req.params.id;
   const submissionId = req.params.submissionId;
