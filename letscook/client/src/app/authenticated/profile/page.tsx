@@ -5,6 +5,9 @@ import { redirect } from "next/navigation";
 import "@/styles/globals.css";
 import ProfileChart from "@/components/ui/profileChart";
 import ProfileCard from "@/components/ui/profileCard";
+import ProfileChallengeTable from "@/components/ui/profile-challenge-table"
+import ProfileSubmissionsTable from "@/components/ui/profile-submissions-table"
+
 import axios from 'axios';
 
 import AuthNav from "@/components/ui/authNav";
@@ -105,6 +108,7 @@ export default async function Profile() {
           <h1 className="text-3xl font-bold mb-5 justify-center content-center text-center items-center mx-auto">
             Past Submissions
           </h1>
+          <ProfileSubmissionsTable submissions={submissions.data} />
         </div>
 
         {/* Recipes Created */}
@@ -112,6 +116,7 @@ export default async function Profile() {
           <h1 className="text-3xl font-bold mb-5 justify-center content-center text-center items-center mx-auto">
             Recipes Created
           </h1>
+          <ProfileChallengeTable postsInfo={posts.data} />
         </div>
       </div>
     </div>
