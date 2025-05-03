@@ -12,7 +12,6 @@ export default async function Explore() {
     <div>
       <AuthNav highlight="Explore" />
       <div className="min-w-screen min-h-screen bg">
-        {/* Header Section */}
         <div className="flex-col content-center justify-items-center pt-16 pb-12 px-10 text-center">
           <Badge className="scale-[1.5] bg-orange-700 mb-4">Explore</Badge>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">Culinary Challenges</h1>
@@ -22,18 +21,14 @@ export default async function Explore() {
           </p>
         </div>
 
-        {/* Featured Challenges */}
         <div className="bg-gray-100 py-16 px-10">
           <div className="flex justify-between items-center max-w-5xl mx-auto mb-8">
             <h2 className="text-3xl font-bold">Beginner Recipes</h2>
             <div className="flex gap-3">
-              {/* <Button variant="outline" className="border-orange-600 text-orange-600">Filter</Button>
-              <Button variant="outline" className="border-orange-600 text-orange-600">Difficulty</Button> */}
             </div>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl mx-auto">
-            {/* Challenge Card 1 */}
             <div className="col-span-1 bg-white text-black border-l-4 border-orange-600 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
               <div className="p-6">
                 <div className="flex justify-between items-center mb-4">
@@ -61,7 +56,6 @@ export default async function Explore() {
               </div>
             </div>
 
-            {/* Challenge Card 2 */}
             <div className="col-span-1 bg-white text-black border-l-4 border-green-600 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
               <div className="p-6">
                 <div className="flex justify-between items-center mb-4">
@@ -91,7 +85,6 @@ export default async function Explore() {
           </div>
         </div>
         
-        {/* How It Works Section */}
         <div className="py-16 px-10">
           <h2 className="text-3xl font-bold mb-10 text-center">How It Works</h2>
           
@@ -128,7 +121,6 @@ export default async function Explore() {
           </div>
         </div>
         
-        {/* CTA Section */}
         <div className="py-12 px-10 text-center bg-gray-100">
           <h2 className="text-3xl font-bold mb-6">Ready to test your skills?</h2>
           <p className="text-lg max-w-2xl mx-auto mb-8 text-gray-700">
