@@ -6,6 +6,8 @@ dotenv.config();
 const router = express.Router();
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
+const serviceRole = process.env.SERVICE_ROLE_KEY
+const supabaseAdmin = createClient(supabaseUrl, serviceRole);
 const supabaseNoAuth = createClient(supabaseUrl, supabaseAnonKey);
 
 export const getClient = async (token) => {
@@ -212,7 +214,7 @@ export const getPostInfo = async (req, res) => {
   const newObj = {
     ...data[0],
     images: imageData.map((image) => image.image_url),
-  }
+  };
   res.status(200).json({ newObj });
 };
 
@@ -236,50 +238,50 @@ export const submitRecipe = async (req, res) => {
   }
   const supabaseAuth = await getClient(token);
 
-  //sdfsdf
-    const { data: userData, error: userDataError } = await supabaseAuth
-      .from("profiles")
-      .select("*")
-      .eq("id", submitters_user_id);
-    const { data: submissionData, error: submissionError } = await supabaseAuth
-      .from("submissions")
-      .insert({
-        id: submissionId,
-        submitted_by_id: submitters_user_id,
-        submitted_by_username: userData[0].username,
-        submitted_to_id: postUserId,
-        dish_name: dish_name? dish_name : "unknown",
-        post_id: postId,
-        description: description,
-        difficulty: difficulty,
-        submitted_by_profile_url: userData[0].image_url,
-      })
-      .select()
-      .single();
+  const { data: userData, error: userDataError } = await supabaseAuth
+    .from("profiles")
+    .select("*")
+    .eq("id", submitters_user_id);
+  const { data: submissionData, error: submissionError } = await supabaseAuth
+    .from("submissions")
+    .insert({
+      id: submissionId,
+      submitted_by_id: submitters_user_id,
+      submitted_by_username: userData[0].username,
+      submitted_to_id: postUserId,
+      dish_name: dish_name ? dish_name : "unknown",
+      post_id: postId,
+      description: description,
+      difficulty: difficulty,
+      submitted_by_profile_url: userData[0].image_url,
+    })
+    .select()
+    .single();
 
-    if (submissionError || !submissionData) {
-      console.error("Post creation error:", submissionError);
-      return res.status(500).json({ error: "Post creation failed" });
-    }
+  if (submissionError || !submissionData) {
+    console.error("Post creation error:", submissionError);
+    return res.status(500).json({ error: "Post creation failed" });
+  }
 
+  //herere
+  const { data, error } = await supabaseNoAuth.storage
+    .from("postimages")
+    .list(`submissions/${submitters_user_id}/${postId}/${submissionId}`);
 
-    //herere
-    const { data, error } = await supabaseNoAuth.storage
+  if (error) {
+    console.error("Failed to list images:", error);
+    return res.status(500).json({ error: "Could not list images" });
+  }
+
+  const imageUrls = data.map((file) => {
+    const { data: urlData } = supabaseNoAuth.storage
       .from("postimages")
-      .list(`submissions/${submitters_user_id}/${postId}/${submissionId}`);
-
-    if (error) {
-      console.error("Failed to list images:", error);
-      return res.status(500).json({ error: "Could not list images" });
-    }
-
-    const imageUrls = data.map((file) => {
-      const { data: urlData } = supabaseNoAuth.storage
-        .from("postimages")
-        .getPublicUrl(`submissions/${submitters_user_id}/${postId}/${submissionId}/${file.name}`);
-      return urlData.publicUrl;
-    });
-    const { data: imageData, error: imageError } = await supabaseAuth
+      .getPublicUrl(
+        `submissions/${submitters_user_id}/${postId}/${submissionId}/${file.name}`
+      );
+    return urlData.publicUrl;
+  });
+  const { data: imageData, error: imageError } = await supabaseAuth
     .from("submission_images")
     .insert(
       imageUrls.map((url) => ({
@@ -288,23 +290,23 @@ export const submitRecipe = async (req, res) => {
       }))
     );
 
-    const { count, error: countError } = await supabaseAuth
-      .from("submissions")
-      .select("*", { count: "exact", head: true })
-      .eq("submitted_by_id", submitters_user_id);
-    if (!countError) {
-      const { data: updating, error: updateError } = await supabaseAuth
-        .from("viewableprofiles")
-        .update({ meals_cooked: count })
-        .eq("id", submitters_user_id);
+  const { count, error: countError } = await supabaseAuth
+    .from("submissions")
+    .select("*", { count: "exact", head: true })
+    .eq("submitted_by_id", submitters_user_id);
+  if (!countError) {
+    const { data: updating, error: updateError } = await supabaseAuth
+      .from("viewableprofiles")
+      .update({ meals_cooked: count })
+      .eq("id", submitters_user_id);
 
-      if (updateError) {
-        console.error("Update error:", updateError);
-      }
-    } else {
-      console.error("Count error:", countError);
+    if (updateError) {
+      console.error("Update error:", updateError);
     }
-    res.status(200).send("Post created successfully");
+  } else {
+    console.error("Count error:", countError);
+  }
+  res.status(200).send("Post created successfully");
 };
 export const submissions = async (req, res) => {
   const token = req.headers["authorization"]?.split(" ")[1];
@@ -320,55 +322,187 @@ export const submissions = async (req, res) => {
   res.status(200).json(data);
 };
 
+export const getSubmissionInfo = async (req, res) => {
+  const token = req.headers["authorization"]?.split(" ")[1];
+  const submissionId = req.params.submissionId;
+  const supabaseAuth = await getClient(token);
+  const { data, error } = await supabaseAuth
+    .from("submissions")
+    .select("*")
+    .eq("id", submissionId);
 
+  if (error) return res.status(400).json({ error: error.message });
 
+  const { data: imageData, error: errorData } = await supabaseAuth
+    .from("submission_images")
+    .select("*")
+    .eq("submission_id", submissionId);
+  const newObj = {
+    ...data[0],
+    images: imageData.map((image) => image.image_url),
+  };
+  if (errorData) return res.status(400).json({ error: error.message });
 
+  res.status(200).json({ newObj });
+};
 
+export const approveSubmission = async (req, res) => {
+  const token = req.headers["authorization"]?.split(" ")[1];
+  const submissionId = req.params.id;
+  const difficulty = req.body.difficulty;
+  const supabaseAuth = await getClient(token);
 
+  let points = 0;
+  if (difficulty === "easy") points = 2;
+  else if (difficulty === "medium") points = 5;
+  else if (difficulty === "hard") points = 10;
 
+  const { error: submissionErr } = await supabaseAdmin
+    .from("submissions")
+    .update({ checked: true })
+    .eq("id", submissionId);
 
+  if (submissionErr) {
+    return res.status(400).json({ error: submissionErr.message });
+  }
+  const submittedById = req.body.submitted_by_id;
+  const { data: submittedByUser, error: fetchSubmitterErr } = await supabaseAuth
+    .from("viewableprofiles")
+    .select("points")
+    .eq("id", submittedById)
+    .single();
 
+  if (fetchSubmitterErr) {
+    return res.status(400).json({ error: fetchSubmitterErr.message });
+  }
+  const newSubmitterPoints = (submittedByUser?.points || 0) + points;
 
+  const { error: updateSubmitterErr } = await supabaseAdmin
+    .from("viewableprofiles")
+    .update({ points: newSubmitterPoints })
+    .eq("id", submittedById);
+  if (updateSubmitterErr) {
+    return res.status(400).json({ error: updateSubmitterErr.message });
+  }
 
+  const submittedToId = req.body.submitted_to_id;
+  const { data: submittedToUser, error: fetchReceiverErr } = await supabaseAuth
+    .from("viewableprofiles")
+    .select("points")
+    .eq("id", submittedToId)
+    .single();
 
+  if (fetchReceiverErr) {
+    return res.status(400).json({ error: fetchReceiverErr.message });
+  }
 
+  const newReceiverPoints = (submittedToUser?.points || 0) + points;
 
+  const { error: updateReceiverErr } = await supabaseAuth
+    .from("viewableprofiles")
+    .update({ points: newReceiverPoints })
+    .eq("id", submittedToId);
 
+  if (updateReceiverErr) {
+    return res.status(400).json({ error: updateReceiverErr.message });
+  }
 
-
-export const approve = async (req, res) => {
   res.status(200).send("Approved");
 };
+
+
+export const rejectSubmission = async (req, res) => {
+  const submissionId = req.params.id;
+
+  const { error: submissionErr } = await supabaseAdmin
+    .from("submissions")
+    .update({ checked: true })
+    .eq("id", submissionId);
+
+  if (submissionErr) {
+    return res.status(400).json({ error: submissionErr.message });
+  }
+
+  res.status(200).send("Rejected");
+}
+
+export const userCreations = async (req, res) => {
+  const token = req.headers["authorization"]?.split(" ")[1];
+  const userId = req.params.id;
+  const supabaseAuth = await getClient(token);
+  const { data, error } = await supabaseAuth
+    .from("posts")
+    .select("*")
+    .eq("user_id", userId);
+
+  if (error) return res.status(400).json({ error: error.message });
+  res.json(data);
+}
+
+export const userSubmissions = async (req, res) => {
+  const token = req.headers["authorization"]?.split(" ")[1];
+  const userId = req.params.id;
+  const supabaseAuth = await getClient(token);
+  const { data, error } = await supabaseAuth
+    .from("submissions")
+    .select("*")
+    .eq("submitted_by_id", userId);
+
+  if (error) return res.status(400).json({ error: error.message });
+  res.json(data);
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export const test = async (req, res) => {
   const submitters_user_id = req.params.id;
   const submissionId = req.params.submissionId;
   const postId = req.params.postId;
 
-
   const { data, error } = await supabaseNoAuth.storage
+    .from("postimages")
+    .list(`submissions/${submitters_user_id}/${postId}/${submissionId}`);
+
+  if (error) {
+    console.error("Failed to list images:", error);
+    return res.status(500).json({ error: "Could not list images" });
+  }
+
+  const imageUrls = data.map((file) => {
+    const { data: urlData } = supabaseNoAuth.storage
       .from("postimages")
-      .list(`submissions/${submitters_user_id}/${postId}/${submissionId}`);
+      .getPublicUrl(
+        `submissions/${submitters_user_id}/${postId}/${submissionId}/${file.name}`
+      );
+    return urlData.publicUrl;
+  });
 
-    if (error) {
-      console.error("Failed to list images:", error);
-      return res.status(500).json({ error: "Could not list images" });
-    }
-
-    const imageUrls = data.map((file) => {
-      const { data: urlData } = supabaseNoAuth.storage
-        .from("postimages")
-        .getPublicUrl(`submissions/${submitters_user_id}/${postId}/${submissionId}/${file.name}`);
-      return urlData.publicUrl;
-    });
-
-    // const { data: imageData, error: imageError } = await supabaseAuth
-    //   .from("post_images")
-    //   .insert(
-    //     imageUrls.map((url) => ({
-    //       post_id: postID,
-    //       image_url: url,
-    //     }))
-    //   ); 
+  // const { data: imageData, error: imageError } = await supabaseAuth
+  //   .from("post_images")
+  //   .insert(
+  //     imageUrls.map((url) => ({
+  //       post_id: postID,
+  //       image_url: url,
+  //     }))
+  //   );
 
   res.status(200).json({ imageUrls });
 };
