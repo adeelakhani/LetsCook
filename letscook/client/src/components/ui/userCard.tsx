@@ -1,12 +1,7 @@
 "use client"
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card"
-import { Line, LineChart, CartesianGrid, XAxis, YAxis } from "recharts"
-import { ChartConfig, ChartContainer } from "@/components/ui/chart"
-import { ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-import { ChartLegend, ChartLegendContent } from "@/components/ui/chart"
-import { Button } from "@/components/ui/button"
 import Image from "next/image"
-import signOutFromGoogle  from "@/utils/supabase/signOutFromGoogle"
+// import signOutFromGoogle  from "@/utils/supabase/signOutFromGoogle"
 
 type Person = {
     username: string, 
