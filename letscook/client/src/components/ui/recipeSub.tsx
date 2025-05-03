@@ -180,7 +180,7 @@ export default function RecipeSubmissionForm({ user_id, token }: RecipeSubmissio
                         Recipe Description <span className="text-red-500">*</span>
                       </label>
                       <p className="text-xs text-gray-500 mb-2">
-                        Include ingredients, step-by-step instructions, and any tips for making this dish.
+                        Include ingredients, step-by-step instructions, and any tips for making this dish. A video link could also help!
                       </p>
                       <textarea
                         id="description"

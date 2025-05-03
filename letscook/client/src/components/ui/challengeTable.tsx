@@ -1,61 +1,60 @@
-"use client";
-import { useState } from "react";
-import { Badge } from "@/components/ui/badge";
-import { Card } from "@/components/ui/card";
-import { ChevronRight, Award, BookOpen, Star } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
-import Image from "next/image";
+"use client"
+import { useState } from "react"
+import { Badge } from "@/components/ui/badge"
+import { Card } from "@/components/ui/card"
+import { ChevronRight, Award, BookOpen, Star } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import { Search } from "lucide-react"
+import Image from "next/image"
 
-import "@/styles/globals.css";
+import "@/styles/globals.css"
 
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation"
 
 type ChallengeTable = {
-  postsInfo: PostInfoType[];
-  description: string;
-};
+  postsInfo: PostInfoType[]
+  description: string
+}
 type PostInfoType = {
-  id: string;
-  user_id: string;
-  username: string;
-  dish_name: string;
-  difficulty: string;
-  description: string;
-  profile_url: string;
-  created_at: string;
-};
+  id: string
+  user_id: string
+  username: string
+  dish_name: string
+  difficulty: string
+  description: string
+  profile_url: string
+  created_at: string
+}
 
-export default function ChallengeTable({
-  postsInfo,
-  description,
-}: ChallengeTable) {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const router = useRouter();
+export default function ChallengeTable({ postsInfo, description }: ChallengeTable) {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
+  const [searchTerm, setSearchTerm] = useState("")
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 20
+  const router = useRouter()
 
-  // Filter challenges based on search term
   const filteredChallenges = postsInfo.filter(
     (challenge) =>
       challenge.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
       challenge.dish_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      challenge.difficulty.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+      challenge.difficulty.toLowerCase().includes(searchTerm.toLowerCase()),
+  )
+
+  const indexOfLastItem = currentPage * itemsPerPage
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage
+  const currentItems = filteredChallenges.slice(indexOfFirstItem, indexOfLastItem)
+  const totalPages = Math.ceil(filteredChallenges.length / itemsPerPage)
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-orange-50 via-white to-orange-50">
       <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Hero Section */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-orange-600 mb-4">
-            Recipe Challenges
-          </h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-orange-600 mb-4">Recipe Challenges</h1>
           <p className="text-lg text-gray-700 max-w-3xl mx-auto">
             Test your culinary skills with these exciting recipe challenges.
           </p>
         </div>
 
-        {/* Main Content */}
         <Card className="bg-white shadow-md border border-orange-200 overflow-hidden">
           <div className="p-4 border-b border-orange-100 bg-gradient-to-r from-orange-50 to-white">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
@@ -85,15 +84,9 @@ export default function ChallengeTable({
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-orange-100">
-                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">
-                      Author
-                    </th>
-                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">
-                      Recipe
-                    </th>
-                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">
-                      Difficulty
-                    </th>
+                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Author</th>
+                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Recipe</th>
+                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Difficulty</th>
                     <th className="px-4 py-3 text-right text-sm font-semibold text-gray-600">
                       <div className="flex items-center justify-end">
                         <Star className="mr-1 h-4 w-4 text-orange-500" />
@@ -105,22 +98,19 @@ export default function ChallengeTable({
                 <tbody>
                   {filteredChallenges.length === 0 ? (
                     <tr>
-                      <td
-                        colSpan={4}
-                        className="px-4 py-8 text-center text-gray-500"
-                      >
+                      <td colSpan={4} className="px-4 py-8 text-center text-gray-500">
                         No challenges found matching your search.
                       </td>
                     </tr>
                   ) : (
-                    filteredChallenges.map((challenge, index) => (
+                    currentItems.map((challenge, index) => (
                       <tr
                         key={index}
                         className={`border-b border-orange-50 hover:bg-orange-50 hover:cursor-pointer transition-colors ${
                           hoveredIndex === index ? "bg-orange-50" : ""
                         }`}
                         onClick={() => {
-                          router.push(`/authenticated/submit/${challenge.id}`);
+                          router.push(`/authenticated/submit/${challenge.id}`)
                         }}
                         onMouseEnter={() => setHoveredIndex(index)}
                         onMouseLeave={() => setHoveredIndex(null)}
@@ -129,24 +119,19 @@ export default function ChallengeTable({
                           <div className="flex items-center">
                             <div className="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center mr-2">
                               <Image
-                                src={challenge.profile_url}
+                                src={challenge.profile_url || "/placeholder.svg"}
                                 width={75}
                                 height={75}
                                 alt="GoogleIcon"
                                 className="border rounded-lg self-start"
                               />
                             </div>
-                            <span className="font-medium">
-                              {challenge.username}
-                            </span>
+                            <span className="font-medium">{challenge.username}</span>
                           </div>
                         </td>
                         <td className="px-4 py-3">
                           <div className="flex items-center">
-                            <Badge
-                              variant="outline"
-                              className="border-orange-200 text-orange-600 mr-2"
-                            >
+                            <Badge variant="outline" className="border-orange-200 text-orange-600 mr-2">
                               Recipe
                             </Badge>
                             {challenge.dish_name}
@@ -154,19 +139,13 @@ export default function ChallengeTable({
                         </td>
                         <td className="px-4 py-3">
                           {challenge.difficulty === "easy" && (
-                            <Badge className="bg-cyan-600 hover:bg-cyan-700">
-                              Easy
-                            </Badge>
+                            <Badge className="bg-cyan-600 hover:bg-cyan-700">Easy</Badge>
                           )}
                           {challenge.difficulty === "medium" && (
-                            <Badge className="bg-yellow-600 hover:bg-yellow-700">
-                              Medium
-                            </Badge>
+                            <Badge className="bg-yellow-600 hover:bg-yellow-700">Medium</Badge>
                           )}
                           {challenge.difficulty === "hard" && (
-                            <Badge className="bg-red-600 hover:bg-red-700">
-                              Hard
-                            </Badge>
+                            <Badge className="bg-red-600 hover:bg-red-700">Hard</Badge>
                           )}
                         </td>
                         <td className="px-4 py-3">
@@ -175,18 +154,14 @@ export default function ChallengeTable({
                               {challenge.difficulty === "easy"
                                 ? 2
                                 : challenge.difficulty === "medium"
-                                ? 5
-                                : challenge.difficulty === "hard"
-                                ? 10
-                                : 0}
+                                  ? 5
+                                  : challenge.difficulty === "hard"
+                                    ? 10
+                                    : 0}
                             </span>
                             <ChevronRight
                               className={`
-                                ${
-                                  hoveredIndex === index
-                                    ? "text-orange-600 translate-x-1"
-                                    : "text-gray-400"
-                                } 
+                                ${hoveredIndex === index ? "text-orange-600 translate-x-1" : "text-gray-400"} 
                                 transition-all duration-200
                               `}
                             />
@@ -201,15 +176,40 @@ export default function ChallengeTable({
           </div>
         </Card>
 
-        {/* Stats Cards */}
+        {filteredChallenges.length > 0 && (
+          <div className="flex items-center justify-between mt-4 border-t border-orange-100 pt-4">
+            <div className="text-sm text-gray-600">
+              Showing {indexOfFirstItem + 1}-{Math.min(indexOfLastItem, filteredChallenges.length)} of{" "}
+              {filteredChallenges.length} challenges
+            </div>
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className="p-2 rounded-md border border-orange-200 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-orange-50"
+              >
+                <ChevronRight className="h-4 w-4 text-orange-600 transform rotate-180" />
+              </button>
+              <span className="text-sm font-medium text-gray-700">
+                Page {currentPage} of {totalPages || 1}
+              </span>
+              <button
+                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                disabled={currentPage === totalPages || totalPages === 0}
+                className="p-2 rounded-md border border-orange-200 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-orange-50"
+              >
+                <ChevronRight className="h-4 w-4 text-orange-600" />
+              </button>
+            </div>
+          </div>
+        )}
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
           <Card className="bg-white shadow-md border border-orange-200 p-4">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">Total Challenges</p>
-                <p className="text-2xl font-bold text-orange-600">
-                  {postsInfo.length}
-                </p>
+                <p className="text-2xl font-bold text-orange-600">{postsInfo.length}</p>
               </div>
               <div className="bg-orange-100 p-3 rounded-full">
                 <BookOpen className="h-6 w-6 text-orange-500" />
@@ -242,11 +242,11 @@ export default function ChallengeTable({
                       (item.difficulty === "easy"
                         ? 2
                         : item.difficulty === "medium"
-                        ? 5
-                        : item.difficulty === "hard"
-                        ? 10
-                        : 0),
-                    0
+                          ? 5
+                          : item.difficulty === "hard"
+                            ? 10
+                            : 0),
+                    0,
                   )}
                 </p>
               </div>
@@ -257,16 +257,13 @@ export default function ChallengeTable({
           </Card>
         </div>
 
-        {/* Reminder */}
         <div className="text-center mt-8">
           <div className="inline-flex items-center gap-2 bg-orange-100 text-orange-800 px-4 py-2 rounded-lg shadow-sm border border-orange-200">
             <span className="h-3 w-3 bg-orange-500 rounded-full animate-pulse"></span>
-            <span className="font-medium">
-              Complete challenges to earn points and badges!
-            </span>
+            <span className="font-medium">Complete challenges to earn points and badges!</span>
           </div>
         </div>
       </div>
     </div>
-  );
+  )
 }

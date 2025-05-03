@@ -64,6 +64,8 @@ export default async function Challenges() {
             console.log("Error fetching posts");
             redirect("/login");
         }
+        posts.data = [...posts.data].sort(() => Math.random() - 0.5);
+
     return (
         <div>
             <AuthNav highlight="Challenges" />
