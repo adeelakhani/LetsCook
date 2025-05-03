@@ -26,7 +26,7 @@ export default async function Submit({
     redirect("/login");
   }
   const token = session.access_token;
-  // const this_user_id = data.user.id;
+  const this_user_id = data.user.id;
   const submission = await axios.get(
     `http://localhost:3001/api/getSubmissionInfo/${submissionId}`,
     {
@@ -56,7 +56,7 @@ export default async function Submit({
   return (
     <div>
       <AuthNav highlight="Submissions" />
-      <UserSubmitSub token={token} postData={posts.data} submissionData={submission.data}/>
+      <UserSubmitSub this_user_id={this_user_id} token={token} postData={posts.data} submissionData={submission.data}/>
     </div>
   );
 }

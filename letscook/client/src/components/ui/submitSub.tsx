@@ -28,24 +28,22 @@ import {
   Trash2,
 } from "lucide-react";
 
-// Define the data structure for the post info
 type PostInfo = {
   id: string;
   user_id: string;
   username: string;
   dish_name: string;
-  difficulty?: string; // Make difficulty optional
+  difficulty?: string; 
   description: string;
   profile_url: string;
   created_at: string;
   images: string[];
 };
 
-// Component props
 interface SubmitSubProps {
   token: string;
 
-  postInfo: PostInfo | { newObj: PostInfo }; // Accept either direct PostInfo or wrapped in newObj
+  postInfo: PostInfo | { newObj: PostInfo }; 
   this_user_id: string;
 }
 
@@ -72,10 +70,8 @@ export default function SubmitSub({
   const [isUploading, setIsUploading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Handle the case where postInfo might be wrapped in a newObj property
   const post = "newObj" in postInfo ? postInfo.newObj : postInfo;
 
-  // Check if this is the user's own post
   const isOwnPost = post.user_id === this_user_id;
   const submissionId = uuidv4();
   const props = useSupabaseUpload({
@@ -146,7 +142,6 @@ export default function SubmitSub({
       setIsSubmitting(false);
     }
   };
-  // Format date for display
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-US", {
       year: "numeric",
@@ -155,7 +150,6 @@ export default function SubmitSub({
     });
   };
 
-  // Safely get difficulty level with null checks
   const getDifficultyColor = () => {
     if (!post.difficulty) return "bg-gray-700";
 
@@ -165,7 +159,6 @@ export default function SubmitSub({
     return "bg-red-700";
   };
 
-  // Get difficulty points safely
   const getDifficultyPoints = () => {
     if (!post.difficulty) return "0";
 
@@ -175,7 +168,6 @@ export default function SubmitSub({
     return "10";
   };
 
-  // Handle delete post
   const handleDeletePost = async () => {
     if (
       !confirm(
@@ -188,19 +180,20 @@ export default function SubmitSub({
     setIsDeleting(true);
 
     try {
-      // This is where you would make the API call to delete the post
-      // Example API call:
-      // await fetch(`/api/recipes/${post.id}`, {
-      //   method: 'DELETE',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      // });
+      const response = await axios.delete(`http://localhost:3001/api/deletePost/${post.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      })
 
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      if (response.status === 200) {
+        alert("Post deleted successfully!")
+        router.push("/authenticated/profile")
+      } else {
+        throw new Error("Failed to delete submission")
+      }
 
-      // Redirect after successful deletion
       router.push("/authenticated/challenges");
     } catch (error) {
       console.error("Error deleting post:", error);
@@ -213,7 +206,6 @@ export default function SubmitSub({
   return (
     <div className="min-h-screen bg-gradient-to-b from-orange-50 via-white to-orange-50">
       <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Back button */}
         <div className="mb-6">
           <Button
             variant="ghost"
@@ -225,7 +217,6 @@ export default function SubmitSub({
           </Button>
         </div>
 
-        {/* Hero Section */}
         <div className="text-center mb-8">
           <div className="inline-block bg-orange-100 text-orange-800 px-4 py-1 rounded-full text-sm font-medium mb-4">
             Recipe Challenge
@@ -249,7 +240,6 @@ export default function SubmitSub({
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content */}
           <div className="lg:col-span-2">
             <Card className="bg-white shadow-md border border-orange-200 overflow-hidden">
               <div className="p-4 border-b border-orange-100 bg-gradient-to-r from-orange-50 to-white">
@@ -265,7 +255,6 @@ export default function SubmitSub({
               </div>
 
               <div className="p-6">
-                {/* Description */}
                 <div className="mb-6">
                   <p className="text-gray-700 leading-relaxed">
                     {post.description}
@@ -274,7 +263,6 @@ export default function SubmitSub({
               </div>
             </Card>
 
-            {/* Submitted Images */}
             <Card className="bg-white shadow-md border border-orange-200 overflow-hidden mt-6">
               <div className="p-4 border-b border-orange-100 bg-gradient-to-r from-orange-50 to-white">
                 <h2 className="text-xl font-bold text-orange-800 flex items-center">
@@ -403,9 +391,7 @@ export default function SubmitSub({
           </div>
           {/* HERERERERE */}
 
-          {/* Sidebar */}
           <div className="lg:col-span-1">
-            {/* User Profile */}
             <Card className="bg-white shadow-md border border-orange-200 overflow-hidden mb-6">
               <div className="p-4 border-b border-orange-100 bg-gradient-to-r from-orange-50 to-white">
                 <h2 className="text-xl font-bold text-orange-800 flex items-center">
@@ -444,7 +430,6 @@ export default function SubmitSub({
               </div>
             </Card>
 
-            {/* Recipe Stats */}
             <Card className="bg-white shadow-md border border-orange-200 overflow-hidden mb-6">
               <div className="p-4 border-b border-orange-100 bg-gradient-to-r from-orange-50 to-white">
                 <h2 className="text-xl font-bold text-orange-800 flex items-center">
@@ -504,7 +489,6 @@ export default function SubmitSub({
               </div>
             </Card>
 
-            {/* Actions - Only showing delete for owner */}
             {isOwnPost && (
               <Card className="bg-white shadow-md border border-orange-200 overflow-hidden">
                 <div className="p-4 border-b border-orange-100 bg-gradient-to-r from-orange-50 to-white">

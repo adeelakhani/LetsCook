@@ -12,26 +12,77 @@ import axios from 'axios';
 
 import AuthNav from "@/components/ui/authNav";
 
-// const submissions = [
-//   { author: "Haris Khawja", recipe: "Hakka Chow Mein", difficulty: "Medium" },
-//   { author: "Sir Williams", recipe: "Clam Chowder", difficulty: "Hard" },
-//   { author: "ishowspeed", recipe: "Chicken Nuggets", difficulty: "Easy" },
-// ];
 
-// const recipes = [
-//   { author: "harisk", recipe: "Chicken Biryani", difficulty: "Hard" },
-//   { author: "harisk", recipe: "Mashed Potatoes", difficulty: "Easy" },
-//   { author: "harisk", recipe: "Methi Aloo", difficulty: "Medium" },
-// ];
+type SubmitInfo = {
+  id: string
+  user_id: string
+  username: string
+  dish_name: string
+  difficulty?: string
+  description: string
+  profile_url: string
+  created_at: string
+  images: string[]
+}
+type PostInfo = {
+  id: string;
+  user_id: string;
+  username: string;
+  dish_name: string;
+  difficulty?: string;
+  description: string;
+  profile_url: string;
+  created_at: string;
+  images: string[];
+};
 
-const chartData = [
-  { month: "January", meals: 0, recipes: 80 },
-  { month: "February", meals: 305, recipes: 200 },
-  { month: "March", meals: 237, recipes: 120 },
-  { month: "April", meals: 73, recipes: 190 },
-  { month: "May", meals: 209, recipes: 130 },
-  { month: "June", meals: 214, recipes: 140 },
-];
+
+function generateChartData(posts: PostInfo[], submissions: SubmitInfo[]) {
+  const currentYear = new Date().getFullYear()
+
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ]
+
+  // Create initial chart data with zeros
+  const chartData = months.map((month) => ({
+    month,
+    meals: 0,
+    recipes: 0,
+  }))
+
+  posts.forEach((post) => {
+    const postDate = new Date(post.created_at)
+    if (postDate.getFullYear() === currentYear) {
+      const monthIndex = postDate.getMonth()
+      chartData[monthIndex].recipes += 1
+    }
+  })
+
+  submissions.forEach((submission) => {
+    const submissionDate = new Date(submission.created_at)
+    if (submissionDate.getFullYear() === currentYear) {
+      const monthIndex = submissionDate.getMonth()
+      chartData[monthIndex].meals += 1
+    }
+  })
+
+  const currentMonthIndex = new Date().getMonth()
+
+  return chartData.slice(0, currentMonthIndex + 1)
+}
+
 
 export default async function Profile() {
   const supabase = await createClientForServer();
@@ -75,10 +126,7 @@ export default async function Profile() {
     alert("Failed to fetch submissions");
     redirect("/login");
   }
-  console.log("All user posts");
-  console.log(posts.data);
-  console.log("All user submissions");
-  console.log(submissions.data);
+  const chartData = generateChartData(posts.data, submissions.data)
 
 
   const user = {
@@ -95,15 +143,12 @@ export default async function Profile() {
     <div>
       <AuthNav highlight="Profile" />
       <div className="min-w-screen min-h-screen">
-        {/* Profile Card */}
         <div className="lg:flex lg:gap-10 flex-col-1 justify-center mx-auto content-center items-center bg-white">
           <ProfileCard user={user} />
 
-          {/* Submissions Chart */}
           <ProfileChart elements={chartData} />
         </div>
 
-        {/* Past Submissions */}
         <div className="py-5 bg-gray-100 flex-col justify-center content-center items-center mx-auto text-black">
           <h1 className="text-3xl font-bold mb-5 justify-center content-center text-center items-center mx-auto">
             Past Submissions
@@ -111,7 +156,6 @@ export default async function Profile() {
           <ProfileSubmissionsTable submissions={submissions.data} />
         </div>
 
-        {/* Recipes Created */}
         <div className="py-5 flex-col justify-center content-center items-center mx-auto text-black">
           <h1 className="text-3xl font-bold mb-5 justify-center content-center text-center items-center mx-auto">
             Recipes Created
