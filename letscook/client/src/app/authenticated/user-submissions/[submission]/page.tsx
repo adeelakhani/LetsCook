@@ -26,11 +26,37 @@ export default async function Submit({
     redirect("/login");
   }
   const token = session.access_token;
-  const this_user_id = data.user.id;
+  // const this_user_id = data.user.id;
+  const submission = await axios.get(
+    `http://localhost:3001/api/getSubmissionInfo/${submissionId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+  if (submission.status !== 200) {
+    throw new Error("Failed to submit recipe");
+  }
+  const posts = await axios.get(
+    `http://localhost:3001/api/getPostInfo/${submission.data.newObj.post_id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+  if (posts.status !== 200) {
+    throw new Error("Failed to submit recipe");
+  }
+  // console.log(submission.data)
+  // console.log(submission.data.newObj.post_id);
   return (
     <div>
       <AuthNav highlight="Submissions" />
-      <UserSubmitSub />
+      <UserSubmitSub token={token} postData={posts.data} submissionData={submission.data}/>
     </div>
   );
 }

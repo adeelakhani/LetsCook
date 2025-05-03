@@ -151,7 +151,7 @@ export default async function Submissions() {
             console.log("Error fetching submissions");
             redirect("/login");
         }
-        console.log(submissions_.data);
+        // console.log(submissions_.data);
     return (
         <div>
             <AuthNav highlight="Submissions" />

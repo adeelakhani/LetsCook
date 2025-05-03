@@ -3,24 +3,23 @@ import React from "react";
 import { createClientForServer } from "@/utils/supabase/supabaseClient";
 import { redirect } from "next/navigation";
 import "@/styles/globals.css";
-import ChallengeTable from "@/components/ui/challengeTable";
 import ProfileChart from "@/components/ui/profileChart";
 import ProfileCard from "@/components/ui/profileCard";
 import axios from 'axios';
 
 import AuthNav from "@/components/ui/authNav";
 
-const submissions = [
-  { author: "Haris Khawja", recipe: "Hakka Chow Mein", difficulty: "Medium" },
-  { author: "Sir Williams", recipe: "Clam Chowder", difficulty: "Hard" },
-  { author: "ishowspeed", recipe: "Chicken Nuggets", difficulty: "Easy" },
-];
+// const submissions = [
+//   { author: "Haris Khawja", recipe: "Hakka Chow Mein", difficulty: "Medium" },
+//   { author: "Sir Williams", recipe: "Clam Chowder", difficulty: "Hard" },
+//   { author: "ishowspeed", recipe: "Chicken Nuggets", difficulty: "Easy" },
+// ];
 
-const recipes = [
-  { author: "harisk", recipe: "Chicken Biryani", difficulty: "Hard" },
-  { author: "harisk", recipe: "Mashed Potatoes", difficulty: "Easy" },
-  { author: "harisk", recipe: "Methi Aloo", difficulty: "Medium" },
-];
+// const recipes = [
+//   { author: "harisk", recipe: "Chicken Biryani", difficulty: "Hard" },
+//   { author: "harisk", recipe: "Mashed Potatoes", difficulty: "Easy" },
+//   { author: "harisk", recipe: "Methi Aloo", difficulty: "Medium" },
+// ];
 
 const chartData = [
   { month: "January", meals: 0, recipes: 80 },
@@ -53,13 +52,31 @@ export default async function Profile() {
       'Content-Type': 'application/json',
     },
   });
-  const posts = await axios.get(`http://localhost:3001/api/getAllRecipes`, {
+  const posts = await axios.get(`http://localhost:3001/api/userCreations/${this_user_id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "multipart/form-data",
     },
   })
-console.log(posts.data);
+  if (posts.status !== 200) {
+    alert("Failed to fetch posts");
+    redirect("/login");
+  }
+  const submissions = await axios.get(`http://localhost:3001/api/userSubmissions/${this_user_id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data",
+    },
+  })
+  if(submissions.status !== 200) {
+    alert("Failed to fetch submissions");
+    redirect("/login");
+  }
+  console.log("All user posts");
+  console.log(posts.data);
+  console.log("All user submissions");
+  console.log(submissions.data);
+
 
   const user = {
     username: userData.data[0].username,
@@ -88,7 +105,6 @@ console.log(posts.data);
           <h1 className="text-3xl font-bold mb-5 justify-center content-center text-center items-center mx-auto">
             Past Submissions
           </h1>
-          <ChallengeTable elements={submissions} description="Click on any challenge to view details"/>
         </div>
 
         {/* Recipes Created */}
@@ -96,7 +112,6 @@ console.log(posts.data);
           <h1 className="text-3xl font-bold mb-5 justify-center content-center text-center items-center mx-auto">
             Recipes Created
           </h1>
-          <ChallengeTable elements={recipes} description="Click on any recipe to view details"/>
         </div>
       </div>
     </div>

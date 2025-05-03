@@ -1,161 +1,140 @@
 "use client"
 
-import type React from "react"
+import { useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
-import { usePathname, notFound, useRouter } from "next/navigation"
-import { useState, useEffect } from "react"
-import { ChevronLeft, Clock, User, Award, Check, X, Camera, ChefHat, BookOpen } from "lucide-react"
+import { ChevronLeft, Clock, User, Camera, BookOpen, CheckCircle2, X, Check, Award, Loader2 } from "lucide-react"
+import axios from "axios"
 
-type RecipeData = {
-  user: string
-  recipe: string
-  difficulty: string
-  submission_date: Date
+// Define the data structure for the post info
+type PostInfo = {
+  id: string
+  user_id: string
+  username: string
+  dish_name: string
+  difficulty?: string
   description: string
+  profile_url: string
+  created_at: string
+  images: string[]
 }
 
-export default function RecipeSubmissionDetails() {
-  const [uploadedFiles, setUploadedFiles] = useState<File[]>([])
-  const [imagePreviews, setImagePreviews] = useState<{ name: string; url: string }[]>([])
-  const [isApproving, setIsApproving] = useState(false)
-  const maxImages = 10
+// Define the data structure for the submission info
+type SubmissionInfo = {
+  id: string
+  submitted_by_id: string
+  submitted_by_username: string
+  submitted_to_id: string
+  post_id: string
+  description: string
+  submitted_by_profile_url: string
+  created_at: string
+  difficulty: string
+  checked: boolean
+  dish_name: string
+  images: string[]
+}
+
+interface UserSubmitSubProps {
+  token: string
+  postData: { newObj: PostInfo } | PostInfo
+  submissionData: { newObj: SubmissionInfo }
+}
+
+export default function UserSubmitSub({ token, postData, submissionData }: UserSubmitSubProps) {
   const router = useRouter()
+  const [isApproving, setIsApproving] = useState(false)
+  const [isRejecting, setIsRejecting] = useState(false)
 
-  const pathname = usePathname()
-  const recipeName = pathname.split("/").slice(-1)[0].split("_")[0].replaceAll("-", " ")
-  const user = pathname.split("/").slice(-1)[0].split("_")[1]
+  // Handle the case where postData might be wrapped in a newObj property
+  const post = "newObj" in postData ? postData.newObj : postData
+  const submission = submissionData.newObj
 
-  const submissionData: RecipeData = {
-    user: user,
-    recipe: recipeName,
-    difficulty: "Medium",
-    submission_date: new Date(2025, 2, 18),
-    description: `Hakka Chow Mein is a stir-fried noodle dish popular in Indian-Chinese cuisine. It features wok-tossed noodles with vegetables, soy-based sauces, and sometimes protein like chicken, shrimp, or tofu. The dish is known for its bold umami flavors, slightly smoky aroma from high-heat cooking, and crispy yet chewy texture.
-
-Ingredients: 
-- 200g Hakka noodles (or thin wheat noodles)
-- 2 tbsp oil (vegetable or sesame)
-- 1 cup mixed vegetables (carrot, cabbage, bell peppers, beans)
-- 1/2 cup protein (chicken, shrimp, tofu – optional)
-- 3 cloves garlic (minced)
-- 1-inch ginger (grated)
-- 2 spring onions (chopped, white and green parts separated)
-- 1 tbsp soy sauce
-- 1 tbsp dark soy sauce (for color)
-- 1 tsp vinegar (white or rice vinegar)
-- 1/2 tsp chili sauce (adjust to taste)
-- 1/2 tsp black pepper
-- 1/2 tsp salt
-- 1/2 tsp sugar (optional, balances flavors)
-
-Recipe:
-1. Boil the Noodles
-   - Bring a pot of water to a rolling boil.  
-   - Add Hakka noodles and cook according to package instructions (usually 3-4 minutes).  
-   - Drain and rinse under cold water to prevent sticking. Toss with a little oil and set aside.
-
-2. Prepare the Stir-Fry Base
-   - Heat oil in a large wok or pan over high heat.  
-   - Add minced garlic, grated ginger, and white parts of spring onions. Stir-fry for 30 seconds until fragrant.
-
-3. Cook the Vegetables & Protein
-   - Add chopped vegetables and stir-fry for 2-3 minutes on high heat until slightly tender but still crisp.  
-   - If using protein, add it now and cook until done (chicken should turn golden, shrimp should be pink, tofu should be lightly browned).
-
-4. Add Noodles & Sauces
-   - Add the cooked noodles to the wok.  
-   - Pour in soy sauce, dark soy sauce, vinegar, chili sauce, salt, sugar, and black pepper.  
-   - Toss everything well using tongs or chopsticks to coat the noodles evenly. Stir-fry for another 2 minutes.
-
-5. Final Touch & Serve
-   - Sprinkle the green parts of spring onions on top.  
-   - Give one last toss and remove from heat.  
-   - Serve hot with extra chili sauce or vinegar on the side.`,
-  }
-
-  if (false) {
-    notFound()
-  }
-
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files || []) as File[]
-
-    if (uploadedFiles.length + files.length > maxImages) {
-      alert(`You can only upload up to ${maxImages} images.`)
-      return
-    }
-
-    setUploadedFiles([...uploadedFiles, ...files])
-  }
-
-  // Generate image previews whenever uploaded files change
-  useEffect(() => {
-    interface ImagePreview {
-      name: string
-      url: string
-    }
-    const newPreviews: ImagePreview[] = []
-
-    uploadedFiles.forEach((file) => {
-      const reader = new FileReader()
-
-      reader.onload = (e: ProgressEvent<FileReader>) => {
-        newPreviews.push({
-          name: file.name,
-          url: e.target?.result as string,
-        })
-
-        if (newPreviews.length === uploadedFiles.length) {
-          setImagePreviews(newPreviews)
-        }
-      }
-
-      reader.readAsDataURL(file)
+  // Format date for display
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
     })
-
-    if (uploadedFiles.length === 0) {
-      setImagePreviews([])
-    }
-  }, [uploadedFiles])
-
-  const removeImage = (index: number): void => {
-    setUploadedFiles(uploadedFiles.filter((_, i) => i !== index))
   }
 
-  const handleApproveSubmission = () => {
+  // Get difficulty color
+  const getDifficultyColor = (difficulty?: string) => {
+    if (!difficulty) return "bg-gray-700"
+
+    const difficultyLower = difficulty.toLowerCase()
+    if (difficultyLower === "easy") return "bg-cyan-700"
+    if (difficultyLower === "medium") return "bg-yellow-700"
+    return "bg-red-700"
+  }
+
+  // Get difficulty points
+  const getDifficultyPoints = (difficulty?: string) => {
+    if (!difficulty) return "0"
+
+    const difficultyLower = difficulty.toLowerCase()
+    if (difficultyLower === "easy") return "2"
+    if (difficultyLower === "medium") return "5"
+    return "10"
+  }
+
+  const handleApproveSubmission = async () => {
     setIsApproving(true)
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      const response = await axios.post(
+        `http://localhost:3001/api/approveSubmission/${submission.id}`,
+        submission,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        },
+      )
+      if (response.status === 200) {
+        alert("Submission approved successfully!")
+        router.push("/authenticated/submissions")
+      } else {
+        throw new Error("Failed to approve submission")
+        router.push("/authenticated/submissions")
+      }
+    } catch (error) {
+      console.error("Error approving submission:", error)
+      alert("Failed to approve submission. Please try again.")
+    } finally {
       setIsApproving(false)
-      // Show success message or redirect
-      router.push("/authenticated/submissions")
-    }, 1500)
+    }
   }
+  const handleRejectSubmission = async () => {
+    setIsRejecting(true)
+    try {
+      const response = await axios.patch(
+        `http://localhost:3001/api/rejectSubmission/${submission.id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      )
 
-  // Format the recipe description sections
-  const formatRecipeSection = (section: string, content: string) => {
-    return (
-      <div className="mb-6">
-        <h3 className="text-lg font-semibold text-orange-800 mb-2">{section}</h3>
-        <div className="pl-2 border-l-2 border-orange-200">
-          {content.split("\n").map((line, i) => (
-            <p key={i} className="mb-1">
-              {line}
-            </p>
-          ))}
-        </div>
-      </div>
-    )
+      if (response.status === 200) {
+        alert("Submission rejected successfully!")
+        router.push("/authenticated/submissions")
+      } else {
+        throw new Error("Failed to reject submission")
+      }
+    } catch (error) {
+      console.error("Error rejecting submission:", error)
+      alert("Failed to reject submission. Please try again.")
+    } finally {
+      setIsRejecting(false)
+    }
   }
-
-  // Split the description into sections
-  const descriptionParts = submissionData.description.split("\n\n")
-  const introduction = descriptionParts[0]
-  const ingredients = descriptionParts[1]
-  const recipe = descriptionParts.slice(2).join("\n\n")
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-orange-50 via-white to-orange-50">
@@ -175,209 +154,268 @@ Recipe:
         {/* Hero Section */}
         <div className="text-center mb-8">
           <div className="inline-block bg-orange-100 text-orange-800 px-4 py-1 rounded-full text-sm font-medium mb-4">
-            Recipe Submission
+            Submission Review
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold text-orange-600 mb-2">{submissionData.recipe}</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-orange-600 mb-2">{submission.dish_name}</h1>
           <div className="flex items-center justify-center gap-2 text-gray-600">
             <User className="h-4 w-4" />
             <span>Submitted by </span>
-            <Link href={`/users/${submissionData.user}`} className="text-orange-600 hover:underline font-medium">
-              {submissionData.user}
+            <Link
+              href={`/users/${submission.submitted_by_username}`}
+              className="text-orange-600 hover:underline font-medium"
+            >
+              {submission.submitted_by_username}
             </Link>
+            <span className="mx-2">•</span>
+            <Clock className="h-4 w-4" />
+            <span>{formatDate(submission.created_at)}</span>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content */}
-          <div className="lg:col-span-2">
-            <Card className="bg-white shadow-md border border-orange-200 overflow-hidden">
-              <div className="p-4 border-b border-orange-100 bg-gradient-to-r from-orange-50 to-white">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-bold text-orange-800 flex items-center">
-                    <BookOpen className="mr-2 h-5 w-5 text-orange-500" />
-                    Recipe Details
-                  </h2>
-                  <div className="flex items-center gap-2">
-                    <Badge
-                      className={`
-                      ${
-                        submissionData.difficulty === "Easy"
-                          ? "bg-cyan-700"
-                          : submissionData.difficulty === "Medium"
-                            ? "bg-yellow-700"
-                            : "bg-red-700"
-                      }
-                    `}
-                    >
-                      {submissionData.difficulty}
-                    </Badge>
-                    <div className="flex items-center text-gray-500 text-sm">
-                      <Clock className="h-4 w-4 mr-1" />
-                      {submissionData.submission_date.toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
-                      })}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="p-6">
-                {/* Introduction */}
-                <div className="mb-6">
-                  <p className="text-gray-700 leading-relaxed">{introduction}</p>
-                </div>
-
-                {/* Ingredients */}
-                {formatRecipeSection("Ingredients", ingredients.replace("Ingredients:", ""))}
-
-                {/* Recipe Steps */}
-                {formatRecipeSection("Preparation", recipe.replace("Recipe:", ""))}
-              </div>
-            </Card>
-
-            {/* Image Upload Section */}
-            <Card className="bg-white shadow-md border border-orange-200 overflow-hidden mt-6">
-              <div className="p-4 border-b border-orange-100 bg-gradient-to-r from-orange-50 to-white">
+        {/* Comparison Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          {/* Original Recipe */}
+          <Card className="bg-white shadow-md border border-orange-200 overflow-hidden">
+            <div className="p-4 border-b border-orange-100 bg-gradient-to-r from-orange-50 to-white">
+              <div className="flex items-center justify-between">
                 <h2 className="text-xl font-bold text-orange-800 flex items-center">
-                  <Camera className="mr-2 h-5 w-5 text-orange-500" />
-                  Submission Photos
+                  <BookOpen className="mr-2 h-5 w-5 text-orange-500" />
+                  Original Recipe
                 </h2>
+                <Badge className={getDifficultyColor(post.difficulty)}>{post.difficulty || "Unknown"}</Badge>
+              </div>
+            </div>
+
+            <div className="p-6">
+              {/* Creator Info */}
+              <div className="flex items-center mb-4">
+                <div className="relative w-10 h-10 mr-3">
+                  <Image
+                    src={post.profile_url || "/placeholder.svg"}
+                    alt={post.username}
+                    fill
+                    className="rounded-full object-cover border-2 border-orange-200"
+                  />
+                </div>
+                <div>
+                  <h3 className="font-medium text-gray-800">{post.username}</h3>
+                  <p className="text-xs text-gray-500">Created on {formatDate(post.created_at)}</p>
+                </div>
               </div>
 
-              <div className="p-6">
-                <div className="mb-4">
-                  <div className="flex items-center justify-between">
-                    <p className="text-gray-700">
-                      {imagePreviews.length > 0
-                        ? `Selected Images (${imagePreviews.length}/${maxImages})`
-                        : `No images uploaded yet (0/${maxImages})`}
-                    </p>
-                    <label className="cursor-pointer bg-orange-100 hover:bg-orange-200 text-orange-800 px-4 py-2 rounded-md transition-colors">
-                      <input type="file" accept="image/*" multiple onChange={handleImageUpload} className="hidden" />
-                      Add Images
-                    </label>
-                  </div>
-                </div>
+              {/* Description */}
+              <div className="mb-6">
+                <p className="text-gray-700 leading-relaxed">{post.description}</p>
+              </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-                  {imagePreviews.map((preview, index) => (
-                    <div
-                      key={index}
-                      className="relative aspect-square rounded-md overflow-hidden border border-orange-200 shadow-sm group"
-                    >
+              {/* Original Images */}
+              <div className="mt-4">
+                <h3 className="font-medium text-gray-800 mb-2 flex items-center">
+                  <Camera className="h-4 w-4 mr-1 text-orange-500" />
+                  Original Photos
+                </h3>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  {post.images &&
+                    post.images.map((imageUrl, index) => (
                       <div
-                        className="absolute inset-0 bg-cover bg-center"
-                        style={{
-                          backgroundImage: `url(${preview.url})`,
-                          width: "100%",
-                          height: "100%",
-                        }}
-                      />
-                      <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-200"></div>
-                      <button
-                        type="button"
-                        className="absolute top-2 right-2 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                        onClick={() => removeImage(index)}
+                        key={`original-${index}`}
+                        className="relative aspect-square rounded-md overflow-hidden border border-orange-200 shadow-sm"
                       >
-                        <X className="h-4 w-4" />
-                      </button>
+                        <Image
+                          src={imageUrl || "/placeholder.svg"}
+                          alt={`${post.dish_name} - image ${index + 1}`}
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          className="object-cover"
+                        />
+                      </div>
+                    ))}
+                </div>
+              </div>
+            </div>
+          </Card>
+
+          {/* Submission */}
+          <Card className="bg-white shadow-md border border-orange-200 overflow-hidden">
+            <div className="p-4 border-b border-orange-100 bg-gradient-to-r from-orange-50 to-white">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-bold text-orange-800 flex items-center">
+                  <BookOpen className="mr-2 h-5 w-5 text-orange-500" />
+                  Submission
+                </h2>
+                <Badge className={getDifficultyColor(submission.difficulty)}>
+                  {submission.difficulty || "Unknown"}
+                </Badge>
+              </div>
+            </div>
+
+            <div className="p-6">
+              {/* Submitter Info */}
+              <div className="flex items-center mb-4">
+                <div className="relative w-10 h-10 mr-3">
+                  <Image
+                    src={submission.submitted_by_profile_url || "/placeholder.svg"}
+                    alt={submission.submitted_by_username}
+                    fill
+                    className="rounded-full object-cover border-2 border-orange-200"
+                  />
+                </div>
+                <div>
+                  <h3 className="font-medium text-gray-800">{submission.submitted_by_username}</h3>
+                  <p className="text-xs text-gray-500">Submitted on {formatDate(submission.created_at)}</p>
+                </div>
+              </div>
+
+              {/* Description */}
+              <div className="mb-6">
+                <p className="text-gray-700 leading-relaxed">{submission.description}</p>
+              </div>
+
+              {/* Submission Images */}
+              <div className="mt-4">
+                <h3 className="font-medium text-gray-800 mb-2 flex items-center">
+                  <Camera className="h-4 w-4 mr-1 text-orange-500" />
+                  Submission Photos
+                </h3>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  {submission.images &&
+                    submission.images.map((imageUrl, index) => (
+                      <div
+                        key={`submission-${index}`}
+                        className="relative aspect-square rounded-md overflow-hidden border border-orange-200 shadow-sm"
+                      >
+                        <Image
+                          src={imageUrl || "/placeholder.svg"}
+                          alt={`${submission.dish_name} - image ${index + 1}`}
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          className="object-cover"
+                        />
+                      </div>
+                    ))}
+                </div>
+              </div>
+            </div>
+          </Card>
+        </div>
+
+        {/* Action Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <Card className="bg-white shadow-md border border-orange-200 overflow-hidden col-span-2">
+            <div className="p-4 border-b border-orange-100 bg-gradient-to-r from-orange-50 to-white">
+              <h2 className="text-xl font-bold text-orange-800 flex items-center">
+                <Award className="mr-2 h-5 w-5 text-orange-500" />
+                Submission Actions
+              </h2>
+            </div>
+            <div className="p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <div className="mb-6">
+                    <h3 className="font-medium text-gray-800 mb-2">Difficulty Information</h3>
+                    <div className="flex items-center gap-2 mb-2">
+                      <Badge className={getDifficultyColor(submission.difficulty)}>
+                        {submission.difficulty || "Unknown"}
+                      </Badge>
+                      <span className="text-orange-600 font-medium">
+                        ({getDifficultyPoints(submission.difficulty)} points)
+                      </span>
                     </div>
-                  ))}
-
-                  {imagePreviews.length < maxImages && (
-                    <label className="cursor-pointer aspect-square bg-orange-50 rounded-md flex flex-col items-center justify-center border-2 border-dashed border-orange-200 hover:bg-orange-100 transition-colors">
-                      <input type="file" accept="image/*" multiple onChange={handleImageUpload} className="hidden" />
-                      <Camera className="h-8 w-8 text-orange-400 mb-2" />
-                      <span className="text-sm text-orange-600">Add Photos</span>
-                    </label>
-                  )}
-                </div>
-              </div>
-            </Card>
-          </div>
-
-          {/* Sidebar */}
-          <div className="lg:col-span-1">
-            {/* Chef Info */}
-            <Card className="bg-white shadow-md border border-orange-200 overflow-hidden mb-6">
-              <div className="p-4 border-b border-orange-100 bg-gradient-to-r from-orange-50 to-white">
-                <h2 className="text-xl font-bold text-orange-800 flex items-center">
-                  <ChefHat className="mr-2 h-5 w-5 text-orange-500" />
-                  Chef Profile
-                </h2>
-              </div>
-              <div className="p-4">
-                <div className="flex flex-col items-center text-center">
-                  <div className="w-20 h-20 rounded-full bg-orange-100 border-4 border-orange-300 flex items-center justify-center mb-4">
-                    <span className="text-2xl font-bold text-orange-800">
-                      {submissionData.user.charAt(0).toUpperCase()}
-                    </span>
+                    <p className="text-sm text-gray-600">
+                      This submission is rated as <strong>{submission.difficulty || "Unknown"}</strong> difficulty,
+                      which awards <strong>{getDifficultyPoints(submission.difficulty)} points</strong> upon approval.
+                    </p>
                   </div>
-                  <h3 className="font-bold text-lg text-gray-800">{submissionData.user}</h3>
-                  <p className="text-orange-600 font-medium">Master Chef</p>
 
-                  <div className="mt-4 w-full">
-                    <Link href={`/users/${submissionData.user}`}>
-                      <Button variant="outline" className="w-full border-orange-200 text-orange-600 hover:bg-orange-50">
-                        View Profile
-                      </Button>
-                    </Link>
+                  <div className="p-4 bg-orange-50 rounded-lg border border-orange-200">
+                    <h3 className="font-medium text-orange-800 mb-2">Review Guidelines</h3>
+                    <ul className="text-sm text-gray-700 space-y-2">
+                      <li className="flex items-start">
+                        <Check className="h-4 w-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        Verify that the images match the original recipe
+                      </li>
+                      <li className="flex items-start">
+                        <Check className="h-4 w-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        Check that the submission follows the recipe instructions
+                      </li>
+                      <li className="flex items-start">
+                        <Check className="h-4 w-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        Ensure the submission meets quality standards
+                      </li>
+                      <li className="flex items-start">
+                        <Check className="h-4 w-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        Approve if the submission is satisfactory
+                      </li>
+                    </ul>
                   </div>
                 </div>
-              </div>
-            </Card>
 
-            {/* Submission Actions */}
-            <Card className="bg-white shadow-md border border-orange-200 overflow-hidden">
-              <div className="p-4 border-b border-orange-100 bg-gradient-to-r from-orange-50 to-white">
-                <h2 className="text-xl font-bold text-orange-800 flex items-center">
-                  <Award className="mr-2 h-5 w-5 text-orange-500" />
-                  Submission Actions
-                </h2>
-              </div>
-              <div className="p-6">
-                <div className="space-y-4">
-                  <Button
-                    className="w-full bg-orange-600 hover:bg-orange-700 flex items-center justify-center gap-2"
-                    onClick={handleApproveSubmission}
-                    disabled={isApproving}
-                  >
-                    {isApproving ? (
-                      <>
-                        <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                        Processing...
-                      </>
-                    ) : (
-                      <>
-                        <Check className="h-5 w-5" />
-                        Approve Submission
-                      </>
-                    )}
-                  </Button>
-                </div>
+                <div className="flex flex-col justify-between">
+                  <div className="space-y-4">
+                    <Button
+                      className="w-full bg-green-600 hover:bg-green-700 flex items-center justify-center gap-2"
+                      onClick={handleApproveSubmission}
+                      disabled={isApproving || isRejecting}
+                    >
+                      {isApproving ? (
+                        <>
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                          Processing...
+                        </>
+                      ) : (
+                        <>
+                          <Check className="h-5 w-5" />
+                          Approve Submission
+                        </>
+                      )}
+                    </Button>
 
-                <div className="mt-6 p-4 bg-orange-50 rounded-lg border border-orange-200">
-                  <h3 className="font-medium text-orange-800 mb-2">Submission Guidelines</h3>
-                  <ul className="text-sm text-gray-700 space-y-2">
-                    <li className="flex items-start">
-                      <Check className="h-4 w-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                      Verify that the images provided match the recipe steps 
-                    </li>
-                    <li className="flex items-start">
-                      <Check className="h-4 w-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                      Inspect validity of images
-                    </li>
-                    <li className="flex items-start">
-                      <Check className="h-4 w-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                      If the submission seems good, approve it
-                    </li>
-                  </ul>
+                    <Button
+                      className="w-full bg-red-600 hover:bg-red-700 flex items-center justify-center gap-2"
+                      onClick={handleRejectSubmission}
+                      disabled={isApproving || isRejecting}
+                    >
+                      {isRejecting ? (
+                        <>
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                          Processing...
+                        </>
+                      ) : (
+                        <>
+                          <X className="h-5 w-5" />
+                          Reject Submission
+                        </>
+                      )}
+                    </Button>
+                  </div>
+
+                  <div className="mt-6 p-4 bg-green-50 rounded-lg border border-green-200">
+                    <h3 className="font-medium text-green-800 mb-2">Submission Information</h3>
+                    <ul className="text-sm text-gray-700 space-y-2">
+                      <li className="flex items-start">
+                        <CheckCircle2 className="h-4 w-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>
+                          <span className="font-medium">Submitted by:</span> {submission.submitted_by_username}
+                        </span>
+                      </li>
+                      <li className="flex items-start">
+                        <CheckCircle2 className="h-4 w-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>
+                          <span className="font-medium">Submitted on:</span> {formatDate(submission.created_at)}
+                        </span>
+                      </li>
+                      <li className="flex items-start">
+                        <CheckCircle2 className="h-4 w-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>
+                          <span className="font-medium">Submission ID:</span> {submission.id.substring(0, 8)}...
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
-            </Card>
-          </div>
+            </div>
+          </Card>
         </div>
       </div>
     </div>
