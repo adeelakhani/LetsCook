@@ -1,5 +1,5 @@
 import express from "express";
-import { userProfile, userPrivate, getStats, createpost, getAllRecipes, getPostInfo, submitRecipe, submissions, approveSubmission, getSubmissionInfo, rejectSubmission, userCreations, userSubmissions, deletePost, deleteSubmission, test } from '../controllers/user.controllers.js';
+import { userProfile, userPrivate, getStats, createpost, getAllRecipes, getPostInfo, submitRecipe, submissions, approveSubmission, getSubmissionInfo, rejectSubmission, userCreations, userSubmissions, deletePost, deleteSubmission, getUsersByRank, test } from '../controllers/user.controllers.js';
 const router = express.Router();
 import multer from 'multer'
 import { sub } from "framer-motion/client";
@@ -22,6 +22,8 @@ router.get("/userCreations/:id", userCreations);
 router.get("/userSubmissions/:id", userSubmissions);
 router.delete("/deletePost/:id", deletePost);
 router.delete("/deleteSubmission/:id", deleteSubmission);
+router.get("/getUsersByRank", getUsersByRank);
+
 
 
 router.get("/test/:id/:postId/:submissionId", test);

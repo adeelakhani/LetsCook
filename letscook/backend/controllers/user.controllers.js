@@ -478,6 +478,29 @@ export const userSubmissions = async (req, res) => {
 };
 
 
+export const getUsersByRank = async (req, res) => {
+  const { data, error } = await supabaseNoAuth
+    .from("viewableprofiles")
+    .select("*");
+
+  if (error) return res.status(400).json({ error: error.message });
+
+  const sorted = [...data].sort((a, b) => b.points - a.points);
+
+  const ranked = sorted.map((user, index) => ({
+    username: user.username,
+    points: user.points,
+    meals_cooked: user.meals_cooked,
+    created_recipes: user.created_recipes,
+    rank: index + 1,
+    image_url: user.image_url,
+  }));
+
+  res.json(ranked);
+
+};
+
+
 
 
 
