@@ -439,6 +439,31 @@ export const userCreations = async (req, res) => {
   res.json(data);
 }
 
+export const deletePost = async (req, res) => {
+  const token = req.headers["authorization"]?.split(" ")[1];
+  const postId = req.params.id;
+  const supabaseAuth = await getClient(token);
+  const { error } = await supabaseAuth
+    .from("posts")
+    .delete()
+    .eq("id", postId);
+
+  if (error) return res.status(400).json({ error: error.message });
+  res.status(200).send("Post deleted successfully");
+};
+export const deleteSubmission = async (req, res) => {
+  const token = req.headers["authorization"]?.split(" ")[1];
+  const submissionId = req.params.id;
+  const supabaseAuth = await getClient(token);
+  const { error } = await supabaseAuth
+    .from("submissions")
+    .delete()
+    .eq("id", submissionId);
+
+  if (error) return res.status(400).json({ error: error.message });
+  res.status(200).send("Submission deleted successfully");
+}
+
 export const userSubmissions = async (req, res) => {
   const token = req.headers["authorization"]?.split(" ")[1];
   const userId = req.params.id;
