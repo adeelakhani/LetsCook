@@ -228,7 +228,7 @@ export default function UserSubmitSub({ this_user_id, token, postData, submissio
               </div>
 
               <div className="mb-6">
-                <p className="text-gray-700 leading-relaxed">{post.description}</p>
+                <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">{post.description}</p>
               </div>
 
               <div className="mt-4">
@@ -287,7 +287,7 @@ export default function UserSubmitSub({ this_user_id, token, postData, submissio
               </div>
 
               <div className="mb-6">
-                <p className="text-gray-700 leading-relaxed">{submission.description}</p>
+                <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">{submission.description}</p>
               </div>
 
               <div className="mt-4">
