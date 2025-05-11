@@ -1,6 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import routes from './routes/user.routes.js';
+import userRoutes from './routes/user.routes.js';
+import postRoutes from './routes/posts.routes.js';
+
 import cors from "cors";
 import bodyParser from "body-parser";
 
@@ -17,7 +19,9 @@ app.use(cors({
  app.use(bodyParser.json());
  app.use(bodyParser.urlencoded({ extended: true })); 
 
-app.use("/api",routes);
+app.use("/api",userRoutes);
+app.use("/api",postRoutes);
+
 app.listen(PORT, () => {
    console.log(`Server is running on http://localhost:${PORT}`);
 });
