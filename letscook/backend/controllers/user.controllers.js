@@ -30,11 +30,13 @@ export const userProfile = async (req, res) => {
     .from("viewableprofiles")
     .select("*")
     .eq("username", username);
-  if (error) return res.status(400).json({ error: error.message });
+  if (error || data.length === 0) return res.status(400).json({ error: error?.message || "User not found" });
   const { data: rank, error: rankError } = await supabaseNoAuth.rpc(
     "get_user_rank",
     { user_id: data[0].id }
   );
+    if (rankError) return res.status(400).json({ error: error.message });
+
   const userData = {
     username: username,
     points: data[0].points,
