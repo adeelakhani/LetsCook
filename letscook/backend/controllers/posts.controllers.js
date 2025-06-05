@@ -5,7 +5,7 @@ import { createClient } from "@supabase/supabase-js";
 dotenv.config();
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
-const serviceRole = process.env.SERVICE_ROLE_KEY
+const serviceRole = process.env.SERVICE_ROLE_KEY;
 const supabaseAdmin = createClient(supabaseUrl, serviceRole);
 const supabaseNoAuth = createClient(supabaseUrl, supabaseAnonKey);
 
@@ -338,7 +338,6 @@ export const approveSubmission = async (req, res) => {
   res.status(200).send("Approved");
 };
 
-
 export const rejectSubmission = async (req, res) => {
   const submissionId = req.params.id;
 
@@ -352,23 +351,38 @@ export const rejectSubmission = async (req, res) => {
   }
 
   res.status(200).send("Rejected");
-}
+};
 
 export const deletePost = async (req, res) => {
   const token = req.headers["authorization"]?.split(" ")[1];
   const postId = req.params.id;
+  const userId = req.params.userId;
   const supabaseAuth = await getClient(token);
-  const { error } = await supabaseAuth
-    .from("posts")
-    .delete()
-    .eq("id", postId);
+  const { error } = await supabaseAuth.from("posts").delete().eq("id", postId);
 
   if (error) return res.status(400).json({ error: error.message });
+
+  const { data: list, error: findImagesError } = await supabaseAdmin.storage
+    .from("postimages")
+    .list(`posts/${userId}/${postId}`);
+  if (findImagesError) {
+    return res.status(400).json({ error: error.message });
+  }
+  const filesToRemove = list.map((x) => `posts/${userId}/${postId}/${x.name}`);
+  const { error: deleteBucketError } = await supabaseAdmin.storage
+    .from("postimages")
+    .remove(filesToRemove);
+  if (deleteBucketError) {
+    return res.status(400).json({ error: deleteBucketError.message });
+  }
+
   res.status(200).send("Post deleted successfully");
 };
 export const deleteSubmission = async (req, res) => {
   const token = req.headers["authorization"]?.split(" ")[1];
   const submissionId = req.params.id;
+  const submittor = req.params.submittor;
+  const postId = req.params.postId;
   const supabaseAuth = await getClient(token);
   const { error } = await supabaseAuth
     .from("submissions")
@@ -376,15 +390,29 @@ export const deleteSubmission = async (req, res) => {
     .eq("id", submissionId);
 
   if (error) return res.status(400).json({ error: error.message });
+  const { data: list, error: findImagesError } = await supabaseAdmin.storage
+    .from("postimages")
+    .list(`submissions/${submittor}/${postId}/${submissionId}`);
+  if (findImagesError) {
+    return res.status(400).json({ error: error.message });
+  }
+  const filesToRemove = list.map((x) => `submissions/${submittor}/${postId}/${submissionId}/${x.name}`);
+  const { error: deleteBucketError } = await supabaseAdmin.storage
+    .from("postimages")
+    .remove(filesToRemove);
+  if (deleteBucketError) {
+    return res.status(400).json({ error: deleteBucketError.message });
+  }
+
   res.status(200).send("Submission deleted successfully");
-}
+};
 
 export const test = async (req, res) => {
   const submitters_user_id = req.params.id;
   const submissionId = req.params.submissionId;
   const postId = req.params.postId;
 
-  const { data, error } = await supabaseNoAuth.storage
+  const { data, error } = await supabaseAdmin.storage
     .from("postimages")
     .list(`submissions/${submitters_user_id}/${postId}/${submissionId}`);
 

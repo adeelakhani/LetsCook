@@ -14,8 +14,8 @@ router.get("/submissions/:id", submissions);
 router.get("/getSubmissionInfo/:submissionId", getSubmissionInfo);
 router.post("/approveSubmission/:id", approveSubmission);
 router.patch("/rejectSubmission/:id", rejectSubmission);
-router.delete("/deletePost/:id", deletePost);
-router.delete("/deleteSubmission/:id", deleteSubmission);
+router.delete("/deletePost/:userId/:id", deletePost);
+router.delete("/deleteSubmission/:submittor/:postId/:id", deleteSubmission);
 
 router.get("/test/:id/:postId/:submissionId", test);
 
