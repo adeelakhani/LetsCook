@@ -180,7 +180,7 @@ export default function SubmitSub({
     setIsDeleting(true);
 
     try {
-      const response = await axios.delete(`http://localhost:3001/api/deletePost/${post.id}`, {
+      const response = await axios.delete(`http://localhost:3001/api/deletePost/${post.user_id}/${post.id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",

@@ -143,7 +143,7 @@ export default function UserSubmitSub({ this_user_id, token, postData, submissio
     if (confirm("Are you sure you want to delete this submission? This action cannot be undone.")) {
       setIsDeleting(true)
       try {
-        const response = await axios.delete(`http://localhost:3001/api/deleteSubmission/${submission.id}`, {
+        const response = await axios.delete(`http://localhost:3001/api/deleteSubmission/${submission.submitted_by_id}/${submission.post_id}/${submission.id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
