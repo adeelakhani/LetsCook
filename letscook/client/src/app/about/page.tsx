@@ -2,9 +2,7 @@
 import React from "react"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
-import Link from "next/link"
-import { redirect } from "next/navigation"
-import { ArrowLeft, ChevronLeft } from 'lucide-react'
+import { ChevronLeft } from 'lucide-react'
 import { useRouter } from "next/navigation"
 
 import UnauthNav from "@/components/ui/unauthNav"
@@ -113,7 +111,7 @@ export default function AboutPage() {
               <h3 className="text-xl font-semibold text-orange-800">Adeel Akhani</h3>
               <p className="text-orange-600 mb-2">Co-Founder</p>
               <p className="text-gray-700 text-center max-w-md">
-                With a background in technology and a passion for food, Adeel brings the technical expertise needed to build our platform.
+                software engineer
               </p>
             </div>
             <div className="flex flex-col items-center">
@@ -129,7 +127,7 @@ export default function AboutPage() {
               <h3 className="text-xl font-semibold text-orange-800">Haris Khawja</h3>
               <p className="text-orange-600 mb-2">Co-Founder</p>
               <p className="text-gray-700 text-center max-w-md">
-                Connecting culture with technology, Haris brings the heat with his fullstack expertise and his 5-star recipes.
+                software engineer
               </p>
             </div>
           </div>
