@@ -2,9 +2,6 @@
 import React from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { WobbleCard } from "../components/ui/wobble-card";
-import { motion } from "framer-motion"
-import Image from "next/image"
 import Link from "next/link"
 import "../styles/globals.css"
 
