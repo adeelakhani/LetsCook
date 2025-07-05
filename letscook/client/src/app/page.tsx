@@ -18,18 +18,17 @@ export default function Landing() {
         <UnauthNav highlight="Home"/>
   
         {/* Title */}
-        <div className="flex-col content-center justify-items-center pt-[8em] pb-[9em]">
-          <Badge className="scale-[2] bg-orange-600 shadow-md transition-all duration-300 hover:-translate-y-2">Want to cook?</Badge>
+        <div className="flex flex-col items-center justify-center pt-[8em] pb-[9em]">
+          <div className="scale-[2]">
+            <Badge className="bg-orange-600 shadow-md transition-all duration-300 hover:-translate-y-2">Want to cook?</Badge>
+          </div>
           <h1 className="text-[8em] font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 animate-pulse-slow">LetsCook</h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto text-center">
           Join the community, join the vision; Learn to cook, learn with precision; Become a chef, become a magician ✨ 
           </p>
-
-          <Button onClick={
-            () => {
-              redirect("/login");
-            }
-          } className="scale-[1.5] mt-[3em] font-bold bg-orange-600 shadow-md transition-all duration-300 hover:-translate-y-2">Start Cooking ➝</Button>
+          <div className="scale-[1.5] mt-[3em]">
+            <Button onClick={() => redirect("/login")} className="font-bold bg-orange-600 shadow-md transition-all duration-300 hover:-translate-y-2">Start Cooking ➝</Button>
+          </div>
         </div>
 
         {/* Benefits */}
@@ -124,7 +123,7 @@ export default function Landing() {
       </div>
 
         {/* Quote */}
-        <div className="flex-col content-center justify-items-center pt-[4em] pb-[4em] px-10 bg-gray-100">
+        <div className="flex flex-col items-center justify-center pt-[4em] pb-[4em] px-10 bg-gray-100">
           <svg
             className="w-12 h-12 text-orange-300 mx-auto mb-6 animate-pulse-slow"
             fill="currentColor"
@@ -133,15 +132,11 @@ export default function Landing() {
           >
             <path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z" />
           </svg>
-
-          <h1 className="text-[1.5em] max-w-[30em]">"The difference between humans and animals? We can cook. Tell a dog to make dinner—he’ll  look at you thinking you’re the one who needs a lesson.
-            So get to the kitchen and start cooking, why don't you?" <br/><span className="text-[0.75em] text-gray-700">— Haris Khawja, Co-Founder</span>
+          <h1 className="text-[1.5em] max-w-[30em] text-center">"You can’t cook if you don’t like people." <br/><span className="text-[0.75em] text-gray-700">— Joël Robuchon</span>
           </h1>
-          <Button onClick={
-            () => {
-              redirect("/login");
-            }
-          } className="scale-[1.5] mt-[3em] font-bold bg-orange-600 shadow-md transition-all duration-300 hover:-translate-y-2">Count me in! 🤝</Button>
+          <div className="scale-[1.5] mt-[3em]">
+            <Button onClick={() => redirect("/login")} className="font-bold bg-orange-600 shadow-md transition-all duration-300 hover:-translate-y-2">Count me in! 🤝</Button>
+          </div>
         </div>
       </div>
     )
