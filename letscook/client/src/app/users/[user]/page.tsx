@@ -9,7 +9,7 @@ import axios from "axios";
 export default async function UserPage({
   params,
 }: {
-  params: { user: string };
+  params: Promise<{ user: string }>;
 }) {
   const newParam = await params;
   const username = newParam.user;

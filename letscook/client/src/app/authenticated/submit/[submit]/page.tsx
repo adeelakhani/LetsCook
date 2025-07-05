@@ -9,7 +9,7 @@ import axios from "axios";
 export default async function Submit({
   params,
 }: {
-  params: { submit: string };
+  params: Promise<{ submit: string }>;
 }) {
   const newParam = await params;
   const postId = newParam.submit;
