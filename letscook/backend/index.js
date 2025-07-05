@@ -24,6 +24,10 @@ app.use(cors({
 app.use("/api",userRoutes);
 app.use("/api",postRoutes);
 
+app.get("/", (req, res) => {
+   res.json({message: "Hello LetsCook enjoyer👋"});
+});
+
 app.listen(PORT, () => {
    console.log(`Server is running on http://localhost:${PORT}`);
 });
