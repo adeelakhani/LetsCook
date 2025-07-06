@@ -141,7 +141,7 @@ export default async function Submissions() {
       const token = session.access_token;
       const this_user_id = data.user.id;
 
-      const submissions_ = await axios.get(`http://localhost:3001/api/submissions/${this_user_id}`, {
+      const submissions_ = await axios.get(`${process.env.API_URL}/api/submissions/${this_user_id}`, {
             headers: {
               Authorization: `Bearer ${token}`,
               "Content-Type": "multipart/form-data",

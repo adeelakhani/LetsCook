@@ -96,7 +96,7 @@ export default function UserSubmitSub({ this_user_id, token, postData, submissio
   const handleApproveSubmission = async () => {
     setIsApproving(true)
     try {
-      const response = await axios.post(`http://localhost:3001/api/approveSubmission/${submission.id}`, submission, {
+      const response = await axios.post(`${process.env.API_URL}/api/approveSubmission/${submission.id}`, submission, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -119,7 +119,7 @@ export default function UserSubmitSub({ this_user_id, token, postData, submissio
   const handleRejectSubmission = async () => {
     setIsRejecting(true)
     try {
-      const response = await axios.patch(`http://localhost:3001/api/rejectSubmission/${submission.id}`, {
+      const response = await axios.patch(`${process.env.API_URL}/api/rejectSubmission/${submission.id}`, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -143,7 +143,7 @@ export default function UserSubmitSub({ this_user_id, token, postData, submissio
     if (confirm("Are you sure you want to delete this submission? This action cannot be undone.")) {
       setIsDeleting(true)
       try {
-        const response = await axios.delete(`http://localhost:3001/api/deleteSubmission/${submission.submitted_by_id}/${submission.post_id}/${submission.id}`, {
+        const response = await axios.delete(`${process.env.API_URL}/api/deleteSubmission/${submission.submitted_by_id}/${submission.post_id}/${submission.id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",

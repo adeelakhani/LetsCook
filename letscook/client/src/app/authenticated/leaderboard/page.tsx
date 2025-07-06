@@ -16,7 +16,7 @@ import axios from "axios";
 // ]
 
 export default async function Leaderboard() {
-  const leaderboard = await axios.get("http://localhost:3001/api/getUsersByRank");
+  const leaderboard = await axios.get(`${process.env.API_URL}/api/getUsersByRank`);
   // console.log(leaderboard.data);
     return (
         <LeaderboardTable elements={leaderboard.data}/>

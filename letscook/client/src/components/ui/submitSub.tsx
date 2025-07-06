@@ -118,7 +118,7 @@ export default function SubmitSub({
 
     try {
       const submission = await axios.post(
-        `http://localhost:3001/api/submitRecipe/${this_user_id}/${post.user_id}/${post.id}/${submissionId}`,
+        `${process.env.API_URL}/api/submitRecipe/${this_user_id}/${post.user_id}/${post.id}/${submissionId}`,
         formData,
         {
           headers: {
@@ -180,7 +180,7 @@ export default function SubmitSub({
     setIsDeleting(true);
 
     try {
-      const response = await axios.delete(`http://localhost:3001/api/deletePost/${post.user_id}/${post.id}`, {
+      const response = await axios.delete(`${process.env.API_URL}/api/deletePost/${post.user_id}/${post.id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",

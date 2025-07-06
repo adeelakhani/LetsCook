@@ -29,7 +29,7 @@ export default async function Submit({
   const this_user_id = data.user.id;
 
   const posts = await axios.get(
-    `http://localhost:3001/api/getPostInfo/${postId}`,
+    `${process.env.API_URL}/api/getPostInfo/${postId}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,

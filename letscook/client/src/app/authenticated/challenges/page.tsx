@@ -53,8 +53,8 @@ export default async function Challenges() {
         redirect("/login");
       }
       const token = session.access_token;
-
-      const posts = await axios.get(`http://localhost:3001/api/getAllRecipes`, {
+      
+      const posts = await axios.get(`${process.env.API_URL}/api/getAllRecipes`, {
             headers: {
               Authorization: `Bearer ${token}`,
               "Content-Type": "multipart/form-data",
