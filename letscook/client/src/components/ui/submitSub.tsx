@@ -79,7 +79,7 @@ export default function SubmitSub({
     path: `submissions/${this_user_id}/${post.id}/${submissionId}`,
     allowedMimeTypes: ["image/*"],
     maxFiles: 10,
-    maxFileSize: 1000 * 1000 * 10,
+    maxFileSize: 1000 * 1000,
   });
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
