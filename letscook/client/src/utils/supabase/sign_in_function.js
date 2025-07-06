@@ -13,7 +13,7 @@ export default async function signInWithGoogle() {
           prompt: 'consent',
         },
         // redirectTo: `http://localhost:3001/api/auth/callback`, 
-        redirectTo: `https://letscook-silk.vercel.app//login/callback`,
+        redirectTo: `https://letscook-silk.vercel.app/login/callback`,
         skipBrowserRedirect: false,
       },
     });
