@@ -13,7 +13,7 @@ export default async function signInWithGoogle() {
           prompt: 'consent',
         },
         // redirectTo: `http://localhost:3001/api/auth/callback`, 
-        redirectTo: `http://localhost:3000/login/callback`,
+        redirectTo: `${process.env.SITE_URL}/login/callback`,
         skipBrowserRedirect: false,
       },
     });
