@@ -9,7 +9,7 @@ import bodyParser from "body-parser";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3001 || 3002;
 
 const allowedOrigins = ["http://localhost:3000"];
 if (process.env.FRONTEND_URL) {

@@ -14,23 +14,7 @@ WORKDIR /usr/src/app
 # Copy package files
 COPY package*.json ./
 
-# Development stage
-FROM base AS development
-ENV NODE_ENV development
-
-# Install all dependencies
-RUN npm ci
-
-# Copy source code
-COPY . .
-
-# Expose the port that the application listens on.
-EXPOSE 3001
-
-# Run the application with nodemon for hot reloading
-CMD ["npm", "run", "dev"]
-
-# Production stage
+# Production stage (DEFAULT)
 FROM base AS production
 ENV NODE_ENV production
 
@@ -48,3 +32,19 @@ EXPOSE 3001
 
 # Run the application.
 CMD ["node", "index.js"]
+
+# Development stage
+FROM base AS development
+ENV NODE_ENV development
+
+# Install all dependencies
+RUN npm ci
+
+# Copy source code
+COPY . .
+
+# Expose the port that the application listens on.
+EXPOSE 3001
+
+# Run the application with nodemon for hot reloading
+CMD ["npm", "run", "dev"]
