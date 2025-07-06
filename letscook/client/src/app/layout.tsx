@@ -5,6 +5,7 @@ import Image from "next/image"
 import Link from "next/link";
 import "@fontsource/inter"; // Defaults to 400 (Regular)
 import "../styles/globals.css"
+import { Analytics } from '@vercel/analytics/react';
 
 
 export default function RootLayout({ children }: { children: React.ReactNode}) {
@@ -17,6 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode}) {
       </head>
       <body>
         {children}
+        <Analytics />
 
         {/* Footer */}
         <footer className="bg-gray-800 text-white py-10">
