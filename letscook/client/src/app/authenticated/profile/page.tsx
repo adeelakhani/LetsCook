@@ -123,7 +123,7 @@ export default async function Profile() {
     },
   })
   if(submissions.status !== 200) {
-    alert("Failed to fetch submissions");
+    alert("Failed to fetch submissions, please try again later");
     redirect("/login");
   }
   const chartData = generateChartData(posts.data, submissions.data)
