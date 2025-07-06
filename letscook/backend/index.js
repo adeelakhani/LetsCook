@@ -11,15 +11,18 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-const corsURL = process.env.FRONTEND_URL || "http://localhost:3000";
+const allowedOrigins = ["http://localhost:3000"];
+if (process.env.FRONTEND_URL) {
+  allowedOrigins.push(process.env.FRONTEND_URL);
+}
 
 app.use(cors({
-   origin: corsURL,
-   credentials: true,
- }));
+  origin: allowedOrigins,
+  credentials: true,
+}));
  
- app.use(bodyParser.json());
- app.use(bodyParser.urlencoded({ extended: true })); 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true })); 
 
 app.use("/api",userRoutes);
 app.use("/api",postRoutes);
