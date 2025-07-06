@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { createClientForServer } from '@/utils/supabase/supabaseClient';
 export default async function signInWithGoogle() {
-    
+
     const supabase = await createClientForServer();
     const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
@@ -13,7 +13,7 @@ export default async function signInWithGoogle() {
           prompt: 'consent',
         },
         // redirectTo: `http://localhost:3001/api/auth/callback`, 
-        redirectTo: `${process.env.SITE_URL}/login/callback`,
+        redirectTo: `https://letscook-silk.vercel.app//login/callback`,
         skipBrowserRedirect: false,
       },
     });
