@@ -82,7 +82,7 @@ export default function RecipeSubmissionForm({ user_id, token }: RecipeSubmissio
     formData.append("description", description)
 
     try {
-      const submission = await axios.post(`${process.env.API_URL}/api/createpost/${user_id}/${postId}`, formData, {
+      const submission = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/createpost/${user_id}/${postId}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",

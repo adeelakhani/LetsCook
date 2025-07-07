@@ -28,7 +28,7 @@ export default async function Submit({
   const token = session.access_token;
   const this_user_id = data.user.id;
   const submission = await axios.get(
-    `${process.env.API_URL}/api/getSubmissionInfo/${submissionId}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/getSubmissionInfo/${submissionId}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -40,7 +40,7 @@ export default async function Submit({
     throw new Error("Failed to submit recipe");
   }
   const posts = await axios.get(
-    `${process.env.API_URL}/api/getPostInfo/${submission.data.newObj.post_id}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/getPostInfo/${submission.data.newObj.post_id}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,

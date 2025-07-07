@@ -99,14 +99,14 @@ export default async function Profile() {
   }
   const token = session.access_token;
   const this_user_id = data.user.id;
-  const userStats = await axios.get(`${process.env.API_URL}/api/getStats/${this_user_id}`);
-  const userData = await axios.get(`${process.env.API_URL}/api/userPrivate/${this_user_id}`, {
+  const userStats = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/getStats/${this_user_id}`);
+  const userData = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/userPrivate/${this_user_id}`, {
     headers: {
       'Authorization': `Bearer ${token}`, 
       'Content-Type': 'application/json',
     },
   });
-  const posts = await axios.get(`${process.env.API_URL}/api/userCreations/${this_user_id}`, {
+  const posts = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/userCreations/${this_user_id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "multipart/form-data",
@@ -116,7 +116,7 @@ export default async function Profile() {
     alert("Failed to fetch posts");
     redirect("/login");
   }
-  const submissions = await axios.get(`${process.env.API_URL}/api/userSubmissions/${this_user_id}`, {
+  const submissions = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/userSubmissions/${this_user_id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "multipart/form-data",

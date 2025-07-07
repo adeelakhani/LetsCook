@@ -54,7 +54,7 @@ export default async function Challenges() {
       }
       const token = session.access_token;
       
-      const posts = await axios.get(`${process.env.API_URL}/api/getAllRecipes`, {
+      const posts = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/getAllRecipes`, {
             headers: {
               Authorization: `Bearer ${token}`,
               "Content-Type": "multipart/form-data",
