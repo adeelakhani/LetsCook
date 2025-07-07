@@ -12,7 +12,7 @@ export default async function signInWithGoogle() {
           access_type: 'offline',
           prompt: 'consent',
         },
-        // redirectTo: `${process.env.API_URL}/api/auth/callback`, 
+        // redirectTo: `${process.env.NEXT_PUBLIC_API_URL}/api/auth/callback`, 
         redirectTo: `${process.env.SITE_URL}/login/callback`,
         skipBrowserRedirect: false,
       },
