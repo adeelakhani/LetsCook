@@ -20,6 +20,7 @@ export default async function UserPage({
   } = await supabase.auth.getSession()
 
   try {
+    //change to next public api url
     const userLookupResponse = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/userProfile/${username}`, {validateStatus: () => true})
 
     if (userLookupResponse.status !== 200 || !userLookupResponse.data) {
