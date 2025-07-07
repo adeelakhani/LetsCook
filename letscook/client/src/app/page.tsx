@@ -15,7 +15,7 @@ export default function Landing() {
 
       {/* Hero Section */}
       <div className="flex flex-col items-center justify-center pt-16 md:pt-32 pb-16 md:pb-36 px-4">
-        <div className="scale-125 md:scale-[2] mb-4 md:mb-0">
+        <div className="scale-125 md:scale-[2] mb-4">
           <Badge className="bg-orange-600 shadow-md transition-all duration-300 hover:-translate-y-2">
             Want to cook?
           </Badge>
