@@ -10,6 +10,7 @@ import bodyParser from "body-parser";
 dotenv.config();
 
 const app = express();
+app.set('trust proxy', 1); // Trust first proxy (needed for correct IP detection behind proxies)
 const PORT = process.env.PORT || 3001 || 3002;
 
 const allowedOrigins = ["http://localhost:3000"];
