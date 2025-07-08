@@ -249,7 +249,9 @@ export default function SubmitSub({
                     Recipe Details
                   </h2>
                   <Badge className={getDifficultyColor()}>
-                    {post.difficulty || "Unknown"}
+                    {(post.difficulty
+                      ? post.difficulty.charAt(0).toUpperCase() + post.difficulty.slice(1)
+                      : "Unknown")}
                   </Badge>
                 </div>
               </div>
@@ -446,7 +448,9 @@ export default function SubmitSub({
                     <div>
                       <h3 className="font-medium text-gray-800">Difficulty</h3>
                       <p className="text-gray-600">
-                        {post.difficulty || "Unknown"}{" "}
+                        {(post.difficulty
+                      ? post.difficulty.charAt(0).toUpperCase() + post.difficulty.slice(1)
+                      : "Unknown")}{" "}
                         <span className="text-orange-600 font-medium">
                           ({getDifficultyPoints()} points)
                         </span>
@@ -460,9 +464,10 @@ export default function SubmitSub({
                     </div>
                     <div>
                       <h3 className="font-medium text-gray-800">Photos</h3>
-                      <p className="text-gray-600">
-                        {post.images ? post.images.length : 0} images submitted
-                      </p>
+                        <p className="text-gray-600">
+                        {post.images ? post.images.length : 0}{" "}
+                        {post.images && post.images.length === 1 ? "Image" : "Images"} Submitted
+                        </p>
                     </div>
                   </div>
                 </div>
