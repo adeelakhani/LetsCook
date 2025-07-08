@@ -7,6 +7,8 @@ import ProfileChallengeTable from "@/components/ui/profile-challenge-table"
 import ProfileSubmissionsTable from "@/components/ui/profile-submissions-table"
 import axios from "axios"
 import AuthNav from "@/components/ui/authNav"
+import ProfileCardMobile from "@/components/ui/ProfileCardMobile"
+import ProfileChartMobile from "@/components/ui/ProfileChartMobile"
 
 type SubmitInfo = {
   id: string
@@ -139,7 +141,7 @@ export default async function Profile() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-50 via-white to-gray-50">
+    <div className="min-w-screen min-h-screen bg-white">
       <AuthNav highlight="Profile" />
 
       {/* Main Content Container */}
@@ -154,12 +156,21 @@ export default async function Profile() {
           </div>
 
           {/* Profile Card and Chart Layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 lg:gap-10">
-            <div className="order-1 lg:order-1">
-              <ProfileCard user={user} />
+          <div className="flex justify-center">
+            {/* Mobile */}
+            <div className="block sm:hidden space-y-3 w-full">
+              <ProfileCardMobile user={user} />
+              <ProfileChartMobile elements={chartData} />
             </div>
-            <div className="order-2 lg:order-2">
-              <ProfileChart elements={chartData} />
+
+            {/* Desktop */}
+            <div className="hidden sm:flex sm:flex-col lg:flex-row lg:gap-6 items-center justify-center w-full max-w-6xl">
+              <div>
+                <ProfileCard user={user} />
+              </div>
+              <div>
+                <ProfileChart elements={chartData} />
+              </div>
             </div>
           </div>
         </div>
