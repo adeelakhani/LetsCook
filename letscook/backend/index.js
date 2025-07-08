@@ -43,7 +43,7 @@ app.use("/api",userRoutes);
 app.use("/api",postRoutes);
 
 app.get("/", (req, res) => {
-   res.json({message: "Hello LetsCook enjoyer👋"});
+   res.json({message: "Hello LetsCook v0.1 enjoyer👋"});
 });
 
 // Global error handling middleware
