@@ -111,7 +111,7 @@ export default function AboutPage() {
               <h3 className="text-xl font-semibold text-orange-800">Adeel Akhani</h3>
               <p className="text-orange-600 mb-2">Co-Founder</p>
               <p className="text-gray-700 text-center max-w-md">
-                software engineer
+                Software Engineer
               </p>
             </div>
             <div className="flex flex-col items-center">
@@ -127,7 +127,7 @@ export default function AboutPage() {
               <h3 className="text-xl font-semibold text-orange-800">Haris Khawja</h3>
               <p className="text-orange-600 mb-2">Co-Founder</p>
               <p className="text-gray-700 text-center max-w-md">
-                software engineer
+                Software Engineer
               </p>
             </div>
           </div>
