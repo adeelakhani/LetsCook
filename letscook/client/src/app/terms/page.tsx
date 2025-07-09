@@ -149,11 +149,11 @@ export default function TermsPage() {
             indemnity, and limitations of liability.
           </p>
 
-          <h2 className="text-2xl font-bold text-orange-800 mb-4">Contact Us</h2>
+          {/* <h2 className="text-2xl font-bold text-orange-800 mb-4">Contact Us</h2>
           <p className="text-gray-700">
             If you have any questions about these Terms and Conditions, please contact us at:
           </p>
-          <p className="text-orange-600 font-semibold mt-2">terms@letscook.example.com</p>
+          <p className="text-orange-600 font-semibold mt-2">terms@letscook.example.com</p> */}
         </div>
       </div>
     </div>
