@@ -23,7 +23,7 @@ export default function RecipeSubmissionForm({ user_id, token }: RecipeSubmissio
     path: `posts/${user_id}/${postId}`,
     allowedMimeTypes: ["image/*"],
     maxFiles: 10,
-    maxFileSize: 1000* 1000,
+    maxFileSize: 2 * 1000 * 1000,
   })
 
   const [dishName, setDishName] = useState("")
