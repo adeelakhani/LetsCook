@@ -9,7 +9,7 @@ import { Analytics } from '@vercel/analytics/react';
 
 
 export default function RootLayout({ children }: { children: React.ReactNode}) {
-  
+  const showFounderInfo = false;
   
   return (
     <html>
@@ -53,8 +53,12 @@ export default function RootLayout({ children }: { children: React.ReactNode}) {
               </div>
             </div>
             <div>
-              <h3 className="font-semibold mb-4">Our Team</h3>
-              <p className="text-gray-400">Founded by Adeel Akhani & Haris Khawja.</p>
+              {showFounderInfo && (
+                <>
+                  <h3 className="font-semibold mb-4">Our Team</h3>
+                  <p className="text-gray-400">Founded by Adeel Akhani & Haris Khawja.</p>
+                </>
+              )}
               
               {/* Email + Social Media */}
               {/* <div className="mt-4 flex space-x-4">

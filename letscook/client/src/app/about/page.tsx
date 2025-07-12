@@ -10,7 +10,7 @@ import CTA from "@/components/ui/cta";
 
 export default function AboutPage() {
   const router = useRouter();
-
+  const showFounderInfo = false;
   return (
     <div className="min-w-screen min-h-screen bg-gradient-to-b from-orange-50 via-white to-orange-50 animate-fadeIn">
       {/* Top Horizontal Navbar */}
@@ -35,8 +35,10 @@ export default function AboutPage() {
             About LetsCook
           </h1>
           <p className="text-lg text-gray-700 max-w-3xl mx-auto">
-            Discover our story, our mission, and the team behind the cooking
-            revolution.
+            {showFounderInfo 
+              ? "Discover our story, our mission, and the team behind the cooking revolution."
+              : "Discover our story and mission behind the cooking revolution."
+            }
           </p>
         </div>
 
@@ -47,8 +49,7 @@ export default function AboutPage() {
             <div>
               <p className="text-gray-700 mb-4">
                 LetsCook was born from a simple idea: cooking should be fun,
-                social, and rewarding. Founded in 2025 by Adeel Akhani and Haris
-                Khawja, our platform is a place for people to be competitive and
+                social, and rewarding. Founded in 2025, our platform is a place for people to be competitive and
                 learn new skills.
               </p>
               <p className="text-gray-700 mb-4">
@@ -72,8 +73,8 @@ export default function AboutPage() {
             <div className="flex justify-center">
               <div className="relative w-full max-w-md h-64 rounded-lg overflow-hidden shadow-lg animate-shimmer-border">
                 <Image
-                  src="/tempGroup.png"
-                  alt="LetsCook Team"
+                  src={showFounderInfo ? "/tempGroup.png" : "/LetsCook.png"}
+                  alt={showFounderInfo ? "LetsCook Team" : "LetsCook"}
                   fill
                   className="object-cover"
                 />
@@ -122,6 +123,7 @@ export default function AboutPage() {
         </div>
 
         {/* Meet the Team Section */}
+        {showFounderInfo && (
         <div className="bg-white rounded-xl shadow-md p-8 mb-12 border border-orange-200">
           <h2 className="text-3xl font-bold text-orange-800 mb-6">
             Meet the Team
@@ -164,7 +166,7 @@ export default function AboutPage() {
               </p>
             </div>
           </div>
-        </div>
+        </div>)}
 
         {/* CTA Section */}
         <CTA />
